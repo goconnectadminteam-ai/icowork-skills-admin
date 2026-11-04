@@ -1,11 +1,31 @@
 {
   "skills": [
     {
+      "name": "tao-bien-ban-cuoc-hop-docx-ndh",
+      "description": "Tạo Biên bản cuộc họp đúng mẫu MeetingMinutes. Xuất file Docx",
+      "input": "Nhập text mô tả hoặc đính kèm file <20KB",
+      "output": "File docx Biên bản họp",
+      "author": "Ngô Diên Hy",
+      "version": "1.0.0",
+      "folder": "tao-bien-ban-cuoc-hop-docx-ndh",
+      "isDefault": true
+    },
+    {
+      "name": "tong-hop-bao-cao-ngay-ndh",
+      "description": "Tổng hợp công việc cá nhân dạng text các công việc quan trọng trong ngày (họp, todo, mail, VB eOffice..)",
+      "input": "Nhập text yêu cầu",
+      "output": "Text theo bố cục Lịch họp, Mail, Văn bản eOffice.. trình bày theo định dạng chuẩn",
+      "author": "Ngô Diên Hy",
+      "version": "1.0.0",
+      "folder": "tong-hop-bao-cao-ngay-ndh",
+      "isDefault": true
+    },
+    {
       "name": "taobaocao-html-ai",
       "description": "Báo cáo theo nhận diện VNPT AI có menu ở trên. Xuất file HTML",
       "input": "Tài liệu, số liệu, ghi chú",
       "output": "Báo cáo HTML một tệp",
-     "author": "VNPT AI",
+      "author": "VNPT AI",
       "version": "1.0.0",
       "folder": "html-report-vnptai-topnav",
       "isDefault": true
@@ -48,26 +68,6 @@
       "author": "VNPT AI",
       "version": "VNPT AI",
       "folder": "danh-gia-tai-lieu-html-ai",
-      "isDefault": false
-    },
-    {
-      "name": "tao-bien-ban-cuoc-hop-docx-ndh",
-      "description": "Tạo Biên bản cuộc họp đúng mẫu MeetingMinutes. Xuất file Docx",
-      "input": "Nhập text mô tả hoặc đính kèm file <20KB",
-      "output": "File docx Biên bản họp",
-      "author": "Ngô Diên Hy",
-      "version": "1.0.0",
-      "folder": "tao-bien-ban-cuoc-hop-docx-ndh",
-      "isDefault": false
-    },
-    {
-      "name": "tong-hop-bao-cao-ngay-ndh",
-      "description": "Tổng hợp công việc cá nhân dạng text các công việc quan trọng trong ngày (họp, todo, mail, VB eOffice..)",
-      "input": "Nhập text yêu cầu",
-      "output": "Text theo bố cục Lịch họp, Mail, Văn bản eOffice.. trình bày theo định dạng chuẩn",
-      "author": "Ngô Diên Hy",
-      "version": "1.0.0",
-      "folder": "tong-hop-bao-cao-ngay-ndh",
       "isDefault": false
     }
   ]
