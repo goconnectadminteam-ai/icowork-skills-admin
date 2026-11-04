@@ -45,7 +45,7 @@
       "description": "Rà soát tài liệu trình lãnh đạo (PPTX/DOCX/PDF) gồm kết luận gửi được chưa, nêu vấn đề và cách sửa. Xuất file HTML",
       "input": "File tờ trình/đề xuất",
       "output": "Danh sách lỗi, góp ý, bản sửa",
-      "author": "Phương Anh",
+      "author": "VNPT AI",
       "version": "VNPT AI",
       "folder": "danh-gia-tai-lieu-html-ai",
       "isDefault": false
