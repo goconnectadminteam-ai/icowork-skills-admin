@@ -1,0 +1,64 @@
+{
+  "skills": [
+    {
+      "name": "taobaocao-html-ai",
+      "description": "Báo cáo theo nhận diện VNPT AI có menu ở trên. Xuất file HTML",
+      "input": "Tài liệu, số liệu, ghi chú",
+      "output": "Báo cáo HTML một tệp",
+      "author": "Đài",
+      "version": "1.0.0",
+      "folder": "html-report-vnptai-topnav",
+      "isDefault": false
+    },
+    {
+      "name": "phanloaivanban-recommend-ai",
+      "description": "Phân loại văn bản đến eOffice và đề xuất đơn vị/người xử lý. Gợi ý trong chat",
+      "input": "File văn bản đến (PDF/Word)",
+      "output": "Kết quả phân loại, đề xuất chuyển tiếp",
+      "author": "Đài",
+      "version": "1.0.0",
+      "folder": "phan-loai-chuyen-tiep-van-ban-eoffice",
+      "isDefault": false
+    },
+    {
+      "name": "danhgiatailieu-html-ai",
+      "description": "Rà soát tài liệu trình lãnh đạo (PPTX/DOCX/PDF) gồm kết luận gửi được chưa, nêu vấn đề và cách sửa. Xuất file HTML",
+      "input": "File tờ trình/đề xuất",
+      "output": "Danh sách lỗi, góp ý, bản sửa",
+      "author": "Phương Anh",
+      "version": "1.0.0",
+      "folder": "proposal-review",
+      "isDefault": false
+    },
+    {
+      "name": "taoslidetrinhbay-html-ai",
+      "description": "Chuyển nội dung báo cáo thành slide trình chiếu. Xuất file HTML",
+      "input": "Báo cáo, số liệu, dàn ý",
+      "output": "Slide HTML",
+      "author": "Phương Anh",
+      "version": "1.0.0",
+      "folder": "report-slides-html",
+      "isDefault": false
+    },
+    {
+      "name": "taoslidetrinhbaylogo-html-ai",
+      "description": "Chuyển nội dung báo cáo thành slide trình chiếu HTML, logo VNPT AI. Xuất file HTML",
+      "input": "Báo cáo, số liệu, dàn ý",
+      "output": "Slide HTML theo nhận diện VNPT AI",
+      "author": "Phương Anh",
+      "version": "1.0.0",
+      "folder": "report-slides-html-vnptai",
+      "isDefault": false
+    },
+    {
+      "name": "taobienbanhop-doc-ndh",
+      "description": "Tạo Biên bản cuộc họp đúng mẫu MeetingMinutes. Xuất file Docx",
+      "input": "Nhập text mô tả hoặc đính kèm file <20KB",
+      "output": "File docx Biên bản họp",
+      "author": "Đài",
+      "version": "1.0.0",
+      "folder": "taobienbanhop-doc-ndh",
+      "isDefault": false
+    }
+  ]
+}
