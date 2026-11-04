@@ -25,7 +25,7 @@
       "description": "Báo cáo theo nhận diện VNPT AI có menu ở trên. Xuất file HTML",
       "input": "Tài liệu, số liệu, ghi chú",
       "output": "Báo cáo HTML một tệp",
-      "author": "VNPT AI",
+     "author": "VNPT AI",
       "version": "1.0.0",
       "folder": "taobaocao-html-ai",
       "isDefault": true

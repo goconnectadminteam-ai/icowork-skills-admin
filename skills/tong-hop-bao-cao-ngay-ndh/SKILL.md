@@ -70,7 +70,6 @@ Quy tắc dữ liệu:
 ## Bước 4 — Output (BẮT BUỘC đúng format)
 
 ### Quy tắc format
-### Quy tắc format
 1. Ngôn ngữ: Tiếng Việt; thuật ngữ chuyên ngành giữ nguyên tiếng Anh.
 2. Trực tiếp, súc tích, đúng trọng tâm. Không lời dẫn, không giải thích.
 3. Liệt kê cuộc họp, email, văn bản, todo, Jira issue → **markdown table cột cố định**, không dùng bullet list.
