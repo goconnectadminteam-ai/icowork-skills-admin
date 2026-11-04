@@ -64,6 +64,12 @@ class Driver(unittest.TestCase):
             write(self.work / 'parts' / '02.json', slide2)
         return out
 
+    def test_other_source_in_same_workspace_gets_new_folder(self):
+        code, out = self.run_cli('start', 'tiendo.csv', '--work', 'out'); self.assertEqual(code, 0, out)
+        (self.tmp / 'khac.csv').write_text('Hang muc,Tien do\nA,50%\n', encoding='utf-8')
+        code, out = self.run_cli('start', 'khac.csv', '--work', 'out')
+        self.assertEqual(code, 0, out); self.assertIn('out-2', out); self.assertTrue((self.tmp / 'out-2' / 'iwork-state.json').is_file())
+
     def test_start_asks_for_notes_plan_and_never_says_done(self):
         code, out = self.run_cli('start', 'tiendo.csv', '--work', 'out')
         self.assertEqual(code, 0, out)
@@ -148,13 +154,13 @@ class Driver(unittest.TestCase):
         self.assertIn('=== DỪNG', out)
 
     def test_too_long_field_shows_text_and_chars_to_cut(self):
-        long = 'việc theo dõi trong bảng tiến độ của hai đơn vị VNPT Net và KV1 tháng này'
+        long = ('việc theo dõi trong bảng tiến độ của hai đơn vị VNPT Net và KV1 tháng này ' * 2).strip()   # vượt giới hạn 100
         self.start(slide2=dict(GOOD, so=[dict(GOOD['so'][0], nhan=long)] + GOOD['so'][1:]))
         code, out = self.run_cli('advance', 'out')
         self.assertEqual(code, 2, out)
         err = [e for e in self.step()['errors'] if e.get('ma') == 'M2'][0]
         self.assertEqual(err['hien_tai'], long)
-        self.assertIn(f'bớt ít nhất {len(long) - 56} ký tự', err['can_bot'])
+        self.assertIn(f'bớt ít nhất {len(long) - 100} ký tự', err['can_bot'])
 
     @unittest.skipUnless(HAS_BROWSER, 'cần Chrome/Chromium để build')
     def test_flat_deck_with_wrong_numbering_is_autofixed(self):
@@ -287,19 +293,19 @@ class AutoFix(unittest.TestCase):
         self.assertEqual(got, [['1', '2', '3'], ['4', '5', ''], ['6', '7', '8']])
 
     def test_unmet_tracker_rows_become_appendix_tables_built_by_driver(self):
-        """Thật (War room): 13 dòng theo dõi chưa nêu → model lặp suy nghĩ khi tự dồn vào slide. Driver tự dựng phụ lục 2–5 hàng/slide."""
+        """Thật (War room): 13 dòng theo dõi chưa nêu → model lặp suy nghĩ khi tự dồn vào slide. Driver tự dựng phụ lục, mỗi slide tối đa 8 hàng."""
         m = self.drv()
         work = self.make([{'mau': 'bia', 'tieuDe': 'x'}, {'mau': 'so-lieu', 'tieuDe': 'y', 'so': []}, {'mau': 'cam-on', 'tieuDe': 'z'}])
         write(work / 'plan.json', {'meta': {'ten': {'vi': 'x'}}, 'outline': ['a', 'b', 'c']})
         rows = [{'kind': 'row', 'row': f'1.{k}', 'unit': 'VNPT IT', 'due': '26/10/2026', 'result': 'Đã có danh mục VM ' + 'x' * 120} for k in range(11)]
         note = m.add_coverage_slides(work, rows)
-        self.assertIn('3 slide phụ lục', note)
+        self.assertIn('2 slide phụ lục', note)
         plan = json.loads((work / 'plan.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(plan['outline']), 6)
-        parts = [json.loads((work / 'parts' / f'{i:02d}.json').read_text(encoding='utf-8')) for i in range(1, 7)]
+        self.assertEqual(len(plan['outline']), 5)
+        parts = [json.loads((work / 'parts' / f'{i:02d}.json').read_text(encoding='utf-8')) for i in range(1, 6)]
         self.assertEqual(parts[-1]['mau'], 'cam-on')
         sizes = [len(p['hang']) for p in parts if p['mau'] == 'bang']
-        self.assertEqual(sorted(sizes), [3, 4, 4]); self.assertTrue(all(2 <= n <= 5 for n in sizes))
+        self.assertEqual(sorted(sizes), [5, 6]); self.assertTrue(all(2 <= n <= 8 for n in sizes))
         self.assertTrue(all(len(c) <= 80 for p in parts if p['mau'] == 'bang' for r in p['hang'] for c in r))
         self.assertIsNone(m.add_coverage_slides(work, rows[:1]))
 
@@ -311,7 +317,7 @@ class AutoFix(unittest.TestCase):
 
     def test_split_table_keeps_clean_titles_and_drops_invisible_solution_number(self):
         m = self.drv()
-        rows = [[f'r{k}', 'a', 'b'] for k in range(7)]
+        rows = [[f'r{k}', 'a', 'b'] for k in range(14)]
         table = {'mau': 'bang', 'tieuDe': 'Tiến độ rà soát VM theo checklist ATTT (mục 9.a-9.f)', 'cot': ['x', 'y', 'z'], 'hang': rows}
         vd = {'mau': 'van-de', 'tieuDe': 'x', 'vanDe': {'t': 'a', 'y': ['1', '2'], 'so': '7', 'soNhan': 'n'}, 'giaiPhap': {'t': 'b', 'y': ['1', '2'], 'so': '4', 'soNhan': 'm'}}
         work = self.make([{'mau': 'bia', 'tieuDe': 'x'}, table, vd])

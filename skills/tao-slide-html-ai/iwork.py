@@ -73,7 +73,7 @@ def command(*args):
 ALLOWED = {'content.md', 'facts.md', 'notes.md', 'plan.json', 'parts', 'iwork-state.json', 'job-step.json',
            'STATUS.md', 'TASK.md', 'build.log', 'build-history', 'report.json', 'sources', 'tracker', '_preview',
            'coverage-required.json', 'quality-audit.template.json', 'quality-audit.json', 'delivery.json', 'advance.py',
-           '_work', '.build_attempts', 'metadata.json', '.iwork-state.sha256', 'tom-tat.md'}
+           '_work', '.build_attempts', 'metadata.json', '.iwork-state.sha256', 'tom-tat.md', 'so-sanh.md'}
 
 LOGO_TYPES = {'.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml', '.webp': 'image/webp'}
 
@@ -327,7 +327,7 @@ SLIDE_KEYS = {'bia': {'the', 'dong', 'doiTac', 'anh'}, 'muc-luc': {'muc'}, 'chuo
 ITEM_KEYS = {('so-lieu', 'so'): {'so', 'nhan', 'icon'}, ('hinh-so', 'so'): {'so', 'nhan', 'icon'}, ('the', 'the'): {'t', 'd', 'icon', 'logo'},
              ('lo-trinh', 'buoc'): {'t', 'd', 'tg', 'icon'}, ('muc-luc', 'muc'): {'t', 'd'}, ('lop', 'lop'): {'ma', 't', 'noi'},
              ('anh', 'chuGiai'): {'t', 'd'}, ('cam-on', 'lienHe'): {'nhan', 'gt'}}
-D_LIMIT = {('the', 'the'): 80, ('lo-trinh', 'buoc'): 40, ('muc-luc', 'muc'): 40, ('anh', 'chuGiai'): 44}
+D_LIMIT = {('the', 'the'): 130, ('lo-trinh', 'buoc'): 100, ('muc-luc', 'muc'): 40, ('anh', 'chuGiai'): 44}
 
 def _vi(value):
     return str(value.get('vi', '')) if isinstance(value, dict) else str(value or '')
@@ -463,6 +463,21 @@ def _short_label(text, limit):
     while len(words) > 1 and words[-1].lower().strip(',;:') in _TAIL_WORDS:
         words.pop()
     return ' '.join(words).strip(' ,;:-–—(') or t[:limit]
+
+_KICKER_BY_MAU = {'so-lieu': 'Số liệu chính', 'hinh-so': 'Số liệu chính', 'van-de': 'Vấn đề và giải pháp', 'the': 'Nội dung chính',
+                  'bang': 'Số liệu chi tiết', 'lop': 'Kiến trúc', 'lo-trinh': 'Lộ trình', 'anh': 'Hình ảnh'}
+
+def _kicker_label(text, mau, limit=32):
+    """Nhãn nhỏ phía trên tiêu đề (dauMuc) khi model không ghi. Tiêu đề dài: lấy vế đầu trước dấu ngắt; không có thì dùng nhãn theo loại slide,
+    không cắt giữa câu (lỗi thấy được: "điểm nghẽn: độ chính xác và", "Chuyển đổi mô hình đầu tiên mất")."""
+    t = re.sub(r'\s+', ' ', re.sub(r'\*', '', str(text or ''))).strip()
+    if len(t) <= limit:
+        return t
+    for sep in (':', ' – ', ' — ', ' - ', ';', ','):
+        head = t.split(sep, 1)[0].strip(' ,;:-–—(')
+        if 8 <= len(head) <= limit and head != t:
+            return head
+    return _KICKER_BY_MAU.get(mau, 'Nội dung chính')
 
 def _words_of(text, min_len=3):
     return {w for w in re.findall(r'\w{%d,}' % min_len, str(text).lower()) if w not in CHAPTER_STOP}
@@ -706,9 +721,8 @@ def autofix_parts(work, outline, icons, source_label='', date='', brand_ok=False
     for path, doc in docs.items(): walk(doc, path)
     for path, doc in docs.items():
         if doc.get('mau') not in ('bia', 'chuong', 'cam-on', 'muc-luc') and not _vi(doc.get('dauMuc')).strip():
-            label = _vi(doc.get('nhan')).strip() or re.sub(r'\*', '', _vi(doc.get('tieuDe'))).strip()
+            label = _kicker_label(_vi(doc.get('nhan')).strip() or _vi(doc.get('tieuDe')), doc.get('mau'))
             if label:
-                if len(label) > 32: label = label[:32].rsplit(' ', 1)[0]
                 doc['dauMuc'] = label; changed.add(path); fixes.append(f'{path.name}: thiếu dauMuc → "{label}"')
         if source_label and doc.get('mau') in ('so-lieu', 'hinh-so', 'van-de') and not _vi(doc.get('nguon')).strip():
             doc['nguon'] = ('Nguồn: ' + source_label)[:130]; changed.add(path); fixes.append(f'{path.name}: thiếu nguon → "{doc["nguon"]}"')
@@ -892,8 +906,12 @@ def extend_outline(work):
     plan['outline'] = outline; write_json(plan_path, plan)
     return f'outline nới thành {len(outline)} slide theo các parts đã ghi'
 
+# Đo bằng Chrome trên khung 1920×1080 (k7/*/Tao-slide.html, kiểu bảng dày từ dòng 6): ô một dòng (≤45 ký tự) vừa tới 13 dòng, ô dài 80 ký tự vừa tới 8 dòng.
+TABLE_MAX_ROWS = 12     # mẫu `bang` nhận 2–12 hàng (khớp ds.hang trong quy-tac-mau.json)
+TABLE_SPLIT_ROWS = 8    # bảng dài hơn mức trên thì chia đều, mỗi slide tối đa số hàng này (vừa cả khi ô dài)
+
 def split_long_tables(work):
-    """Bảng `bang` nhận 2–5 hàng. Model hay dồn cả bảng theo dõi (10–13 dòng) vào một slide rồi lặp suy nghĩ để chọn bỏ dòng nào:
+    """Bảng `bang` nhận 2–12 hàng. Model hay dồn cả bảng theo dõi (13+ dòng) vào một slide rồi lặp suy nghĩ để chọn bỏ dòng nào:
     driver tự chia thành nhiều slide bảng cân bằng, giữ nguyên từng hàng (không bỏ, không sửa chữ)."""
     plan_path = work / 'plan.json'
     if not plan_path.is_file() or not (work / 'parts').is_dir(): return None
@@ -905,14 +923,14 @@ def split_long_tables(work):
     for n in numbers:
         try: slides.append(load(work / 'parts' / f'{n:02d}.json'))
         except SystemExit: return None
-    if not any(isinstance(x, dict) and x.get('mau') == 'bang' and isinstance(x.get('hang'), list) and len(x['hang']) > 5 for x in slides): return None
+    if not any(isinstance(x, dict) and x.get('mau') == 'bang' and isinstance(x.get('hang'), list) and len(x['hang']) > TABLE_MAX_ROWS for x in slides): return None
     titles = list(outline) + [''] * (len(slides) - len(outline))
     out_slides, out_titles, added = [], [], 0
     for slide, title in zip(slides, titles):
         rows = slide.get('hang') if isinstance(slide, dict) and slide.get('mau') == 'bang' else None
-        if not isinstance(rows, list) or len(rows) <= 5:
+        if not isinstance(rows, list) or len(rows) <= TABLE_MAX_ROWS:
             out_slides.append(slide); out_titles.append(title); continue
-        count = -(-len(rows) // 5); size, extra = divmod(len(rows), count); start = 0
+        count = -(-len(rows) // TABLE_SPLIT_ROWS); size, extra = divmod(len(rows), count); start = 0
         base = re.sub(r'\s*\(\d+/\d+\)\s*$', '', _vi(slide.get('tieuDe')).strip())
         if len(base) > 40:                            # cắt ở ranh giới từ, không để lại dấu ngoặc mở dở
             cut = base[:40]
@@ -970,6 +988,15 @@ def cheatsheet(theme):
 
 BRIEF_MIN_CHARS = 24000
 
+def compare_periods(work):
+    """Hai nguồn là hai kỳ của cùng một báo cáo (vd tuần 4 và 5): dựng so-sanh.md chỉ gồm chỗ khác nhau. Không phải trường hợp đó thì None."""
+    try:
+        import importlib.util as _u
+        spec = _u.spec_from_file_location('so_sanh', ROOT / 'scripts' / 'so_sanh.py'); mod = _u.module_from_spec(spec); spec.loader.exec_module(mod)
+        return mod.build(work)
+    except Exception:
+        return None
+
 def make_brief(work, budget=14000):
     """Nguồn dài (vd 36 slide, 63K ký tự): đọc cả content.md làm đầy ngữ cảnh rồi bị nén giữa chừng. Dựng bản tóm tắt ~14K ký tự
     (đầu mỗi slide/trang + số dòng trong content.md để đọc chi tiết khi cần). Driver vẫn kiểm số liệu với content.md đầy đủ."""
@@ -1011,7 +1038,15 @@ def resume(work):
         settle_quality(work, argparse.Namespace(work=str(work)));return
     plan = work / 'plan.json'
     if not plan.exists():
-        brief = make_brief(work)
+        cmp = compare_periods(work)
+        brief = None if cmp else make_brief(work)
+        if cmp:
+            path, prev, cur, n = cmp
+            print(f'HAI KỲ CỦA CÙNG MỘT BÁO CÁO ({prev} → {cur}; chỉ {n} chỗ khác nhau, phần còn lại giống nhau). ĐỌC (một lần): {local(path)} và {local(work / "facts.md")}. '
+                  f'KHÔNG đọc content.md và tom-tat.md (hàng trăm nghìn ký tự, làm đầy ngữ cảnh); cần chi tiết một chỗ thì read content.md đúng trang ghi trong so-sanh.md.')
+            print('VIẾT BÁO CÁO SO SÁNH HAI KỲ (không chép lại báo cáo). BÌA là MỤC ĐÍCH của báo cáo đúng như người dùng nhờ (vd tiêu đề "So sánh tiến độ tuần 4 và tuần 5", dòng phụ nêu dự án và hai kỳ), KHÔNG đặt kết quả hay số liệu làm tiêu đề bìa; kết luận và số chính để slide 2 "Tóm tắt điều hành". Sau đó: (1) tóm tắt điều hành: số chính của kỳ trước và kỳ này; (2) mẫu `bang` cột Kỳ trước | Kỳ này cho tiến độ tổng thể và từng nhóm/đơn vị '
+                  '(tối đa 12 hàng/bảng, nhiều hơn thì chia slide); (3) hạng mục chậm, rủi ro, vướng mắc MỚI hoặc nặng hơn; (4) slide "Điểm cần chú ý" (việc cần quyết, hạn sắp tới). '
+                  'Chênh lệch viết bằng chữ ("tăng từ A lên B"); số tính thêm phải khai trong meta.computed. Ghi nguồn: tên hai kỳ.')
         if brief:
             print(f'ĐỌC (một lần): {local(brief)} (nguồn dài nên đã tóm tắt) và {local(work / "facts.md")}. Chỉ khi cần số liệu/ý chi tiết của một slide mới read {local(work / "content.md")} đúng khoảng dòng ghi trong tóm tắt (offset/limit); KHÔNG đọc cả tệp. Không cần đọc huong-dan-k7.md: bảng mẫu K7 in ngay dưới đây.')
         else:
@@ -1056,12 +1091,20 @@ def resume(work):
     print('ĐÃ ĐỦ PHẦN. NEXT: ' + command('build', work))
     print('Chạy build NGAY TRONG CÙNG LƯỢT; không dừng để báo tiến độ.')
 
+def fresh_work(work):
+    """Thư mục kết quả đã dùng cho tài liệu khác: lấy tên kế tiếp (-2, -3, ...) thay vì báo lỗi, để model không tự `rm -rf` (iWork hỏi quyền)."""
+    n = 2
+    while (work.parent / f'{work.name}-{n}').exists(): n += 1
+    return work.parent / f'{work.name}-{n}'
+
 def start(a):
     work = workpath(a.work)
+    files = [str(workpath(f)) for f in a.files]
+    if (work / 'iwork-state.json').exists() and load(work / 'iwork-state.json')['files'] != files:
+        old, work = work, fresh_work(work)
+        print(f'LƯU Ý: thư mục {old.name} đang giữ kết quả của tài liệu khác; tài liệu này dùng thư mục mới {work.name}. Không xoá thư mục cũ; chạy đúng lệnh driver in ra.')
     if (work / 'iwork-state.json').exists():
         previous = load(work / 'iwork-state.json')
-        files = [str(workpath(f)) for f in a.files]
-        if previous['files'] != files: raise SystemExit('WORK đã thuộc nguồn khác; chọn thư mục kết quả mới.')
         if a.logo or a.chan_trang is not None:
             # Gắn/đổi logo sau khi đã làm: giữ nguyên nội dung, chỉ build lại.
             logo = workpath(a.logo) if a.logo else None
@@ -1127,8 +1170,8 @@ def add_coverage_slides(work, unmet):
     def cut(text, n):
         text = re.sub(r'\s+', ' ', str(text or '')).strip()
         return text if len(text) <= n else text[:n - 1].rsplit(' ', 1)[0].rstrip(' ,;:/') + '…'
-    count = -(-len(rows) // 5)
-    size, extra = divmod(len(rows), count)       # chia đều, mỗi slide 2–5 hàng
+    count = -(-len(rows) // TABLE_SPLIT_ROWS)
+    size, extra = divmod(len(rows), count)       # chia đều, mỗi slide tối đa TABLE_SPLIT_ROWS hàng
     slides, start = [], 0
     for k in range(count):
         take = size + (1 if k < extra else 0); chunk = rows[start:start + take]; start += take
@@ -1184,6 +1227,42 @@ def reopen_if_needed(work, state):
         tidy_workspace(work, keep)
     return False
 
+# Độ thưa: chữ ngắn hơn mức này (trên giới hạn của mẫu) thì slide trông trống. Chỉ nhắc MỘT lần mỗi lần giao, không bắt buộc.
+THIN_MIN = {('the', 'the', 'd'): 70, ('lo-trinh', 'buoc', 'd'): 55}
+
+def thin_slides(work):
+    """Slide thẻ/lộ trình/vấn đề có từ nửa số ô trở lên viết cụt so với chỗ chứa. Trả về [(số slide, mẫu, [chữ hiện có])]."""
+    out = []
+    for path in sorted((work / 'parts').glob('*.json')):
+        try: s = load(path)
+        except SystemExit: continue
+        if not isinstance(s, dict): continue
+        mau = s.get('mau'); cells = []
+        for (m, field, key), floor in THIN_MIN.items():
+            if mau == m and isinstance(s.get(field), list):
+                cells += [(_vi(x.get(key)).strip(), floor) for x in s[field] if isinstance(x, dict)]
+        if mau == 'van-de':
+            for side in ('vanDe', 'giaiPhap'):
+                node = s.get(side)
+                if isinstance(node, dict) and isinstance(node.get('y'), list): cells += [(_vi(y).strip(), 65) for y in node['y']]
+        thin = [t for t, floor in cells if len(t) < floor]
+        if cells and len(thin) * 2 >= len(cells) and len(cells) >= 2:
+            out.append((int(path.stem) if path.stem.isdigit() else 0, mau, thin))
+    return out
+
+def comparison_gaps(work):
+    """Ca so sánh hai kỳ: các chỗ thay đổi có số liệu (so-sanh.json) mà chưa số nào của kỳ này xuất hiện trong slide. Trả về (danh sách chưa phủ, tổng số chỗ có số)."""
+    path = work / 'so-sanh.json'
+    if not path.is_file() or not (work / 'parts').is_dir(): return [], 0
+    try: blocks = json.loads(path.read_text(encoding='utf-8'))['blocks']
+    except (ValueError, KeyError): return [], 0
+    deck = ' '.join(_slide_text(load(p)) for p in sorted((work / 'parts').glob('*.json')))
+    norm = lambda t: re.sub(r'\s+', '', str(t)).replace('%', '')
+    deck_n = norm(deck)
+    withnum = [b for b in blocks if b.get('nums')]
+    gaps = [b for b in withnum if not any(norm(n) in deck_n for n in b['nums'])]
+    return gaps, len(withnum)
+
 def settle_quality(work, a):
     """Driver tự lập audit từ bằng chứng đã kiểm rồi finish; model chỉ được giao phần bao phủ không tự đáp ứng được."""
     audit, unmet = auto_audit(work)
@@ -1199,6 +1278,23 @@ def settle_quality(work, a):
             state['auto_cover'] = True; write_json(work / 'iwork-state.json', state)
             print('TỰ SỬA: ' + note + '. Dựng lại ngay.')
             build(a); return
+    gaps, total = ([], 0) if state.get('cmp_asked') or unmet else comparison_gaps(work)
+    if len(gaps) >= 6 and len(gaps) * 5 >= total * 2:
+        state['cmp_asked'] = True; write_json(work / 'iwork-state.json', state)
+        lines = [f'  · #{b["id"]} (trang {b["trang"]}): ' + (b['old'][:70] + ' → ' if b.get('old') else 'MỚI: ') + b['new'][:90] for b in gaps[:14]]
+        print(f'BUILD ĐẠT nhưng báo cáo so sánh còn thiếu {len(gaps)}/{total} chỗ thay đổi có số liệu (so-sanh.md); người xem sẽ thiếu thông tin. Thêm 2–4 slide `bang` chi tiết '
+              '(cột: Nội dung | Kỳ trước | Kỳ này; 8–12 hàng/bảng, mỗi ô ngắn một dòng ≤ 40 ký tự; chép đúng số từ so-sanh.md, không bịa) cho các chỗ sau, ưu tiên chỗ quan trọng với lãnh đạo:\n'
+              + '\n'.join(lines) + ('\n  … và ' + str(len(gaps) - 14) + ' chỗ nữa trong so-sanh.md' if len(gaps) > 14 else '')
+              + '\nViết thêm vào parts/ (đánh số tiếp, nhớ cập nhật plan.json), rồi chạy: ' + command('advance', work))
+        return
+    thin = [] if state.get('thin_asked') else thin_slides(work)
+    if thin and not unmet:
+        state['thin_asked'] = True; write_json(work / 'iwork-state.json', state)
+        lines = [f'  · slide {n} ({mau}): ' + ' | '.join(f'"{t[:40]}" ({len(t)} ký tự)' for t in cells[:3]) for n, mau, cells in thin[:6]]
+        print('BUILD ĐẠT nhưng ' + str(len(thin)) + ' slide còn thưa so với chỗ chứa (khung còn trống nhiều):\n' + '\n'.join(lines)
+              + '\nMở lại content.md, bổ sung vào đúng các ô trên chủ thể, con số, mốc, đơn vị CÓ trong nguồn (thẻ d 70–130 ký tự, bước d 55–100, ý 65–120). '
+                'Nguồn không có thêm thì giữ nguyên, tuyệt đối không bịa. Sửa parts/NN.json rồi chạy: ' + command('advance', work))
+        return
     quality_task(work, command('finish', work), unmet)
     if unmet:
         print('BUILD ĐẠT nhưng còn ' + str(len(unmet)) + ' yêu cầu bao phủ chưa thấy trong slide. Đọc ' + str(local(work / 'TASK.md')) + ', sửa parts rồi chạy: ' + command('advance', work))

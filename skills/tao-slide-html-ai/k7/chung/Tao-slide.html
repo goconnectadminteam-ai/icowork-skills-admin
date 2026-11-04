@@ -2577,16 +2577,16 @@ var MAU = {
                gh:{so:3, tieuDe:48, phu:140},
                mac:{so:'1', tieuDe:'Tên phần', phu:'Một câu nói phần này trả lời câu hỏi gì.'}},
   'so-lieu':  {ten:'Số liệu lớn', khi:'3–6 con số ngang hàng cần người xem nhớ; số quan trọng nhất đặt ô đầu; mỗi ô một icon theo nghĩa',
-               gh:{'so.*.so':10,'so.*.nhan':56}, ds:{so:[3,6]},
+               gh:{'so.*.so':10,'so.*.nhan':100}, ds:{so:[3,6]},
                mac:{dauMuc:'Phần', tieuDe:'Một câu nói ý nghĩa của các *con số*', so:[{so:'100+',nhan:'mô tả con số',icon:'nguoi'},{so:'50%',nhan:'mô tả con số',icon:'tang'},{so:'24/7',nhan:'mô tả con số',icon:'dong-ho'}], ketLuan:'Điều người xem cần nhớ.', nguon:'Nguồn: tên tài liệu (tháng/năm).'}},
   'van-de':   {ten:'Vấn đề → giải pháp', khi:'Nêu nỗi đau của khách hàng rồi cách giải quyết',
-               gh:{'vanDe.t':48,'vanDe.y.*':64,'vanDe.so':8,'vanDe.soNhan':40,'giaiPhap.t':48,'giaiPhap.y.*':64}, ds:{'vanDe.y':[2,4],'giaiPhap.y':[2,4]},
+               gh:{'vanDe.t':48,'vanDe.y.*':120,'vanDe.so':8,'vanDe.soNhan':40,'giaiPhap.t':48,'giaiPhap.y.*':120}, ds:{'vanDe.y':[2,4],'giaiPhap.y':[2,4]},
                mac:{dauMuc:'Phần', tieuDe:'Nỗi đau của *khách hàng*', vanDe:{t:'Khách hàng đang gặp gì',y:['Ý thứ nhất','Ý thứ hai']}, giaiPhap:{t:'Cách giải quyết',y:['Ý thứ nhất','Ý thứ hai']}, nguon:''}},
   'the':      {ten:'Thẻ đánh số', khi:'3–6 ý ngang hàng: sản phẩm, lợi ích, khó khăn; mỗi thẻ một icon theo nghĩa (hoặc logo sản phẩm)',
-               gh:{'the.*.t':34,'the.*.d':80}, ds:{the:[2,6]},
+               gh:{'the.*.t':34,'the.*.d':130}, ds:{the:[2,6]},
                mac:{dauMuc:'Phần', tieuDe:'Tiêu đề nhóm *thẻ*', the:[{icon:'muc-tieu',t:'Ý thứ nhất',d:'Một câu mô tả ngắn.'},{icon:'toc-do',t:'Ý thứ hai',d:'Một câu mô tả ngắn.'},{icon:'bao-mat',t:'Ý thứ ba',d:'Một câu mô tả ngắn.'}]}},
-  'bang':     {ten:'Bảng so sánh', khi:'So sánh 2–5 phương án theo cùng tiêu chí',
-               gh:{'cot.*':20,'hang.*.0':16,'hang.*.*':80}, ds:{hang:[2,5]},
+  'bang':     {ten:'Bảng so sánh', khi:'So sánh 2–5 phương án, hoặc liệt kê tới 12 dòng theo cùng tiêu chí',
+               gh:{'cot.*':20,'hang.*.0':16,'hang.*.*':80}, ds:{hang:[2,12]},
                mac:{dauMuc:'Phần', tieuDe:'So sánh các *phương án*', cot:['Phương án','Tiêu chí 1','Tiêu chí 2'], hang:[['A','',''],['B','','']]}},
   'lop':      {ten:'Kiến trúc nhiều lớp', khi:'Nền tảng, kiến trúc xếp tầng; tối đa 10 lớp',
                gh:{'lop.*.ma':4,'lop.*.t':56,quanTri:80,'ghiChu.t':44,'ghiChu.y.*':64}, ds:{lop:[3,10],'ghiChu.y':[2,4]},
@@ -2598,7 +2598,7 @@ var MAU = {
                gh:{'so.*.so':8,'so.*.nhan':40}, ds:{so:[2,4]},
                mac:{dauMuc:'Phần', tieuDe:'Một câu về *quy mô*', anh:{src:'asset:hinhMau',alt:'Hình minh hoạ'}, so:[{so:'100+',nhan:'mô tả'},{so:'20',nhan:'mô tả'}]}},
   'lo-trinh': {ten:'Lộ trình theo bước', khi:'3–6 bước triển khai, mỗi bước có thời gian',
-               gh:{'buoc.*.t':24,'buoc.*.d':40,'buoc.*.tg':12}, ds:{buoc:[3,6]},
+               gh:{'buoc.*.t':24,'buoc.*.d':100,'buoc.*.tg':12}, ds:{buoc:[3,6]},
                mac:{dauMuc:'Phần', tieuDe:'Các bước *triển khai*', buoc:[{t:'Bước một',d:'Làm gì',tg:'2 tuần'},{t:'Bước hai',d:'Làm gì',tg:'4 tuần'},{t:'Bước ba',d:'Làm gì',tg:'2 tuần'}]}},
   'cam-on':   {ten:'Cảm ơn, liên hệ', khi:'Kết thúc: một lời mời hành động và cách liên hệ',
                gh:{tieuDe:44, phu:150,'lienHe.*.gt':44}, ds:{lienHe:[1,4]},
@@ -3199,6 +3199,12 @@ window.K7 = {
 };
 })();
 </script>
+<style id="k7-skill-dense">
+/* Bổ sung của skill (không phải K7 gốc): bảng từ 6 dòng trở lên co khoảng đệm và cỡ chữ về mức tối thiểu 20px của thang chữ để chứa được nhiều dòng hơn; ít dòng thì giữ nguyên giao diện gốc. */
+.m-bang table:has(tbody tr:nth-child(6)) :is(th,td){padding:var(--margin-10) var(--margin-20)}
+.m-bang table:has(tbody tr:nth-child(6)) td{font:var(--s3-nhe)}
+.m-bang table:has(tbody tr:nth-child(6)) td:first-child{font:var(--s3);font-weight:var(--weight-bold);width:240px}
+</style>
 <script>
 /* Hook riêng của skill tao-slide-html-ai (không phải của bản K7 gốc): phơi kết quả K7.kiem()
    ra thuộc tính trên <html> để headless Chrome (export_pdf.py) đọc được bằng --dump-dom,
@@ -3207,6 +3213,11 @@ window.K7 = {
   function bao(){
     try{
       var ds = window.K7 && window.K7.kiem ? window.K7.kiem() : [];
+      /* K7 gốc chỉ đo .s-than; bảng nằm trong .bg-khung (overflow:hidden) nên dòng thừa bị cắt mà không báo. Đo thêm ở đây. */
+      document.querySelectorAll('.m-bang').forEach(function(sl){
+        var kh = sl.querySelector('.bg-khung'), tb = kh && kh.querySelector('table'), s = sl.closest('[data-slide]');
+        if (kh && tb && tb.offsetHeight > kh.clientHeight + 2) ds.push({slide: (s ? +s.getAttribute('data-slide') : 0) + 1, ma:'M7', y:'Bảng bị cắt: các dòng cuối không hiện trên slide'});
+      });
       document.documentElement.setAttribute('data-k7-check', JSON.stringify(ds));
     }catch(e){
       document.documentElement.setAttribute('data-k7-check-error', String(e));

@@ -27,7 +27,7 @@
       "output": "Báo cáo HTML một tệp",
       "author": "VNPT AI",
       "version": "1.0.0",
-      "folder": "html-report-vnptai-topnav",
+      "folder": "taobaocao-html-ai",
       "isDefault": true
     },
     {
@@ -37,7 +37,7 @@
       "output": "Kết quả phân loại, đề xuất chuyển tiếp",
       "author": "VNPT AI",
       "version": "1.0.0",
-      "folder": "phan-loai-chuyen-tiep-van-ban-eoffice",
+      "folder": "phanloaivanban-recommend-ai",
       "isDefault": false
     },
     {
@@ -48,7 +48,7 @@
       "author": "VNPT AI",
       "version": "1.0.0",
       "folder": "tao-slide-html-ai",
-      "isDefault": false
+      "isDefault": true
     },
     {
       "name": "tao-slide-logo-html-ai",
@@ -58,7 +58,7 @@
       "author": "VNPT AI",
       "version": "1.0.0",
       "folder": "tao-slide-logo-html-ai",
-      "isDefault": false
+      "isDefault": true
     },
     {
       "name": "danh-gia-tai-lieu-html-ai",
@@ -66,9 +66,9 @@
       "input": "File tờ trình/đề xuất",
       "output": "Danh sách lỗi, góp ý, bản sửa",
       "author": "VNPT AI",
-      "version": "VNPT AI",
+      "version": "1.0.0",
       "folder": "danh-gia-tai-lieu-html-ai",
-      "isDefault": false
+      "isDefault": true
     }
   ]
 }

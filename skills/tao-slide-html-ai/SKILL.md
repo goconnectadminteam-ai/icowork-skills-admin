@@ -42,7 +42,12 @@ CẤM:
 Người dùng **không được phải nhắn thêm** để skill chạy tiếp. Mọi lệnh driver kết thúc bằng một trong ba dòng:
 
 - `=== CHƯA XONG … ===`: làm đúng việc được nêu rồi chạy lệnh tiếp **trong cùng lượt**. Ghi xong plan, vài slide hay build đạt đều **chưa phải** là xong.
-- `=== DỪNG … ===`: chỉ khi tệp trạng thái bị sửa tay hoặc không có bản nào để giao. Báo đúng trạng thái.
+- `=== DỪNG … ===`: chỉ khi tệp trạng thái bị sửa tay hoặc không có bản nào để giao. Báo đúng trạng thái. Câu đầu của trả lời là **"CHƯA tạo được file HTML"** kèm lý do một dòng; không nói đã xong, không tự dựng slide bằng tay.
+- **Thiếu phần mềm** (driver in `=== DỪNG` nêu tên): nói rõ cho người dùng cần cài gì và đưa **đúng link** dưới đây (lấy từ thông báo của driver nếu có), rồi dừng. Không im lặng, không tự cài, không tự dựng slide bằng tay, không nói đã xong. Không hỏi lại điều gì khác.
+  - Python (không chạy được lệnh `python`/`python3`; nên Python 3.12): https://www.python.org/downloads/
+  - Microsoft Visual C++ Redistributable x64 (Windows, lỗi `DLL load failed`): https://aka.ms/vs/17/release/vc_redist.x64.exe
+  - Google Chrome hoặc Microsoft Edge (dựng và kiểm tra HTML): https://www.google.com/chrome/
+- **Không bịa kết quả:** chỉ nêu kết quả và tệp mà driver đã in ở `HOÀN TẤT`. Chưa có thì không tạo tệp, không tự điền nhận xét, điểm hay số liệu, không liệt kê tệp nguồn hoặc tệp trung gian như thể đó là kết quả.
 - `HOÀN TẤT`: trả kết quả (xem cuối trang). Bản có chữ `BẢN NHÁP` vẫn là HOÀN TẤT: giao file và nêu rõ các cảnh báo.
 
 Thêm:
@@ -66,11 +71,17 @@ python3 "SKILL_DIR/iwork.py" start "INPUT" --work "report-output"
 **Giao diện và logo:** skill này dùng giao diện **chung**: không logo VNPT AI, chân trang "iView"; người xem tự gắn logo bằng nút **Logo và chân trang** trong trang HTML. Cần nhận diện VNPT AI thì dùng skill `tao-slide-logo-html-ai`. Người dùng đưa tệp logo thì thêm `--logo "<tệp ảnh>"` vào `start`; muốn chữ chân trang riêng thì `--chan-trang "VNPT"`. Logo đến sau khi đã giao: chạy lại `start` cùng `--work` với `--logo`, rồi `advance`.
 
 1. **Đọc một lần** `content.md` và `facts.md`. Bảng 12 mẫu K7 (trường, số mục, giới hạn ký tự, icon) do `start` in sẵn: **không cần đọc** [huong-dan-k7.md](references/huong-dan-k7.md), chỉ mở khi cần ví dụ. Rồi ghi **`notes.md`** (tối đa 25 dòng): thông điệp chính, ngày nguồn, số liệu cần dùng kèm vị trí, nhóm việc, hạn, kiến nghị. Đây là bộ nhớ của bạn; các lô sau không đọc lại toàn bộ nguồn.
-2. **`plan.json`**: `{"meta":{"ten":"…","ban":"Bản 1 · dd/mm/yyyy","computed":[],"canXacNhan":[]},"outline":["tiêu đề slide 1","tiêu đề slide 2"]}` (`outline` là danh sách CHUỖI). Báo cáo ngắn thường 8–10 slide; có tiến độ/rủi ro/kiến nghị thì có slide tóm tắt điều hành. Số liệu tự tính chỉ khai trong `meta.computed` dạng `{"value","formula":"a+b"}`.
+2. **`plan.json`**: `{"meta":{"ten":"…","ban":"Bản 1 · dd/mm/yyyy","computed":[],"canXacNhan":[]},"outline":["tiêu đề slide 1","tiêu đề slide 2"]}` (`outline` là danh sách CHUỖI). Số slide theo lượng nguồn (báo cáo ngắn thường 8–12 slide, nguồn nhiều đơn vị/hạng mục thì nhiều hơn; không gộp để cho ít slide); có tiến độ/rủi ro/kiến nghị thì có slide tóm tắt điều hành. Số liệu tự tính chỉ khai trong `meta.computed` dạng `{"value","formula":"a+b"}`.
    - Có chương (nguồn chia phần rõ): ít nhất hai slide `mau:"chuong"`; slide nội dung ghi `dauMuc` chữ. Không có chương: chỉ dùng `dauMuc` chữ. **Đánh số do driver tự lo**, bạn không cần tính.
+   - **Đủ thông tin, không tóm tắt quá tay.** Người xem cần đọc được nội dung chứ không chỉ tiêu đề: mỗi thẻ, bước, ý viết thành câu đầy đủ (chủ thể + con số, mốc, đơn vị có trong nguồn), không câu cụt; mỗi slide nêu hết các mục nguồn của chương đó, không gộp "Mục 2-3" vào một slide. **Không đếm ký tự khi viết** (đếm làm mất thời gian): driver tự báo nếu quá dài hoặc quá thưa. Nguồn có danh sách theo đơn vị/hạng mục/dòng theo dõi thì dùng `bang` (2–12 hàng, mỗi hàng giữ tên, số, hạn, kết quả); dùng nhiều hàng khi nguồn còn dòng, ô ngắn gọn (một dòng) để vừa khung; còn dòng thì chia sang slide kế. Tràn khung thì rút chữ trong ô hoặc chuyển bớt sang slide mới, không bỏ số liệu.
+   - **Bìa là mục đích của báo cáo**, nói đúng việc người dùng nhờ (tên báo cáo/so sánh/đánh giá và đối tượng, kỳ); kết luận và số liệu nổi bật để từ slide 2 (tóm tắt điều hành), không nhét kết quả vào tiêu đề bìa.
 3. **`parts/NN.json`**: driver giao từng lô tối đa 6 slide. Ghi cả lô bằng nhiều lệnh `write` **trong cùng một bước**. Mỗi tệp là một object slide có `"mau"` (1 trong 12 mẫu) và `"tieuDe"`; bìa là `01.json`; không bọc trong `slides`.
 4. **`advance`** sau mỗi lô. Đủ slide thì driver tự build và kiểm (cấu trúc K7, giới hạn chữ, số có trong nguồn, nhất quán %, tên riêng, tràn chữ). Có lỗi: sửa **tất cả** lỗi trong danh sách rồi `advance`. Tràn chữ thì viết ngắn lại hoặc tách slide, không sửa khung. Hết 4 lượt build lỗi thì driver tự giao bản nháp kèm cảnh báo.
 5. Build đạt thì driver **tự kiểm chất lượng và `finish`** trong cùng lệnh, rồi in `HOÀN TẤT`. Bạn không viết file kiểm. Chỉ khi driver in `BUILD ĐẠT nhưng còn … yêu cầu bao phủ` thì mở `TASK.md`, sửa slide nêu đủ mã dòng/đơn vị/hạn được liệt kê rồi `advance`.
+
+## Hai kỳ của cùng một báo cáo (so sánh tuần này với tuần trước)
+
+Người dùng đưa **hai tệp** là hai kỳ của một báo cáo (vd tuần 4 và tuần 5) và nhờ so sánh: `start` tự tạo `so-sanh.md` chỉ gồm các chỗ khác nhau (kỳ trước, kỳ này, mới/bỏ, hướng tăng/giảm) và in lệnh đọc. **Đọc `so-sanh.md` và `facts.md`, không đọc `content.md`** (hàng trăm nghìn ký tự, làm đầy ngữ cảnh rồi dừng). **Bìa nêu mục đích đúng như người dùng nhờ** (vd "So sánh tiến độ tuần 4 và tuần 5", dòng phụ: dự án và hai kỳ), không đặt kết quả hay số liệu làm tiêu đề bìa. Báo cáo gồm: bìa; slide tóm tắt điều hành (số chính hai kỳ); bảng `bang` Kỳ trước | Kỳ này cho tiến độ tổng thể và từng nhóm; hạng mục chậm, rủi ro, vướng mắc mới hoặc nặng hơn; slide "Điểm cần chú ý". Chênh lệch viết bằng chữ ("tăng từ A lên B"), không tự tính số mới trừ khi khai trong `meta.computed`.
 
 ## Luật nội dung (độ chính xác)
 

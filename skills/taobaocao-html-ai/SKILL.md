@@ -1,9 +1,9 @@
 ---
-name: html-report-vnptai-topnav
+name: taobaocao-html-ai
 description: Tạo một file HTML báo cáo/tóm tắt độc lập (single-file) theo template chuẩn VNPT AI nhưng với MENU/MỤC LỤC NẰM NGANG PHÍA TRÊN (top navigation) thay vì sidebar bên trái - thanh menu navy dính đầu trang gồm các phần cấp I, hàng thứ hai hiện mục con của phần đang đọc (scrollspy), trang bìa gradient xanh navy, khối "key-points" tóm tắt, bảng và hình gấp lại dạng "bấm để xem", nút "Mở tất cả / Thu gọn tất cả", nút về đầu trang. Dùng skill này bất cứ khi nào người dùng muốn báo cáo/tóm tắt/kế hoạch/tài liệu nội bộ HTML kiểu VNPT AI mà nhắc tới menu ở trên, menu ngang, thanh điều hướng trên cùng, top nav, header menu, "không muốn sidebar", "mục lục nằm trên", hoặc muốn nội dung chiếm toàn bộ chiều ngang màn hình. Nếu người dùng không nói gì về vị trí menu thì dùng skill html-report-vnptai (sidebar trái) thay vì skill này.
 ---
 
-# html-report-vnptai-topnav
+# taobaocao-html-ai
 
 Biến thể "menu trên" của skill `html-report-vnptai`. Giữ nguyên toàn bộ phong cách của template "iCowork" (màu navy/teal, font, trang bìa, key-points, bảng, ảnh gấp, nút mở/thu gọn, nút về đầu trang) — chỉ khác ở chỗ mục lục là **thanh menu ngang cố định phía trên** thay vì sidebar bên trái, nên nội dung được trải rộng toàn màn hình. Bộ khung nằm ở `assets/template.html` (CSS/JS đã viết sẵn), kèm quy tắc điền nội dung bên dưới.
 

@@ -70,7 +70,7 @@
    "khi": "3–6 con số cần người xem nhớ; ô đầu tiên là số quan trọng nhất; mỗi ô một icon theo nghĩa",
    "gh": {
     "so.*.so": 10,
-    "so.*.nhan": 56
+    "so.*.nhan": 100
    },
    "ds": {
     "so": [
@@ -107,11 +107,11 @@
    "khi": "Nêu nỗi đau của khách hàng rồi cách giải quyết",
    "gh": {
     "vanDe.t": 48,
-    "vanDe.y.*": 64,
+    "vanDe.y.*": 120,
     "vanDe.so": 8,
     "vanDe.soNhan": 40,
     "giaiPhap.t": 48,
-    "giaiPhap.y.*": 64
+    "giaiPhap.y.*": 120
    },
    "ds": {
     "vanDe.y": [
@@ -148,7 +148,7 @@
    "khi": "3–6 ý ngang hàng: sản phẩm, lợi ích, khó khăn; mỗi thẻ một icon theo nghĩa (hoặc logo sản phẩm)",
    "gh": {
     "the.*.t": 34,
-    "the.*.d": 80
+    "the.*.d": 130
    },
    "ds": {
     "the": [
@@ -180,7 +180,7 @@
   },
   "bang": {
    "ten": "Bảng so sánh",
-   "khi": "So sánh 2–5 phương án theo cùng tiêu chí",
+   "khi": "So sánh 2–5 phương án, hoặc liệt kê tới 12 dòng theo cùng tiêu chí",
    "gh": {
     "cot.*": 20,
     "hang.*.0": 16,
@@ -189,7 +189,7 @@
    "ds": {
     "hang": [
      2,
-     5
+     12
     ]
    },
    "mac": {
@@ -344,7 +344,7 @@
    "khi": "3–6 bước triển khai, mỗi bước có thời gian",
    "gh": {
     "buoc.*.t": 24,
-    "buoc.*.d": 40,
+    "buoc.*.d": 100,
     "buoc.*.tg": 12
    },
    "ds": {

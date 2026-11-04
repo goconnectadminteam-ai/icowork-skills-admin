@@ -12,7 +12,7 @@
 
 1. Người xem là lãnh đạo: họ cần biết kết quả, vướng mắc và quyết định cần chốt.
 2. Mỗi slide **một ý**; tiêu đề là **câu kết luận**, không phải tên chủ đề.
-3. Số slide theo nội dung nguồn; báo cáo ngắn thường 8–10 slide. Không cắt ý quan trọng để cho ngắn.
+3. Số slide theo nội dung nguồn; báo cáo ngắn thường 8–12 slide, nguồn nhiều đơn vị/hạng mục thì nhiều hơn. Không cắt ý quan trọng để cho ngắn.
 
 ## 3. Mạch mẫu
 
@@ -66,14 +66,14 @@ Giới hạn là **số ký tự tối đa** (không tính dấu `*`). Cột "S�
 | `bia` | Bìa | Mở đầu bộ slide | `the` (nhãn nhỏ), `tieuDe`, `phu`, `dong` (người trình bày / đơn vị), `doiTac` (tên đối tác, tuỳ chọn) | | tieuDe 56 · the 36 · dong 56 · phu 140 · doiTac 24 |
 | `muc-luc` | Mục lục | Sau bìa, khi bộ có ≥ 3 phần | `muc[]`: `{t, d}` | 3–6 | t 28 · d 40 |
 | `chuong` | Ngăn chương | Mở đầu một phần lớn | `so` ("2"), `tieuDe`, `phu` | | so 3 · tieuDe 48 · phu 140 |
-| `so-lieu` | Số liệu lớn | 3–6 con số ngang hàng cần nhớ; đặt số quan trọng nhất ở ô đầu | `so[]`: `{so, nhan, icon}` | 3–6 | so 10 · nhan 56 |
-| `van-de` | Vấn đề → giải pháp | Nỗi đau của khách hàng rồi cách giải | `vanDe`: `{t, y[], so, soNhan}`; `giaiPhap`: `{t, y[]}` | y: 2–4 | t 48 · y 64 · so 8 · soNhan 40 |
-| `the` | Thẻ | 3–6 ý ngang hàng (sản phẩm, lợi ích, khó khăn, đề xuất) | `the[]`: `{t, d, icon}` hoặc `{t, d, logo: ["asset:…"]}` | 2–6 | t 34 · d 80 |
-| `bang` | Bảng so sánh | So nhiều phương án theo cùng tiêu chí | `cot[]` (tên cột), `hang[][]` (mỗi hàng một mảng ô) | hàng: 2–5 | cột 20 · ô đầu hàng 16 · ô khác 80 |
+| `so-lieu` | Số liệu lớn | 3–6 con số ngang hàng cần nhớ; đặt số quan trọng nhất ở ô đầu | `so[]`: `{so, nhan, icon}` | 3–6 | so 10 · nhan 100 |
+| `van-de` | Vấn đề → giải pháp | Nỗi đau của khách hàng rồi cách giải | `vanDe`: `{t, y[], so, soNhan}`; `giaiPhap`: `{t, y[]}` | y: 2–4 | t 48 · y 120 · so 8 · soNhan 40 |
+| `the` | Thẻ | 3–6 ý ngang hàng (sản phẩm, lợi ích, khó khăn, đề xuất) | `the[]`: `{t, d, icon}` hoặc `{t, d, logo: ["asset:…"]}` | 2–6 | t 34 · d 130 |
+| `bang` | Bảng so sánh | So nhiều phương án theo cùng tiêu chí | `cot[]` (tên cột), `hang[][]` (mỗi hàng một mảng ô) | hàng: 2–12 (từ hàng 6 bảng tự co chữ và khoảng đệm; 9+ hàng nên mỗi ô một dòng) | cột 20 · ô đầu hàng 16 · ô khác 80 |
 | `lop` | Kiến trúc nhiều lớp | Nền tảng xếp tầng | `lop[]`: `{ma, t, noi}` (`noi: true` = lớp tô nổi); `quanTri`; `ghiChu`: `{t, y[]}` | lớp 3–10 · y 2–4 | ma 4 · t 56 · quanTri 80 · ghiChu.t 44 · y 64 |
 | `anh` | Ảnh có chú giải | Ảnh chụp sản phẩm thật, đánh số vùng | `anh`: `{src, alt}`; `vung[]`: `{x, y, w, h}` (% của ảnh); `chuGiai[]`: `{t, d}` | 2–5 (vùng = chú giải) | t 26 · d 44 |
 | `hinh-so` | Hình + số liệu | Một hình lớn (bản đồ, ảnh) kèm vài con số | `anh`: `{src, alt}`; `so[]`: `{so, nhan, icon}` | 2–4 | so 8 · nhan 40 |
-| `lo-trinh` | Lộ trình | 3–6 bước, mỗi bước có thời gian hoặc nhãn | `buoc[]`: `{t, d, tg, icon}` | 3–6 | t 24 · d 40 · tg 12 |
+| `lo-trinh` | Lộ trình | 3–6 bước, mỗi bước có thời gian hoặc nhãn | `buoc[]`: `{t, d, tg, icon}` | 3–6 | t 24 · d 100 · tg 12 |
 | `cam-on` | Cảm ơn, liên hệ | Kết thúc: lời mời hành động | `tieuDe`, `phu`, `lienHe[]`: `{nhan, gt}` | 1–4 | tieuDe 44 · phu 150 · gt 44 |
 
 **Ví dụ từng mẫu** (rút gọn, chỉ tiếng Việt cho dễ đọc; khi bật `--song-ngu` thì viết đủ `vi` và `en`):
