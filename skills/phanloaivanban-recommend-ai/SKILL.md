@@ -1,5 +1,5 @@
 ---
-name: phan-loai-chuyen-tiep-van-ban-eoffice
+name: phanloaivanban-recommend-ai
 description: "Phân loại văn bản eOffice đến và đề xuất chuyển tiếp cho đúng đơn vị, đúng người của Công ty VNPT AI theo chức năng nhiệm vụ trong các Quyết định thành lập đơn vị, chia vai trò Xử lý chính / Phối hợp / Xem để biết. Dùng khi người dùng hỏi văn bản này giao ai, chuyển cho ai, đơn vị nào xử lý chính, phân công/bút phê văn bản, hoặc muốn chuyển tiếp văn bản eOffice đang mở."
 ---
 
