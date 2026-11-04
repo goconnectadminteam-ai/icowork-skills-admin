@@ -8,7 +8,7 @@
       "author": "Đài",
       "version": "1.0.0",
       "folder": "html-report-vnptai-topnav",
-      "isDefault": false
+      "isDefault": true
     },
     {
       "name": "phanloaivanban-recommend-ai",
@@ -21,43 +21,53 @@
       "isDefault": false
     },
     {
-      "name": "danhgiatailieu-html-ai",
+      "name": "tao-slide-html-ai",
+      "description": "Chuyển nội dung báo cáo thành slide trình chiếu. Xuất file HTML",
+      "input": "Báo cáo, số liệu, dàn ý",
+      "output": "Slide HTML",
+      "author": "VNPT AI",
+      "version": "1.0.0",
+      "folder": "tao-slide-html-ai",
+      "isDefault": false
+    },
+    {
+      "name": "tao-slide-logo-html-ai",
+      "description": "Chuyển nội dung báo cáo thành slide trình chiếu HTML, logo VNPT AI. Xuất file HTML",
+      "input": "Báo cáo, số liệu, dàn ý",
+      "output": "Slide HTML theo nhận diện VNPT AI",
+      "author": "VNPT AI",
+      "version": "1.0.0",
+      "folder": "tao-slide-logo-html-ai",
+      "isDefault": false
+    },
+    {
+      "name": "danh-gia-tai-lieu-html-ai",
       "description": "Rà soát tài liệu trình lãnh đạo (PPTX/DOCX/PDF) gồm kết luận gửi được chưa, nêu vấn đề và cách sửa. Xuất file HTML",
       "input": "File tờ trình/đề xuất",
       "output": "Danh sách lỗi, góp ý, bản sửa",
       "author": "Phương Anh",
-      "version": "1.0.0",
-      "folder": "proposal-review",
+      "version": "VNPT AI",
+      "folder": "danh-gia-tai-lieu-html-ai",
       "isDefault": false
     },
     {
-      "name": "taoslidetrinhbay-html-ai",
-      "description": "Chuyển nội dung báo cáo thành slide trình chiếu. Xuất file HTML",
-      "input": "Báo cáo, số liệu, dàn ý",
-      "output": "Slide HTML",
-      "author": "Phương Anh",
-      "version": "1.0.0",
-      "folder": "report-slides-html",
-      "isDefault": false
-    },
-    {
-      "name": "taoslidetrinhbaylogo-html-ai",
-      "description": "Chuyển nội dung báo cáo thành slide trình chiếu HTML, logo VNPT AI. Xuất file HTML",
-      "input": "Báo cáo, số liệu, dàn ý",
-      "output": "Slide HTML theo nhận diện VNPT AI",
-      "author": "Phương Anh",
-      "version": "1.0.0",
-      "folder": "report-slides-html-vnptai",
-      "isDefault": false
-    },
-    {
-      "name": "taobienbanhop-doc-ndh",
+      "name": "tao-bien-ban-cuoc-hop-docx-ndh",
       "description": "Tạo Biên bản cuộc họp đúng mẫu MeetingMinutes. Xuất file Docx",
       "input": "Nhập text mô tả hoặc đính kèm file <20KB",
       "output": "File docx Biên bản họp",
-      "author": "Đài",
+      "author": "Ngô Diên Hy",
       "version": "1.0.0",
-      "folder": "taobienbanhop-doc-ndh",
+      "folder": "tao-bien-ban-cuoc-hop-docx-ndh",
+      "isDefault": false
+    },
+    {
+      "name": "tong-hop-bao-cao-ngay-ndh",
+      "description": "Tổng hợp công việc cá nhân dạng text các công việc quan trọng trong ngày (họp, todo, mail, VB eOffice..)",
+      "input": "Nhập text yêu cầu",
+      "output": "Text theo bố cục Lịch họp, Mail, Văn bản eOffice.. trình bày theo định dạng chuẩn",
+      "author": "Ngô Diên Hy",
+      "version": "1.0.0",
+      "folder": "tong-hop-bao-cao-ngay-ndh",
       "isDefault": false
     }
   ]
