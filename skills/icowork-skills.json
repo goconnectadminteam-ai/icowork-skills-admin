@@ -5,7 +5,7 @@
       "description": "Báo cáo theo nhận diện VNPT AI có menu ở trên. Xuất file HTML",
       "input": "Tài liệu, số liệu, ghi chú",
       "output": "Báo cáo HTML một tệp",
-      "author": "Đài",
+     "author": "VNPT AI",
       "version": "1.0.0",
       "folder": "html-report-vnptai-topnav",
       "isDefault": true
@@ -15,7 +15,7 @@
       "description": "Phân loại văn bản đến eOffice và đề xuất đơn vị/người xử lý. Gợi ý trong chat",
       "input": "File văn bản đến (PDF/Word)",
       "output": "Kết quả phân loại, đề xuất chuyển tiếp",
-      "author": "Đài",
+      "author": "VNPT AI",
       "version": "1.0.0",
       "folder": "phan-loai-chuyen-tiep-van-ban-eoffice",
       "isDefault": false
