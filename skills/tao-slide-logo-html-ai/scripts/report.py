@@ -177,7 +177,6 @@ def cmd_new(a):
     write_status(work, "Bước 3 – tạo khung report.json", "report.json gần như rỗng, chưa có nội dung thật",
                  f"Viết lại toàn bộ report.json theo 12 mẫu K7 (huong-dan-k7.md), rồi `R build {work}`.")
     out(f"NEXT: đọc {SKILL / 'references' / 'huong-dan-k7.md'} (mục 4-9: cấu trúc, 12 mẫu, giới hạn chữ, icon), "
-        f"xem ví dụ {SKILL / 'examples' / 'atbm-vm' / 'report.json'}, "
         f"rồi VIẾT LẠI TOÀN BỘ {dst} bằng nội dung của tài liệu nguồn, chọn mẫu phù hợp cho từng slide. "
         f"Xong chạy `report.py build {work}`.")
 

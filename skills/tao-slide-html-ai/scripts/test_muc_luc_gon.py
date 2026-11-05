@@ -20,7 +20,7 @@ if __name__ == '__main__': unittest.main()
 
 
 class KickerKhongCatGiuaCau(unittest.TestCase):
-    """Thật (Qualcomm 04/11): dòng nhỏ trên tiêu đề hiện "Chuyển đổi mô hình đầu tiên mất", "điểm nghẽn: độ chính xác và"."""
+    """Thật (ca thử 04/11): dòng nhỏ trên tiêu đề hiện "Chuyển đổi mô hình đầu tiên mất", "điểm nghẽn: độ chính xác và"."""
     def test_nhan_dai_khong_bi_cat_giua_cau(self):
         for title, mau in [('Chuyển đổi mô hình đầu tiên mất 1 tháng', 'so-lieu'), ('6 điểm nghẽn: độ chính xác và cố định lõi làm chậm triển khai', 'van-de'),
                            ('Tập trung LLM cho Agentic AI và Edge CV để tối ưu hiệu năng', 'the')]:
@@ -32,7 +32,7 @@ class KickerKhongCatGiuaCau(unittest.TestCase):
 
 
 class SlideThua(unittest.TestCase):
-    """Slide thẻ/lộ trình/vấn đề viết cụt (Qualcomm 04/11: mô tả thẻ ~55/130 ký tự) được nhắc bổ sung từ nguồn."""
+    """Slide thẻ/lộ trình/vấn đề viết cụt (Đối tác ABC 04/11: mô tả thẻ ~55/130 ký tự) được nhắc bổ sung từ nguồn."""
     def make(self, slides):
         import json, tempfile
         work = Path(tempfile.mkdtemp(prefix='thua-')); (work / 'parts').mkdir()

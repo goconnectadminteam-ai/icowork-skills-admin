@@ -657,8 +657,9 @@ def cmd_build(a):
             own = (x.get("quote") or "").strip()
             own_ok = bool(own) and fold(own).strip(". …") in _content_fold   # nhận định dựa trên fact: ưu tiên câu nguyên văn của chính nó nếu có trong tài liệu
             qq = evq or (own if (fq and own_ok) else (fq[0] if fq else ("" if x.get("fact") else x.get("quote", ""))))
+            qq = re.sub(r"\s+", " ", qq).strip()     # trích dẫn nhiều dòng (vd metadata DOCX "creator: …⏎- lastModifiedBy: …") làm một mục tách thành hai dòng và bộ kiểm cuối báo "Missing review line"
             q = f" Nguyên văn: \"{qq}\"." if qq else ""
-            md.append(f"{k}. **{x.get('title','').rstrip('.')} ({where}).** {x.get('problem','').strip()}{q} {('Vì sao: ' + x['why'].strip()) if x.get('why') else ''} {('Sửa: ' + x['fix'].strip()) if x.get('fix') else ''}".replace("  ", " ").strip())
+            md.append(f"{k}. **{x.get('title','').rstrip('.')} ({where}).** {x.get('problem','').strip()}{q} {('Vì sao: ' + x['why'].strip()) if x.get('why') else ''} {('Sửa: ' + x['fix'].strip()) if x.get('fix') else ''}".replace("  ", " ").strip().replace("\r", " ").replace("\n", " "))      # mỗi mục đúng một dòng
             prio.append((g, k))
     md += ["", "## Ưu tiên", ""]
     for g, name, _ in GROUPS:

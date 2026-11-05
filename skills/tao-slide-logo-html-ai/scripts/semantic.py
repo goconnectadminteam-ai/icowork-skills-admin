@@ -97,7 +97,7 @@ def check_text(t, text, where, errs):
             name = t.names[u]
             # S2: chưa bắt đầu – chỉ báo khi MÂU THUẪN chắc chắn
             # Cắt mệnh đề tại dấu phẩy liệt kê gần nhất (không phải phẩy thập phân, vd "82,8") trước khi tìm
-            # "chưa bắt đầu": văn bản hay viết tắt tên đơn vị trong danh sách (vd "VNPT Net 150/450 · VNP, TTP
+            # "chưa bắt đầu": văn bản hay viết tắt tên đơn vị trong danh sách (vd "Đơn vị A 150/450 · VNP, TTP
             # chưa bắt đầu") – nếu "VNP"/"TTP" không khớp tên đầy đủ trong bảng, ranh giới mệnh đề cũ sẽ chạy
             # tới hết đoạn và gán nhầm "chưa bắt đầu" của đơn vị liệt kê sau dấu phẩy ngược về đơn vị đang xét.
             cut = re.search(r"(?<!\d),(?!\d)", cl)

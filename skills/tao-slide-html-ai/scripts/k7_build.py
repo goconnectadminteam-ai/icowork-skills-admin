@@ -43,7 +43,7 @@ def _kiem(theme):
     return _kiem_modules[theme]["kiem"]
 
 
-SOFT_OVER = 1.12   # vượt giới hạn ký tự tới 12% chỉ là nhắc: tràn thật do M7 (đo bằng trình duyệt) quyết định
+SOFT_OVER = 1.3    # vượt giới hạn ký tự tới 30% chỉ là nhắc: tràn thật do M7 (đo bằng trình duyệt) quyết định. Thật (sl2 04/11): thẻ 149 và 163/130 ký tự bị báo lỗi, model kết thúc lượt thay vì sửa và không giao file
 
 
 def soften(issues, tolerance=SOFT_OVER):

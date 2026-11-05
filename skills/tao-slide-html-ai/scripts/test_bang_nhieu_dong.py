@@ -52,6 +52,14 @@ class GioiHanMoi(unittest.TestCase):
         self.assertEqual(self.issues(mk(130)), [])
         self.assertTrue(self.issues(mk(300)))
 
+    def test_vuot_nhe_gioi_han_chi_la_nhac_khong_chan_giao_file(self):
+        """Thẻ 149/130 ký tự (vượt 15%) chỉ là nhắc: tràn thật do phép đo trình duyệt (M7) quyết định, không bắt model sửa rồi dừng giữa chừng."""
+        mk = lambda n: {'mau': 'the', 'the': [{'icon': 'ai', 't': 'Tiêu đề', 'd': 'x' * n}] * 3}
+        d = {'meta': {'id': 't', 'ten': {'vi': 'T'}}, 'slides': [dict({'dauMuc': 'P', 'tieuDe': 'T', 'loiThoai': 'x', 'nguon': 'n'}, **mk(149))]}
+        self.assertEqual([x for x in k7_build.kiem_k7(d) if x['ma'] == 'M2' and x['muc'] == 'loi'], [])
+        d['slides'][0] = dict(d['slides'][0], **mk(400))
+        self.assertTrue([x for x in k7_build.kiem_k7(d) if x['ma'] == 'M2' and x['muc'] == 'loi'])      # quá xa giới hạn thì vẫn là lỗi
+
     def test_buoc_vandenghi_va_nhan_so_lieu(self):
         self.assertEqual(self.issues({'mau': 'lo-trinh', 'buoc': [{'icon': 'ai', 't': 'B', 'd': 'x' * 100, 'tg': 'Q1'}] * 3}), [])
         self.assertEqual(self.issues({'mau': 'van-de', 'vanDe': {'t': 'a', 'y': ['x' * 120] * 2}, 'giaiPhap': {'t': 'b', 'y': ['x' * 120] * 2}}), [])

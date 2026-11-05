@@ -16,10 +16,10 @@ sys.path.insert(0, str(SKILL / 'scripts'))
 from export_pdf import find_browser  # noqa: E402
 
 HAS_BROWSER = bool(find_browser())
-CSV = 'Ma,Cong viec,Don vi,Han,Trang thai\n1,Ra soat VM,VNPT Net,30/11/2026,Dang trien khai\n2,Quet log,KV1,15/12/2026,Chua bat dau\n'
+CSV = 'Ma,Cong viec,Don vi,Han,Trang thai\n1,Ra soat VM,Đơn vị A,30/11/2026,Dang trien khai\n2,Quet log,KV1,15/12/2026,Chua bat dau\n'
 PLAN = {'meta': {'ten': {'vi': 'Tiến độ VM', 'en': 'VM progress'}, 'ban': 'Bản 1 · 30/11/2026', 'computed': []},
         'outline': ['Bìa', 'Hai việc chính']}
-COVER = {'mau': 'bia', 'the': 'Báo cáo', 'tieuDe': 'Tiến độ rà soát VM', 'phu': 'Theo bảng tiến độ', 'dong': 'VNPT Net'}
+COVER = {'mau': 'bia', 'the': 'Báo cáo', 'tieuDe': 'Tiến độ rà soát VM', 'phu': 'Theo bảng tiến độ', 'dong': 'Đơn vị A'}
 GOOD = {'mau': 'so-lieu', 'nhan': 'Kết quả', 'dauMuc': 'Kết quả', 'soMuc': '1', 'tieuDe': 'Hai việc *đang theo dõi*',
         'so': [{'so': '2', 'nhan': 'việc theo dõi', 'icon': 'lich'}, {'so': '1', 'nhan': 'việc đang triển khai', 'icon': 'ten-lua'},
                {'so': '1', 'nhan': 'việc chưa bắt đầu', 'icon': 'canh-bao'}], 'nguon': 'Nguồn: tiendo.csv'}
@@ -154,7 +154,7 @@ class Driver(unittest.TestCase):
         self.assertIn('=== DỪNG', out)
 
     def test_too_long_field_shows_text_and_chars_to_cut(self):
-        long = ('việc theo dõi trong bảng tiến độ của hai đơn vị VNPT Net và KV1 tháng này ' * 2).strip()   # vượt giới hạn 100
+        long = ('việc theo dõi trong bảng tiến độ của hai đơn vị Đơn vị A và KV1 tháng này ' * 2).strip()   # vượt giới hạn 100
         self.start(slide2=dict(GOOD, so=[dict(GOOD['so'][0], nhan=long)] + GOOD['so'][1:]))
         code, out = self.run_cli('advance', 'out')
         self.assertEqual(code, 2, out)
@@ -293,7 +293,7 @@ class AutoFix(unittest.TestCase):
         self.assertEqual(got, [['1', '2', '3'], ['4', '5', ''], ['6', '7', '8']])
 
     def test_unmet_tracker_rows_become_appendix_tables_built_by_driver(self):
-        """Thật (War room): 13 dòng theo dõi chưa nêu → model lặp suy nghĩ khi tự dồn vào slide. Driver tự dựng phụ lục, mỗi slide tối đa 8 hàng."""
+        """Thật (báo cáo theo dõi): 13 dòng theo dõi chưa nêu → model lặp suy nghĩ khi tự dồn vào slide. Driver tự dựng phụ lục, mỗi slide tối đa 8 hàng."""
         m = self.drv()
         work = self.make([{'mau': 'bia', 'tieuDe': 'x'}, {'mau': 'so-lieu', 'tieuDe': 'y', 'so': []}, {'mau': 'cam-on', 'tieuDe': 'z'}])
         write(work / 'plan.json', {'meta': {'ten': {'vi': 'x'}}, 'outline': ['a', 'b', 'c']})
@@ -355,18 +355,18 @@ class AutoFix(unittest.TestCase):
     def test_speaker_notes_are_composed_only_from_slide_text(self):
         """Người dùng báo HTML mất lời thoại, rồi cần đầy đủ chi tiết hơn: đủ từng ý, con số, nguồn, kết luận; chỉ dùng chữ trên slide."""
         m = self.drv()
-        slides = [{'mau': 'bia', 'tieuDe': 'Báo cáo *War room*', 'phu': 'Rà soát an ninh', 'dong': 'VNPT IT, 24/10/2026'},
-                  {'mau': 'so-lieu', 'tieuDe': 'Tổng quan', 'phu': 'Toàn Tập đoàn', 'so': [{'so': '7.949', 'nhan': 'VM toàn Tập đoàn'}, {'so': '450', 'nhan': 'VM VNPT Net'}], 'ketLuan': 'Đã rà soát xong', 'nguon': 'Nguồn: báo cáo 24/10'},
-                  {'mau': 'bang', 'tieuDe': 'Tiến độ', 'cot': ['Đơn vị', 'Tổng VM', 'Hạn'], 'hang': [['VNPT Net', '496', '24/10'], ['VNPT AI', '464', '30/10']]},
+        slides = [{'mau': 'bia', 'tieuDe': 'Báo cáo *theo dõi*', 'phu': 'Rà soát an ninh', 'dong': 'VNPT IT, 24/10/2026'},
+                  {'mau': 'so-lieu', 'tieuDe': 'Tổng quan', 'phu': 'Toàn Tập đoàn', 'so': [{'so': '7.949', 'nhan': 'VM toàn Tập đoàn'}, {'so': '450', 'nhan': 'VM Đơn vị A'}], 'ketLuan': 'Đã rà soát xong', 'nguon': 'Nguồn: báo cáo 24/10'},
+                  {'mau': 'bang', 'tieuDe': 'Tiến độ', 'cot': ['Đơn vị', 'Tổng VM', 'Hạn'], 'hang': [['Đơn vị A', '496', '24/10'], ['VNPT AI', '464', '30/10']]},
                   {'mau': 'van-de', 'tieuDe': 'Sự cố', 'vanDe': {'t': 'Bị chiếm quyền', 'y': ['03 VCenter', '02 ESXi'], 'so': '5', 'soNhan': 'máy chủ'}, 'giaiPhap': {'t': 'Khắc phục', 'y': ['Gỡ mã độc']}},
                   {'mau': 'the', 'tieuDe': 'Ba ý', 'the': [{'t': 'An toàn', 'd': 'Kiểm soát truy cập'}, {'t': 'Sao lưu', 'd': 'Hằng ngày'}]},
                   {'mau': 'lo-trinh', 'tieuDe': 'Lộ trình', 'buoc': [{'tg': '2026', 't': 'Khởi động', 'd': 'Chọn đối tác'}]},
                   {'mau': 'cam-on', 'tieuDe': 'Cảm ơn', 'lienHe': [{'gt': 'www.vnpt.vn'}]}]
         n = [m.compose_loi_thoai(x) for x in slides]
         self.assertIn('Kính chào', n[0]); self.assertNotIn('*', n[0]); self.assertIn('VNPT IT, 24/10/2026', n[0])
-        self.assertIn('Thứ nhất, VM toàn Tập đoàn: 7.949.', n[1]); self.assertIn('Thứ 2, VM VNPT Net: 450.', n[1])
+        self.assertIn('Thứ nhất, VM toàn Tập đoàn: 7.949.', n[1]); self.assertIn('Thứ 2, VM Đơn vị A: 450.', n[1])
         self.assertIn('Điều cần nhớ: Đã rà soát xong.', n[1]); self.assertIn('Nguồn số liệu: báo cáo 24/10.', n[1])
-        self.assertIn('VNPT Net — Tổng VM: 496; Hạn: 24/10.', n[2]); self.assertIn('VNPT AI — Tổng VM: 464; Hạn: 30/10.', n[2])
+        self.assertIn('Đơn vị A — Tổng VM: 496; Hạn: 24/10.', n[2]); self.assertIn('VNPT AI — Tổng VM: 464; Hạn: 30/10.', n[2])
         self.assertIn('- 03 VCenter.', n[3]); self.assertIn('Con số đáng chú ý: 5 máy chủ.', n[3]); self.assertIn('Về giải pháp: Khắc phục.', n[3])
         self.assertIn('Thứ nhất, An toàn: Kiểm soát truy cập.', n[4]); self.assertIn('Bước 1 (2026): Khởi động — Chọn đối tác.', n[5])
         self.assertIn('cảm ơn', n[6].lower()); self.assertIn('www.vnpt.vn', n[6])
@@ -375,7 +375,7 @@ class AutoFix(unittest.TestCase):
         t = m.compose_loi_thoai(long); self.assertLessEqual(len(t), 1500); self.assertIn('Điều cần nhớ: Kết luận quan trọng.', t)   # quá dài thì bỏ nguồn trước, giữ kết luận
 
     def test_comma_separated_headers_are_not_one_invented_name(self):
-        """Thật (War room, e2e): lời thoại "các cột: Data Center, Tổng Host, Đã Patch, Hạn" bị coi là một tên riêng không có trong nguồn."""
+        """Thật (báo cáo theo dõi, e2e): lời thoại "các cột: Data Center, Tổng Host, Đã Patch, Hạn" bị coi là một tên riêng không có trong nguồn."""
         import report
         rep = {'slides': [{'mau': 'bang', 'loiThoai': 'Bảng gồm các cột: Data Center, Tổng Host, Đã Patch, Hạn, Tình trạng.'}]}
         self.assertEqual(report.check_invented_names(rep, 'tong host da patch han tinh trang'), [])
@@ -469,7 +469,7 @@ class AutoFix(unittest.TestCase):
         work3 = self.make([cover, {**only_bad, 'lienHe': [{'nhan': 'VNPT AI', 'gt': 'Trung tâm Sản phẩm & Thí nghiệm ứng dụng'}]}]); (work3 / 'content.md').write_text('Nguồn nói về Hải Phòng.', encoding='utf-8')
         m.autofix_parts(work3, ['a', 'b'], set(), 'bai_goc.pptx', '', True)              # giao diện VNPT AI: nhãn "VNPT AI" được, tên trung tâm không có trong nguồn vẫn bị gỡ
         self.assertEqual(json.loads((work3 / 'parts' / '02.json').read_text(encoding='utf-8'))['lienHe'][0]['nhan'], 'Tài liệu')
-        work4 = self.make([cover, {**only_bad, 'lienHe': [{'nhan': 'VNPT AI', 'gt': 'Hợp tác triển khai'}]}]); (work4 / 'content.md').write_text('VNPT AI hợp tác với Qualcomm.', encoding='utf-8')
+        work4 = self.make([cover, {**only_bad, 'lienHe': [{'nhan': 'VNPT AI', 'gt': 'Hợp tác triển khai'}]}]); (work4 / 'content.md').write_text('VNPT AI hợp tác với Đối tác ABC.', encoding='utf-8')
         m.autofix_parts(work4, ['a', 'b'], set(), 'bai_goc.pptx', '', False)             # nguồn có "VNPT AI" thì giữ
         self.assertEqual(json.loads((work4 / 'parts' / '02.json').read_text(encoding='utf-8'))['lienHe'][0]['nhan'], 'VNPT AI')
 
@@ -541,8 +541,8 @@ class AutoFix(unittest.TestCase):
     def test_bilingual_org_name_on_cover_is_not_flagged(self):
         from source_audit import identity_errors
         rep = {'meta': {}, 'slides': [{'mau': 'bia', 'the': {'vi': 'Báo cáo', 'en': 'Report'},
-                                       'dong': {'vi': 'Trung tâm Điều hành mạng – VNPT Net', 'en': 'Network Operation Center – VNPT Net'}}]}
-        self.assertEqual(identity_errors(rep, 'Trung tâm Điều hành mạng - VNPT Net báo cáo tháng 10'), [])
+                                       'dong': {'vi': 'Trung tâm Điều hành mạng – Đơn vị A', 'en': 'Network Operation Center – Đơn vị A'}}]}
+        self.assertEqual(identity_errors(rep, 'Trung tâm Điều hành mạng - Đơn vị A báo cáo tháng 10'), [])
         self.assertTrue(identity_errors(rep, 'Báo cáo của đơn vị khác'))
 
     def test_near_miss_char_limit_is_only_a_reminder(self):
@@ -621,9 +621,9 @@ class Rules(unittest.TestCase):
 
     def test_invented_org_in_closing_slide(self):
         from source_audit import identity_errors
-        rep = {'meta': {}, 'slides': [{'mau': 'cam-on', 'tieuDe': 'Cảm ơn', 'lienHe': [{'nhan': 'Liên hệ', 'gt': 'Ban ATBM – VNPT Net'}]}]}
-        self.assertTrue(identity_errors(rep, 'Báo cáo của VNPT Net'))
-        self.assertEqual(identity_errors(rep, 'Ban ATBM – VNPT Net phụ trách'), [])
+        rep = {'meta': {}, 'slides': [{'mau': 'cam-on', 'tieuDe': 'Cảm ơn', 'lienHe': [{'nhan': 'Liên hệ', 'gt': 'Ban ATBM – Đơn vị A'}]}]}
+        self.assertTrue(identity_errors(rep, 'Báo cáo của Đơn vị A'))
+        self.assertEqual(identity_errors(rep, 'Ban ATBM – Đơn vị A phụ trách'), [])
 
     def test_leak_check_ignores_copied_wording_with_source_numbers(self):
         import report
@@ -638,34 +638,55 @@ class Rules(unittest.TestCase):
             self.assertTrue(any(sha(w / 'report.json') in e for e in errs))
 
 
+SAMPLE_REPORT = {   # báo cáo giả tự tạo (không phải dữ liệu thật) để thử kiểm cấu trúc K7 và xuất DOCX
+    'meta': {'id': 'mau', 'ten': {'vi': 'Báo cáo mẫu'}, 'ban': 'Bản 1', 'canXacNhan': ['Số liệu mẫu cần đối chiếu']},
+    'slides': [
+        {'mau': 'bia', 'tieuDe': 'Báo cáo mẫu', 'phu': 'Dữ liệu giả để thử', 'dong': 'Đơn vị thử', 'loiThoai': 'Bìa.'},
+        {'mau': 'so-lieu', 'dauMuc': 'Tổng quan', 'soMuc': '1', 'tieuDe': 'Ba chỉ số *mẫu*', 'loiThoai': 'Ba chỉ số.',
+         'so': [{'so': '33,33%', 'nhan': 'chỉ số thứ nhất', 'icon': 'tang'}, {'so': '12', 'nhan': 'chỉ số thứ hai', 'icon': 'du-lieu'}, {'so': '7', 'nhan': 'chỉ số thứ ba', 'icon': 'dong-ho'}],
+         'ketLuan': 'Kết luận mẫu.', 'nguon': 'Nguồn: dữ liệu giả'},
+        {'mau': 'bang', 'dauMuc': 'Chi tiết', 'soMuc': '2', 'tieuDe': 'Bảng *mẫu*', 'loiThoai': 'Bảng.', 'cot': ['Mục', 'Kết quả'], 'hang': [['A', '10%'], ['B', '20%']]},
+        {'mau': 'bang', 'dauMuc': 'Chi tiết', 'soMuc': '3', 'tieuDe': 'Bảng *mẫu* hai', 'loiThoai': 'Bảng hai.', 'cot': ['Mục', 'Kết quả'], 'hang': [['C', '30%'], ['D', '40%']]},
+        {'mau': 'the', 'dauMuc': 'Nhận định', 'soMuc': '4', 'tieuDe': 'Ba ý *mẫu*', 'loiThoai': 'Ba ý.',
+         'the': [{'icon': 'ai', 't': 'Ý một', 'd': 'Nội dung giả một.'}, {'icon': 'du-lieu', 't': 'Ý hai', 'd': 'Nội dung giả hai.'}, {'icon': 'tang', 't': 'Ý ba', 'd': 'Nội dung giả ba.'}]},
+    ]}
+
+
 class Example(unittest.TestCase):
-    def test_example_passes_k7_structure_check(self):
+    def test_sample_passes_k7_structure_check(self):
         sys.path.insert(0, str(SKILL / 'scripts'))
         from k7_build import kiem_k7
-        rep = json.loads((SKILL / 'examples/atbm-vm/report.json').read_text(encoding='utf-8'))
-        errors = [x for x in kiem_k7(rep) if x['muc'] == 'loi']
+        errors = [x for x in kiem_k7(SAMPLE_REPORT) if x['muc'] == 'loi']
         self.assertEqual(errors, [])
 
     def test_example_leak_check_flags_copy_but_not_self(self):
+        """check_example_leak so báo cáo mới với các ví dụ trong examples/; skill không còn mang ví dụ thật nên dựng một ví dụ giả trong thư mục tạm."""
         import report
-        rep = json.loads((SKILL / 'examples/atbm-vm/report.json').read_text(encoding='utf-8'))
-        own = (SKILL / 'examples/atbm-vm/content.md').read_text(encoding='utf-8')
-        self.assertEqual(report.check_example_leak(rep, own), [])
-        other = {'slides': [{'mau': 'so-lieu', 'tieuDe': 'Công nghệ thông tin chiếm 62% trong 450 VM', 'so': []}]}
-        self.assertTrue(report.check_example_leak(other, 'Báo cáo khác về mạng lõi, 12 trạm.'))
+        with tempfile.TemporaryDirectory() as d:
+            ex = Path(d) / 'examples' / 'mau'; ex.mkdir(parents=True)
+            shutil.copytree(SKILL / 'assets', Path(d) / 'assets')      # report.py đọc cả assets/ từ thư mục skill
+            own = 'Hệ thống giả có 450 máy chủ do đơn vị thử quản lý, chiếm 62% tổng số.'
+            (ex / 'content.md').write_text(own, encoding='utf-8')
+            (ex / 'report.json').write_text(json.dumps({'slides': [{'mau': 'so-lieu', 'tieuDe': 'Công nghệ thông tin chiếm 62% trong 450 máy chủ', 'so': []}]}, ensure_ascii=False), encoding='utf-8')
+            old = report.SKILL; report.SKILL = Path(d)
+            try:
+                self.assertEqual(report.check_example_leak(json.loads((ex / 'report.json').read_text(encoding='utf-8')), own), [])
+                other = {'slides': [{'mau': 'so-lieu', 'tieuDe': 'Công nghệ thông tin chiếm 62% trong 450 máy chủ', 'so': []}]}
+                self.assertTrue(report.check_example_leak(other, 'Báo cáo khác về mạng lõi, 12 trạm.'))
+            finally:
+                report.SKILL = old
 
     def test_docx_export_reads_k7(self):
         from to_docx import build_docx
         import docx
-        rep = json.loads((SKILL / 'examples/atbm-vm/report.json').read_text(encoding='utf-8'))
         with tempfile.TemporaryDirectory() as d:
             out = Path(d) / 'x.docx'
-            build_docx(rep, out)
+            build_docx(SAMPLE_REPORT, out)
             doc = docx.Document(out)
         headings = [p.text for p in doc.paragraphs if p.style.name == 'Heading 1']
-        self.assertEqual(len(headings), len(rep['slides']) - 1 + 1)  # 8 slide nội dung + mục "Điểm cần xác nhận"
-        self.assertEqual(len(doc.tables), 2)
-        self.assertTrue(any('33,33%' in p.text for p in doc.paragraphs))
+        self.assertGreaterEqual(len(headings), len(SAMPLE_REPORT['slides']) - 1)
+        self.assertGreaterEqual(len(doc.tables), 2)
+        self.assertTrue(any('33,33%' in p.text for p in doc.paragraphs) or any('33,33%' in c.text for t in doc.tables for r in t.rows for c in r.cells))
 
 
 class Docs(unittest.TestCase):

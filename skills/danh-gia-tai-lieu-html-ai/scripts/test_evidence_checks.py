@@ -31,24 +31,24 @@ class DroppedClaimConsistencyTests(unittest.TestCase):
     scorecard/page_reviews và final.json'."""
 
     def setUp(self):
-        self.dropped = [{"id": "I1", "title": "Metadata file ghi sai tên đối tác: NVIDIA thay vì Qualcomm",
-                          "problem": "Metadata file ghi NVIDIA trong khi nội dung nói về Qualcomm.",
+        self.dropped = [{"id": "I1", "title": "Metadata file ghi sai tên đối tác: Đối tác A thay vì Đối tác B",
+                          "problem": "Metadata file ghi Đối tác A trong khi nội dung nói về Đối tác B.",
                           "why": "", "fix": ""}]
 
     def test_scorecard_rationale_reusing_dropped_issue_flagged(self):
         details = {"scorecard": [{"criterion": "Chính xác / Nhất quán",
-                                   "rationale": "Metadata file ghi 'NVIDIA' trong khi toàn bộ nội dung nói về Qualcomm — lỗi nghiêm trọng."}]}
+                                   "rationale": "Metadata file ghi 'Đối tác A' trong khi toàn bộ nội dung nói về Đối tác B — lỗi nghiêm trọng."}]}
         errs = dropped_claim_errors(details, self.dropped)
         self.assertEqual(len(errs), 1)
-        self.assertIn("NVIDIA", errs[0])
+        self.assertIn("Đối tác A", errs[0])
 
     def test_unrelated_scorecard_rationale_not_flagged(self):
         details = {"scorecard": [{"criterion": "Thị trường / Đối tượng",
-                                   "rationale": "Proposal nhắm đúng đối tác Qualcomm, nội dung tập trung vào hiệu năng phần cứng."}]}
+                                   "rationale": "Proposal nhắm đúng đối tác Đối tác B, nội dung tập trung vào hiệu năng phần cứng."}]}
         self.assertEqual(dropped_claim_errors(details, self.dropped), [])
 
     def test_page_reviews_reusing_dropped_issue_flagged(self):
-        details = {"page_reviews": [{"page": 1, "observation": "Metadata file ghi sai tên đối tác NVIDIA thay vì Qualcomm."}]}
+        details = {"page_reviews": [{"page": 1, "observation": "Metadata file ghi sai tên đối tác Đối tác A thay vì Đối tác B."}]}
         errs = dropped_claim_errors(details, self.dropped)
         self.assertEqual(len(errs), 1)
 
@@ -58,11 +58,11 @@ class DroppedClaimConsistencyTests(unittest.TestCase):
 
     def test_details_errors_wires_dropped_issues_through(self):
         details = {"scorecard": [{"criterion": "Chính xác / Nhất quán",
-                                   "rationale": "Metadata file ghi NVIDIA thay vì Qualcomm."}],
+                                   "rationale": "Metadata file ghi Đối tác A thay vì Đối tác B."}],
                     "page_reviews": []}
         source = {"pages": []}
         errs = details_errors(details, source, self.dropped)
-        self.assertTrue(any("NVIDIA" in e for e in errs))
+        self.assertTrue(any("Đối tác A" in e for e in errs))
 
 
 if __name__ == "__main__":

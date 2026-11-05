@@ -6,7 +6,6 @@
 
 - Mỗi slide là **một tệp `parts/NN.json`** (một object có trường `mau`). Phần chung của bộ slide (`meta.ten`, `ban`, `canXacNhan`, `computed`) nằm trong `plan.json`. Driver tự ghép thành `report.json`, tự kiểm và render; không tự ghép, không viết HTML/CSS.
 - Giao diện đã khoá trong `k7/<giao-diện>/Tao-slide.html` (`chung` mặc định, hoặc `vnpt-ai`): không đổi màu, phông, bố cục, cỡ chữ. Logo và chân trang do driver gắn theo lệnh `start`; không khai `meta.nhanDien`. Tràn chữ thì viết ngắn lại hoặc tách slide.
-- Ví dụ hoàn chỉnh: `examples/atbm-vm/report.json` (báo cáo tiến độ, 9 slide). Chỉ tham khảo cấu trúc; không chép câu chữ hay số liệu sang báo cáo khác (build sẽ báo lỗi "chép ví dụ").
 
 ## 2. Cách chọn mạch
 
@@ -49,7 +48,7 @@ Dưới đây là `report.json` sau khi driver ghép. Bạn viết `meta` trong 
 |---|---|---|---|
 | `mau` | có | | Tên mẫu ở mục 5 |
 | `nhan` | nên có | 28 | Tên ngắn ở mục lục bên trái, ví dụ "Kết quả chính" |
-| `dauMuc` | có (trừ bìa, chương, cảm ơn) | 32 | `"4 · Kết quả trên Qualcomm"`. **Bắt đầu bằng số phần**: số mục 4.1, 4.2… tự đánh theo số này. Chỉ dùng cách này khi deck có trang `mau:"chuong"` tương ứng. |
+| `dauMuc` | có (trừ bìa, chương, cảm ơn) | 32 | `"4 · Kết quả trên nền tảng X"`. **Bắt đầu bằng số phần**: số mục 4.1, 4.2… tự đánh theo số này. Chỉ dùng cách này khi deck có trang `mau:"chuong"` tương ứng. |
 | `soMuc` | tuỳ chọn | 8 | Ghi đè số trong vòng tròn. Với deck không có trang chương, bắt buộc dùng số phẳng liên tục `"1"`, `"2"`, `"3"`… |
 | `tieuDe` | có | 64 | **Một câu kết luận**, không phải tên chủ đề. "Fall Detection nhanh gấp *3 lần* GPU ở 30 luồng", không phải "Kết quả Fall Detection" |
 | `phu` | không | 150 | Một câu giải thích dưới tiêu đề |
@@ -82,7 +81,7 @@ Giới hạn là **số ký tự tối đa** (không tính dấu `*`). Cột "S�
 {"mau":"so-lieu","nhan":"Kết quả chính","dauMuc":"4 · Kết quả","tieuDe":"Nhiều bài toán nhanh gấp *3–4 lần* GPU",
  "so":[{"so":"3×","nhan":"nhanh hơn GPU: Fall Detection, 30 luồng","icon":"toc-do"},
        {"so":"≥30","nhan":"luồng video real-time trên server","icon":"video"},
-       {"so":"17,9","nhan":"tok/s LLM trên laptop Snapdragon","icon":"laptop"}],
+       {"so":"17,9","nhan":"tok/s LLM trên laptop","icon":"laptop"}],
  "ketLuan":"Server chạy được tới 70 luồng.","nguon":"Nguồn: báo cáo kỹ thuật (20/10/2026).","loiThoai":"…"}
 
 {"mau":"the","nhan":"Khó khăn","dauMuc":"5 · Khó khăn","tieuDe":"Sáu điểm *cần cùng giải quyết*",
@@ -93,15 +92,15 @@ Giới hạn là **số ký tự tối đa** (không tính dấu `*`). Cột "S�
  "giaiPhap":{"t":"AI Agents phân tích mọi cuộc gọi","y":["…","…"]},"nguon":"Nguồn: …"}
 
 {"mau":"bang","dauMuc":"4 · Kết quả","tieuDe":"Thị giác: *3 trên 5* mô hình nhanh hơn GPU",
- "cot":["Mô hình","So với GPU","Qualcomm · GPU"],
+ "cot":["Mô hình","So với GPU","Nền tảng X · GPU"],
  "hang":[["Text detection","3,3× · FP16","50,5 · 15,2 FPS"],["RTMPose","2,5× · FP16","2.387 · 940 FPS"]]}
 
 {"mau":"lo-trinh","dauMuc":"7 · Bước tiếp theo","tieuDe":"Ba *pilot chung*",
  "buoc":[{"icon":"may-chu","tg":"Server","t":"Pilot 1 · LLM Agentic","d":"Mục tiêu: giảm TTFT prompt 20k"}, …]}
 
-{"mau":"bia","the":"Trao đổi hợp tác · 2026","doiTac":"Qualcomm",
- "tieuDe":"Cùng *Qualcomm* tối ưu, triển khai AI từ server đến edge",
- "phu":"Voice, vision và LLM đã chạy trên server AI, AI Box và laptop Snapdragon.","dong":"Chuẩn bị bởi VNPT AI · Gửi Qualcomm"}
+{"mau":"bia","the":"Trao đổi hợp tác · 2026","doiTac":"Đối tác ABC",
+ "tieuDe":"Cùng *đối tác ABC* tối ưu, triển khai AI từ server đến edge",
+ "phu":"Voice, vision và LLM đã chạy trên server AI, AI Box và laptop.","dong":"Chuẩn bị bởi VNPT AI · Gửi đối tác ABC"}
 ```
 
 **Chọn mẫu nhanh:**

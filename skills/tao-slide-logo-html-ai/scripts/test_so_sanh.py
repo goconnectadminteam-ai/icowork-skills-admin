@@ -40,5 +40,45 @@ class SoSanh(unittest.TestCase):
         self.assertIsNone(so_sanh.build(self.work(doc(1, '70%', '60%'))))      # chỉ một nguồn
 
 
+class KhongBocDuocBang(unittest.TestCase):
+    """Hai nguồn không phải PDF có bảng (DOCX/PPTX): so-sanh.md vẫn phải gọn và không nói "driver tự thêm bảng"."""
+    def test_so_sanh_van_gon_va_noi_dung_dung(self):
+        import importlib.util, json
+        S = Path(__file__).resolve().parent.parent
+        spec = importlib.util.spec_from_file_location('iwork_mod2', S / 'iwork.py'); m = importlib.util.module_from_spec(spec)
+        argv = sys.argv; sys.argv = ['iwork.py']; spec.loader.exec_module(m); sys.argv = argv
+        d = Path(tempfile.mkdtemp(prefix='kbb-'))
+        (d / 'content.md').write_text(doc(1, '70,5%', '68,4%') + doc(2, '71,3%', '68,1%'), encoding='utf-8')
+        (d / 'iwork-state.json').write_text(json.dumps({'files': [str(d / 'a.docx'), str(d / 'b.docx')]}), encoding='utf-8')
+        self.assertIsNotNone(m.compare_periods(d))
+        self.assertFalse((d / 'so-sanh-bang.json').exists())
+        text = (d / 'so-sanh.md').read_text(encoding='utf-8')
+        self.assertIn('Hai nguồn không có bảng có cấu trúc', text); self.assertNotIn('do driver TỰ THÊM', text); self.assertLess(len(text), 12000)
+
+
+class CoSoSanhHayKhongDoNguoiDungNho(unittest.TestCase):
+    """So sánh hay không do người dùng nhờ (model thêm --so-sanh), không do hai tệp trông giống nhau."""
+    def run_start(self, extra):
+        import subprocess, fitz
+        S = Path(__file__).resolve().parent.parent
+        d = Path(tempfile.mkdtemp(prefix='ssflag-'))
+        for name, date in (('bao_cao_1.pdf', '23'), ('bao_cao_2.pdf', '30')):
+            doc = fitz.open(); page = doc.new_page()
+            lines = [f'Hà Nội, ngày {date} tháng 10 năm 2026'] + [f'Hạng mục số {k} đang triển khai theo đúng kế hoạch của dự án giai đoạn hai' for k in range(45)] + [f'Tiến độ chung toàn dự án đạt {70 if date == "23" else 71},5%']
+            for i, line in enumerate(lines): page.insert_text((36, 36 + i * 15.5), line, fontsize=9)
+            doc.save(d / name); doc.close()
+        r = subprocess.run([sys.executable, str(S / 'iwork.py'), 'start', 'bao_cao_1.pdf', 'bao_cao_2.pdf', '--work', 'out', *extra], cwd=d, capture_output=True, text=True, encoding='utf-8', timeout=300)
+        return r.stdout + r.stderr, d
+
+    def test_khong_co_co_thi_lam_slide_binh_thuong_va_chi_nhac_nhe(self):
+        out, d = self.run_start([])
+        self.assertNotIn('HAI KỲ CỦA CÙNG MỘT BÁO CÁO', out); self.assertIn('--so-sanh', out)      # chỉ nhắc, không tự bật
+        self.assertFalse((d / 'out' / 'so-sanh.md').exists())
+
+    def test_co_co_so_sanh_thi_bat_che_do_so_sanh(self):
+        out, d = self.run_start(['--so-sanh'])
+        self.assertIn('HAI KỲ CỦA CÙNG MỘT BÁO CÁO', out); self.assertTrue((d / 'out' / 'so-sanh.md').exists())
+
+
 if __name__ == '__main__':
     unittest.main()

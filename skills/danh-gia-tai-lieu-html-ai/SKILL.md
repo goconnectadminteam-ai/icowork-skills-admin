@@ -39,11 +39,10 @@ Người dùng **không được phải nhắn thêm** để skill chạy tiếp
 
 - `=== CHƯA XONG … ===` (kèm `"state":"WAITING_FOR_MODEL"`): đọc TASK.md, viết đúng tệp JSON được yêu cầu, rồi chạy `next_command` **trong cùng lượt**, kể cả khi JSON cần viết là rỗng. HTML sơ bộ chưa phải kết quả.
 - `=== DỪNG … ===`: câu đầu tiên của trả lời là **"CHƯA tạo được file HTML đánh giá"** kèm đúng lý do trong một dòng. Không viết bản đánh giá bằng tay, không nói đã xong, không liệt kê tệp nguồn như thể đó là kết quả.
-- **Thiếu phần mềm** (driver in `=== DỪNG` nêu tên): nói rõ cho người dùng cần cài gì và đưa **đúng link** dưới đây (lấy từ thông báo của driver nếu có), rồi dừng. Không im lặng, không tự cài, không tự viết tay, không nói đã xong. Không hỏi lại điều gì khác.
-  - Python (không chạy được lệnh `python`/`python3`; nên Python 3.12): https://www.python.org/downloads/
-  - LibreOffice (đọc PPTX/DOCX): https://www.libreoffice.org/download/download-libreoffice/ (hoặc đính kèm bản PDF của tài liệu)
-  - Microsoft Visual C++ Redistributable x64 (Windows, lỗi `DLL load failed`): https://aka.ms/vs/17/release/vc_redist.x64.exe
-  - Google Chrome hoặc Microsoft Edge (dựng và kiểm tra HTML): https://www.google.com/chrome/
+- **Thiếu phần mềm** (driver in `=== DỪNG` nêu tên): nói rõ cho người dùng cần cài gì và đưa link. **Chép NGUYÊN VĂN đúng link nằm trong thông báo `=== DỪNG` của driver**, không tự nhớ, không lấy link của công cụ khác. Chỉ khi thông báo không có link mới dùng bảng dưới, và mỗi lỗi chỉ có MỘT link của chính nó. Không im lặng, không tự cài, không tự viết tay, không nói đã xong.
+  - Không chạy được lệnh `python`/`python3` (cần Python 3.12) → https://www.python.org/downloads/
+  - Không đọc được tệp DOCX/PPTX (driver đã thử PyMuPDF, chỉ khi nó cũng hỏng mới cần LibreOffice) → https://www.libreoffice.org/download/ (hoặc đính kèm bản PDF của tài liệu)
+  - Windows báo `DLL load failed` (thiếu Microsoft Visual C++ Redistributable x64) → https://aka.ms/vs/17/release/vc_redist.x64.exe
 - **Không bịa kết quả:** chỉ nêu kết quả và tệp mà driver đã in ở `HOÀN TẤT`. Chưa có thì không tạo tệp, không tự điền nhận xét, điểm hay số liệu, không liệt kê tệp nguồn hoặc tệp trung gian như thể đó là kết quả.
 - `HOÀN TẤT`: trả kết quả.
 

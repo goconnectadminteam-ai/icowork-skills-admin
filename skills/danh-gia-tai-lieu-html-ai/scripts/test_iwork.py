@@ -196,7 +196,7 @@ class ShortcutLauncher(unittest.TestCase):
             self.assertNotEqual(r.returncode, 0); self.assertIn('Chưa có phiên review', r.stdout + r.stderr)
 
 class AutoQuoteRepair(unittest.TestCase):
-    """Thật (War room, 03/11): 8/8 trích dẫn bị REJECT vì model ghép nhiều ô bảng bằng '|'; bước nhờ model sửa bị nghĩ quá dài rồi cắt, phiên dừng.
+    """Thật (báo cáo theo dõi, 03/11): 8/8 trích dẫn bị REJECT vì model ghép nhiều ô bảng bằng '|'; bước nhờ model sửa bị nghĩ quá dài rồi cắt, phiên dừng.
     Driver tự cắt về phần nguyên văn có thật."""
     def load(self):
         import importlib.util
@@ -276,17 +276,48 @@ class AutoQuoteRepair(unittest.TestCase):
             self.assertIn('review-output-2', r2.stdout); self.assertNotIn('LỖI', r2.stdout)
             self.assertTrue((d / 'review-output-2' / 'next.py').is_file() and (d / 'review-output' / 'next.py').is_file())
 
-    def test_without_libreoffice_stops_and_tells_user_to_install_with_link(self):
-        """Thật (Windows 04/11): máy không có LibreOffice → skill im lặng, model tự viết tay rồi báo xong. Phải dừng rõ và đưa link cài."""
-        import docx, os
+    def run_without_libreoffice(self, make_source, **extra_env):
+        """Chạy init trên máy giả lập không có LibreOffice; trả về (đầu ra, mã thoát, số ảnh trang, thư mục kết quả còn không)."""
+        import os
         here = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory() as d:
-            d = Path(d); doc = docx.Document(); doc.add_paragraph('Kính trình lãnh đạo xem xét đề xuất triển khai nền tảng X.'); doc.save(d / 'to_trinh.docx')
-            env = dict(os.environ, IWORK_NO_LIBREOFFICE='1')
+            d = Path(d); make_source(d / 'to_trinh.docx')
+            env = dict(os.environ, IWORK_NO_LIBREOFFICE='1', **extra_env)
             r = subprocess.run([sys.executable, str(here / 'iwork.py'), 'init', '--source', 'to_trinh.docx', '--output', 'review-output'], cwd=d, capture_output=True, text=True, env=env, encoding='utf-8')
-            out = r.stdout + r.stderr
-            self.assertIn('=== DỪNG', out); self.assertIn('https://www.libreoffice.org/download', out); self.assertIn('CHƯA tạo được file HTML', out)
-            self.assertNotIn('WAITING_FOR_MODEL', out)
-            self.assertFalse((d / 'review-output').exists())   # không để lại bản sao tờ trình trông như kết quả
+            pages = len(list((d / 'review-output' / '_review' / 'to_trinh' / 'images').glob('page-*.png')))
+            return r.stdout + r.stderr, r.returncode, pages, (d / 'review-output').exists()
+
+    @staticmethod
+    def make_docx(path):
+        import docx
+        doc = docx.Document(); doc.add_heading('Tờ trình thử', 1); doc.add_paragraph('Kính trình lãnh đạo xem xét đề xuất triển khai nền tảng X, ngân sách 5 tỷ đồng.'); doc.save(path)
+
+    def test_docx_without_libreoffice_still_works_via_pymupdf(self):
+        """Thật (Windows 04/11): máy không có LibreOffice → skill hỏng, model lấy nhầm link và tự viết tay. Giờ PyMuPDF dựng ảnh trang nên không vào nhánh lỗi."""
+        out, code, pages, _ = self.run_without_libreoffice(self.make_docx)
+        self.assertEqual(code, 0, out); self.assertIn('WAITING_FOR_MODEL', out); self.assertNotIn('=== DỪNG', out); self.assertGreaterEqual(pages, 1)
+
+    def test_when_pymupdf_also_fails_stops_with_libreoffice_link_only(self):
+        out, code, pages, left = self.run_without_libreoffice(self.make_docx, IWORK_NO_OFFICE_FALLBACK='1')
+        self.assertIn('=== DỪNG', out); self.assertIn('https://www.libreoffice.org/download/', out); self.assertIn('CHƯA tạo được file HTML', out)
+        self.assertNotIn('google.com/chrome', out); self.assertNotIn('WAITING_FOR_MODEL', out); self.assertFalse(left)
+
+    def test_skill_md_install_links_are_not_mixed_up(self):
+        """Thật (Windows 04/11): model viết "Cài LibreOffice tại https://www.google.com/chrome/" vì danh sách bốn link liền nhau."""
+        text = (Path(__file__).resolve().parent.parent / 'SKILL.md').read_text(encoding='utf-8')
+        lines = [l for l in text.splitlines() if l.strip().startswith('- ') and '→ http' in l]
+        self.assertTrue(lines)
+        for l in lines:
+            if 'LibreOffice' in l: self.assertIn('libreoffice.org', l); self.assertNotIn('chrome', l.lower())
+            if 'Visual C++' in l: self.assertIn('vc_redist', l)
+        self.assertNotIn('google.com/chrome', text)      # skill này không dùng Chrome
+
+
+    def test_multiline_quote_stays_one_line_in_answer(self):
+        """Thật (DOCX 04/11): trích dẫn metadata có xuống dòng ("creator: …⏎- lastModifiedBy: …") làm mục bị tách hai dòng → "Missing review line 21"."""
+        src = (Path(__file__).resolve().parent / 'review.py').read_text(encoding='utf-8')
+        self.assertIn('.replace("\\n", " "))      # mỗi mục đúng một dòng', src)
+        self.assertIn('qq = re.sub(r"\\s+", " ", qq).strip()', src)
+
 
 if __name__=='__main__':unittest.main()

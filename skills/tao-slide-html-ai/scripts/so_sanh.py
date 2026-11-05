@@ -73,6 +73,17 @@ def _key_numbers(text):
     return sorted({n.strip() for n in _NUM.findall(text) if '%' in n or len(re.sub(r'\D', '', n)) >= 3})
 
 
+def similar(work):
+    """Độ giống (0..1) nếu content.md có đúng hai nguồn đủ dài, không thì None. Chỉ để nhắc model; KHÔNG quyết định có so sánh hay không (do người dùng nhờ)."""
+    content = Path(work) / 'content.md'
+    if not content.is_file(): return None
+    sources = _split_sources(content.read_text(encoding='utf-8'))
+    if len(sources) != 2: return None
+    A, B = _lines(sources[0][1]), _lines(sources[1][1])
+    if len(A) < 20 or len(B) < 20: return None
+    return difflib.SequenceMatcher(None, [x[1] for x in A], [x[1] for x in B], autojunk=False).ratio()
+
+
 def build(work):
     """Tạo work/so-sanh.md nếu content.md có đúng hai nguồn giống nhau. Trả về (Path, kỳ trước, kỳ này, số chỗ khác) hoặc None."""
     content = Path(work) / 'content.md'
@@ -117,5 +128,5 @@ def build(work):
     if len(kept) < len(blocks): out.append(f'(đã bỏ {len(blocks) - len(kept)} chỗ ít số liệu để tệp gọn; cần thì đọc content.md theo trang)')
     path = Path(work) / 'so-sanh.md'; path.write_text('\n'.join(out) + '\n', encoding='utf-8')
     import json
-    (Path(work) / 'so-sanh.json').write_text(json.dumps({'blocks': [dict(m, id=k + 1) for k, m in enumerate(meta)]}, ensure_ascii=False), encoding='utf-8')
+    (Path(work) / 'so-sanh.json').write_text(json.dumps({'order': [name_a, name_b], 'labels': [label_a, label_b], 'blocks': [dict(m, id=k + 1) for k, m in enumerate(meta)]}, ensure_ascii=False), encoding='utf-8')
     return path, label_a or name_a, label_b or name_b, len(blocks)

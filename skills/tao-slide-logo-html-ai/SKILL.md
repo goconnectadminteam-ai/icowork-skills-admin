@@ -2,6 +2,7 @@
 name: tao-slide-logo-html-ai
 description: |
   - Chuyển nội dung báo cáo thành slide trình chiếu HTML, logo VNPT AI. Xuất file HTML
+  - So sánh hai kỳ (vd tuần 4 và tuần 5): có điểm tiến bộ, điểm cần chú ý, mới/hết và số liệu cần đối chiếu
   - Input: Báo cáo, số liệu, dàn ý
   - Output: Slide HTML theo nhận diện VNPT AI
 ---
@@ -37,10 +38,10 @@ Người dùng **không được phải nhắn thêm** để skill chạy tiếp
 
 - `=== CHƯA XONG … ===`: làm đúng việc được nêu rồi chạy lệnh tiếp **trong cùng lượt**. Ghi xong plan, vài slide hay build đạt đều **chưa phải** là xong.
 - `=== DỪNG … ===`: chỉ khi tệp trạng thái bị sửa tay hoặc không có bản nào để giao. Báo đúng trạng thái. Câu đầu của trả lời là **"CHƯA tạo được file HTML"** kèm lý do một dòng; không nói đã xong, không tự dựng slide bằng tay.
-- **Thiếu phần mềm** (driver in `=== DỪNG` nêu tên): nói rõ cho người dùng cần cài gì và đưa **đúng link** dưới đây (lấy từ thông báo của driver nếu có), rồi dừng. Không im lặng, không tự cài, không tự dựng slide bằng tay, không nói đã xong. Không hỏi lại điều gì khác.
-  - Python (không chạy được lệnh `python`/`python3`; nên Python 3.12): https://www.python.org/downloads/
-  - Microsoft Visual C++ Redistributable x64 (Windows, lỗi `DLL load failed`): https://aka.ms/vs/17/release/vc_redist.x64.exe
-  - Google Chrome hoặc Microsoft Edge (dựng và kiểm tra HTML): https://www.google.com/chrome/
+- **Thiếu phần mềm** (driver in `=== DỪNG` nêu tên): nói rõ cho người dùng cần cài gì và đưa link. **Chép NGUYÊN VĂN đúng link nằm trong thông báo `=== DỪNG` của driver**, không tự nhớ, không lấy link của công cụ khác. Chỉ khi thông báo không có link mới dùng bảng dưới, và mỗi lỗi chỉ có MỘT link của chính nó. Không im lặng, không tự cài, không tự viết tay, không nói đã xong.
+  - Không chạy được lệnh `python`/`python3` (cần Python 3.12) → https://www.python.org/downloads/
+  - Windows báo `DLL load failed` (thiếu Microsoft Visual C++ Redistributable x64) → https://aka.ms/vs/17/release/vc_redist.x64.exe
+  - Không dựng hoặc kiểm tra được HTML vì thiếu trình duyệt Google Chrome hoặc Microsoft Edge → https://www.google.com/chrome/
 - **Không bịa kết quả:** chỉ nêu kết quả và tệp mà driver đã in ở `HOÀN TẤT`. Chưa có thì không tạo tệp, không tự điền nhận xét, điểm hay số liệu, không liệt kê tệp nguồn hoặc tệp trung gian như thể đó là kết quả.
 - `HOÀN TẤT`: trả kết quả (xem cuối trang). Bản có chữ `BẢN NHÁP` vẫn là HOÀN TẤT: giao file và nêu rõ các cảnh báo.
 
@@ -75,7 +76,20 @@ python3 "SKILL_DIR/iwork.py" start "INPUT" --work "report-output"
 
 ## Hai kỳ của cùng một báo cáo (so sánh tuần này với tuần trước)
 
-Người dùng đưa **hai tệp** là hai kỳ của một báo cáo (vd tuần 4 và tuần 5) và nhờ so sánh: `start` tự tạo `so-sanh.md` chỉ gồm các chỗ khác nhau (kỳ trước, kỳ này, mới/bỏ, hướng tăng/giảm) và in lệnh đọc. **Đọc `so-sanh.md` và `facts.md`, không đọc `content.md`** (hàng trăm nghìn ký tự, làm đầy ngữ cảnh rồi dừng). **Bìa nêu mục đích đúng như người dùng nhờ** (vd "So sánh tiến độ tuần 4 và tuần 5", dòng phụ: dự án và hai kỳ), không đặt kết quả hay số liệu làm tiêu đề bìa. Báo cáo gồm: bìa; slide tóm tắt điều hành (số chính hai kỳ); bảng `bang` Kỳ trước | Kỳ này cho tiến độ tổng thể và từng nhóm; hạng mục chậm, rủi ro, vướng mắc mới hoặc nặng hơn; slide "Điểm cần chú ý". Chênh lệch viết bằng chữ ("tăng từ A lên B"), không tự tính số mới trừ khi khai trong `meta.computed`.
+**Chỉ khi người dùng NHỜ so sánh** hai kỳ hoặc hai bản (đưa hai tệp, vd tuần 4 và tuần 5), thêm cờ `--so-sanh` vào lệnh `start`. **Không nhờ so sánh thì tuyệt đối không thêm cờ**, dù hai tệp giống nhau đến đâu (vd hai bản nháp, chỉ nhờ làm slide). Có cờ: `start` tự tạo `so-sanh.md` chỉ gồm các chỗ khác nhau và in lệnh đọc. **Đọc `so-sanh.md`, không đọc `content.md`** (hàng trăm nghìn ký tự, làm đầy ngữ cảnh rồi dừng). **Bìa nêu mục đích đúng như người dùng nhờ** (vd "So sánh tiến độ tuần 4 và tuần 5", dòng phụ: dự án và hai kỳ), không đặt kết quả hay số liệu làm tiêu đề bìa.
+
+**Driver tự thêm (bạn không viết, không chép lại):** các bảng thay đổi (Mục | Chỉ tiêu | Kỳ trước | Kỳ này) đã so từng dòng bằng code; bảng **mới hoặc hết so với kỳ trước** (vd rủi ro mới bổ sung); bảng **số liệu cần đối chiếu** (cột "tuần trước" của kỳ này lệch với kỳ trước, tỷ lệ vượt 100%, số kỳ trước còn sót trong kỳ này); bảng **chỉ đạo đã đến hạn chưa xong**. Các bảng này đặt sau slide "Điểm cần chú ý".
+
+**Bạn chỉ viết tối đa 9 slide, theo thứ tự:**
+1. Bìa.
+2. Tóm tắt điều hành (mẫu `so-lieu`, 6 số chính, mỗi số kèm giá trị kỳ trước).
+3. **Điểm tiến bộ** (mẫu `the`, `dauMuc` đúng chữ "Điểm tiến bộ", 3–6 thẻ): mỗi thẻ **một hạng mục khác nhau** (không dồn nhiều thẻ vào cùng một phần mềm; các giai đoạn của một hệ thống gộp trong một thẻ), viết "tăng từ A lên B", lấy từ mục TĂNG MẠNH NHẤT và các việc đã hoàn thành trong `so-sanh.md`.
+4. **Điểm cần chú ý** (mẫu `the`, `dauMuc` đúng chữ "Điểm cần chú ý", 6 thẻ, mỗi thẻ một câu đầy đủ nêu hạng mục và số cụ thể, gồm cả điều không đổi nhưng đáng chú ý như hạn, giải ngân). `so-sanh.md` có mục SỐ LIỆU CẦN ĐỐI CHIẾU thì ít nhất 1 thẻ nêu số đó (không trình bày số đó như kết quả tốt); có nội dung MỚI quan trọng (vd rủi ro mới) thì 1 thẻ nói rõ là mới.
+5. Khối lượng thi công, nhập liệu thay đổi (mẫu `bang`, `dauMuc` "Khối lượng thi công"; bắt buộc khi `so-sanh.md` có nhiều chỗ thay đổi lũy kế, trong ngày).
+6. Rủi ro và phương án xử lý (mẫu `van-de`; rủi ro mới ở kỳ này ghi thêm "(mới)").
+7. Việc tiếp theo (mẫu `lo-trinh`).
+
+Chênh lệch viết bằng chữ ("tăng từ A lên B"), không tự tính số mới trừ khi khai trong `meta.computed`. **Không chép câu tính thời gian theo mốc cũ** của nguồn (vd "còn hơn 02 tháng từ 17/7"): đọc ở ngày báo cáo câu đó không còn đúng. Dự án có một gói thầu gồm "khối phần mềm" và "khối CSDL": không viết "hai gói". Driver chặn trước khi build nếu thiếu slide "Điểm tiến bộ"/"Điểm cần chú ý" hoặc còn hai lỗi chữ này; sửa đúng slide được nêu rồi `advance`.
 
 ## Luật nội dung (độ chính xác)
 

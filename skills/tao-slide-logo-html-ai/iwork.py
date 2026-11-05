@@ -73,7 +73,7 @@ def command(*args):
 ALLOWED = {'content.md', 'facts.md', 'notes.md', 'plan.json', 'parts', 'iwork-state.json', 'job-step.json',
            'STATUS.md', 'TASK.md', 'build.log', 'build-history', 'report.json', 'sources', 'tracker', '_preview',
            'coverage-required.json', 'quality-audit.template.json', 'quality-audit.json', 'delivery.json', 'advance.py',
-           '_work', '.build_attempts', 'metadata.json', '.iwork-state.sha256', 'tom-tat.md', 'so-sanh.md'}
+           '_work', '.build_attempts', 'metadata.json', '.iwork-state.sha256', 'tom-tat.md', 'so-sanh.md', 'so-sanh.json', 'so-sanh-bang.json'}
 
 LOGO_TYPES = {'.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml', '.webp': 'image/webp'}
 
@@ -908,6 +908,7 @@ def extend_outline(work):
 
 # Đo bằng Chrome trên khung 1920×1080 (k7/*/Tao-slide.html, kiểu bảng dày từ dòng 6): ô một dòng (≤45 ký tự) vừa tới 13 dòng, ô dài 80 ký tự vừa tới 8 dòng.
 TABLE_MAX_ROWS = 12     # mẫu `bang` nhận 2–12 hàng (khớp ds.hang trong quy-tac-mau.json)
+CMP_MAX_AUTHORED = 9     # báo cáo so sánh hai kỳ: số slide model tự viết (driver thêm các bảng thay đổi, mới/hết, số liệu lệch)
 TABLE_SPLIT_ROWS = 8    # bảng dài hơn mức trên thì chia đều, mỗi slide tối đa số hàng này (vừa cả khi ô dài)
 
 def split_long_tables(work):
@@ -993,9 +994,123 @@ def compare_periods(work):
     try:
         import importlib.util as _u
         spec = _u.spec_from_file_location('so_sanh', ROOT / 'scripts' / 'so_sanh.py'); mod = _u.module_from_spec(spec); spec.loader.exec_module(mod)
-        return mod.build(work)
+        result = mod.build(work)
+        if result and not compare_tables(work):
+            slim_comparison(work, [], '')      # không bóc được bảng (DOCX/PPTX, PDF không có bảng): vẫn rút gọn so-sanh.md, nếu không model đọc 33 nghìn ký tự rồi bị nén và dừng
+        return result
     except Exception:
         return None
+
+def slim_comparison(work, tables, snapshot, max_chars=11000, extra=None):
+    """Viết lại so-sanh.md thật gọn: bỏ các chỗ đã nằm trong bảng driver tự dựng (model đọc 28 nghìn ký tự thì ngữ cảnh đầy, bị nén liên tục và dừng giữa chừng).
+    Giữ: bảng tổng hợp của kỳ này (cả dòng không đổi), danh sách quá hạn, và các chỗ khác nhau CHƯA có trong bảng (thi công, mô tả, rủi ro)."""
+    info = json.loads((work / 'so-sanh.json').read_text(encoding='utf-8'))
+    digits = lambda t: re.sub(r'\D', '', str(t))
+    in_tables = {digits(c) for t in tables for r in t['rows'] for c in r[-2:] if digits(c)}
+    rest = []
+    for b in info['blocks']:
+        nums = [digits(n) for n in b.get('nums', [])]
+        if nums and all(n in in_tables for n in nums): continue
+        rest.append(b)
+    rest.sort(key=lambda b: (0 if b.get('nums') else 1, b['id']))
+    head = [f'# So sánh hai kỳ (rút gọn)', f'- Kỳ trước: {info["labels"][0]}; kỳ này: {info["labels"][1]}.',
+            ('- Các bảng thay đổi (tổng thể, theo đơn vị, hệ thống, giai đoạn, chỉ đạo quá hạn) do driver TỰ THÊM vào báo cáo: đừng chép lại.' if tables
+             else '- Hai nguồn không có bảng có cấu trúc để driver so từng dòng: bạn tự viết các slide bảng thay đổi (mẫu bang) từ các chỗ khác nhau bên dưới.'), '']
+    if snapshot:
+        head += ['# Bảng tổng hợp của KỲ NÀY (gồm cả dòng KHÔNG ĐỔI: hạn, hoàn thành, giải ngân, chậm; dùng để viết điểm cần chú ý)', '', snapshot, '']
+    late = next((t for t in tables if t.get('page') == 99), None)
+    if late:
+        head += ['# Chỉ đạo đã đến hạn chưa xong (driver sẽ tự thêm bảng này)'] + [' | '.join(r) for r in late['rows']] + ['']
+    extra = extra or {}
+    if extra.get('tang'):
+        head += ['# TĂNG MẠNH NHẤT (dùng cho slide "Điểm tiến bộ"; chép đúng số, viết "tăng từ A lên B")'] + ['- ' + x for x in extra['tang']] + ['']
+    if extra.get('moi_het'):
+        head += ['# MỚI HOẶC HẾT so với kỳ trước (driver sẽ tự thêm bảng này; nội dung MỚI quan trọng như rủi ro thì nêu trong "Điểm cần chú ý" và ghi "(mới)" ở slide rủi ro)'] + [' | '.join(r) for r in extra['moi_het']] + ['']
+    if extra.get('lech'):
+        head += ['# SỐ LIỆU CẦN ĐỐI CHIẾU (driver so bằng code, sẽ tự thêm bảng này; nêu ít nhất 1 thẻ trong "Điểm cần chú ý", KHÔNG trình bày các số này như kết quả tốt)'] + [' | '.join(r) for r in extra['lech']] + ['']
+    out, size = list(head), sum(len(x) + 1 for x in head)
+    out.append('# Chỗ khác nhau còn lại giữa hai kỳ (chưa có trong bảng; dùng cho thi công, nhập liệu, rủi ro, việc tiếp theo)')
+    for b in rest:
+        text = f'## #{b["id"]} trang {b["trang"]}: ' + ((b['old'] + ' → ') if b.get('old') else 'MỚI: ') + b['new']
+        if size + len(text) > max_chars: break
+        out.append(text); size += len(text) + 1
+    (work / 'so-sanh.md').write_text('\n'.join(out) + '\n', encoding='utf-8')
+
+def compare_tables(work):
+    """Hai PDF là hai kỳ của một báo cáo: so từng dòng các bảng có cấu trúc (chính xác hơn để model tự đọc và tự trừ), ghi so-sanh-bang.json."""
+    try:
+        import importlib.util as _u
+        info = json.loads((work / 'so-sanh.json').read_text(encoding='utf-8'))
+        files = {Path(f).name: f for f in load(work / 'iwork-state.json').get('files', [])}
+        pdfs = [files.get(n) for n in info['order']]
+        if not all(pdfs) or not all(str(p).lower().endswith('.pdf') for p in pdfs): return None
+        spec = _u.spec_from_file_location('bang_so_sanh', ROOT / 'scripts' / 'bang_so_sanh.py'); mod = _u.module_from_spec(spec); spec.loader.exec_module(mod)
+        m = re.search(r'(\d{2})/(\d{2})/(\d{4})', info['labels'][1] or '')
+        report_date = (int(m.group(3)), int(m.group(2)), int(m.group(1))) if m else None
+        tables = mod.build(pdfs[0], pdfs[1], report_date)
+        extra = {}
+        try:
+            spec2 = _u.spec_from_file_location('kiem_lech', ROOT / 'scripts' / 'kiem_lech.py'); kl = _u.module_from_spec(spec2); spec2.loader.exec_module(kl)
+            sm = _u.spec_from_file_location('so_sanh', ROOT / 'scripts' / 'so_sanh.py'); ss = _u.module_from_spec(sm); sm.loader.exec_module(ss)
+            src = ss._split_sources((work / 'content.md').read_text(encoding='utf-8'))
+            bodies = {Path(n).name: b for n, b in src}
+            found = kl.build(mod.extract_tables(pdfs[0]), mod.extract_tables(pdfs[1]), bodies.get(Path(info['order'][0]).name, ''), bodies.get(Path(info['order'][1]).name, ''), info['blocks'])
+            extra = {'tang': kl.tang_manh(tables or []), 'moi_het': found['moi_het'], 'lech': found['lech']}
+            more = []
+            if found['moi_het']:
+                more.append({'title': 'Mới hoặc hết so với kỳ trước', 'page': 97, 'rows': found['moi_het'], 'cot': ['Loại', 'Nội dung', 'Trang kỳ này/trước'],
+                             'dauMuc': 'Mới hoặc hết', 'tieuDe': f'*{len(found["moi_het"])} nội dung* mới hoặc không còn so với kỳ trước',
+                             'nguon': 'Nguồn: so từng dòng chữ của hai báo cáo; chỉ nêu dòng chỉ có ở một kỳ'})
+            if found['lech']:
+                more.append({'title': 'Số liệu cần đối chiếu', 'page': 98, 'rows': found['lech'], 'cot': ['Số liệu', 'Chỗ ghi', 'Vì sao cần kiểm'],
+                             'dauMuc': 'Số liệu cần đối chiếu', 'tieuDe': f'*{len(found["lech"])} số liệu* trong báo cáo cần đối chiếu lại',
+                             'nguon': 'Nguồn: so bằng code giữa hai báo cáo (cột tuần trước, tỷ lệ trên 100%, số kỳ trước còn sót)'})
+            if more:
+                late = [dict(t, dauMuc='Chỉ đạo quá hạn') for t in (tables or []) if t.get('page') == 99]
+                tables = [t for t in (tables or []) if t.get('page') != 99] + more + late
+        except Exception:
+            pass
+        if tables:
+            write_json(work / 'so-sanh-bang.json', {'labels': info['labels'], 'tables': tables})
+            snap = mod.snapshot(mod.extract_tables(pdfs[1]))
+            slim_comparison(work, tables, snap, extra=extra)
+        return tables
+    except Exception:
+        return None
+
+def add_compare_slides(work):
+    """Chèn các slide bảng "Mục | Chỉ tiêu | Kỳ trước | Kỳ này" do driver dựng từ so-sanh-bang.json (sau slide 2). Model không phải chép lại bảng."""
+    path = work / 'so-sanh-bang.json'
+    if not path.is_file() or not (work / 'plan.json').is_file(): return None
+    info = load(path); tables = info.get('tables') or []
+    plan = load(work / 'plan.json'); outline = list(plan.get('outline', []))
+    paths = [work / 'parts' / f'{i:02d}.json' for i in range(1, len(outline) + 1)]
+    if not tables or not outline or not all(p.is_file() for p in paths): return None
+    short = lambda lab: re.sub(r'/\d{4}$', '', lab or '')
+    cols_default = ['Mục', 'Chỉ tiêu', 'Kỳ trước ' + short(info['labels'][0]), 'Kỳ này ' + short(info['labels'][1])]
+    slides = []
+    tables = sorted(tables, key=lambda t: 0 if t.get('page') in (97, 98) else 1)   # mới/hết và số liệu lệch lên trước các bảng chi tiết
+    for t in tables:
+        rows = t['rows']; count = -(-len(rows) // TABLE_SPLIT_ROWS); size, extra = divmod(len(rows), count); start = 0
+        for k in range(count):
+            take = size + (1 if k < extra else 0); chunk = rows[start:start + take]; start += take
+            title = re.sub(r'\s+', ' ', t['title']).strip()[:40]
+            own = t.get('tieuDe')
+            slides.append({'mau': 'bang', 'dauMuc': t.get('dauMuc') or 'Thay đổi so với kỳ trước',
+                           'tieuDe': (own or f'{title}: *{len(rows)} chỗ đổi*') if count == 1 else f'{title} ({k + 1}/{count})',
+                           'cot': t.get('cot') or cols_default, 'hang': chunk,
+                           'nguon': t.get('nguon') or 'Nguồn: so từng dòng bảng của hai báo cáo; chỉ nêu các dòng thay đổi',
+                           'loiThoai': f'Bảng {title.lower()}: {len(rows)} dòng thay đổi giữa hai kỳ.'})
+    existing = [load(p) for p in paths]
+    at = min(2, len(existing))
+    for k, d in enumerate(existing):       # ý chính trước: bảng chi tiết đứng sau "Điểm tiến bộ"/"Điểm cần chú ý" do model viết
+        head = (_vi(d.get('dauMuc', '')) + ' ' + _vi(d.get('tieuDe', ''))).lower() if isinstance(d, dict) else ''
+        if k >= 1 and d.get('mau') == 'the' and ('tiến bộ' in head or 'chú ý' in head): at = max(at, k + 1)
+    merged = existing[:at] + slides + existing[at:]
+    titles = outline[:at] + [s['tieuDe'] for s in slides] + outline[at:]
+    for i, slide in enumerate(merged, 1): write_json(work / 'parts' / f'{i:02d}.json', slide)
+    plan['outline'] = titles; write_json(work / 'plan.json', plan)
+    return f'thêm {len(slides)} slide bảng thay đổi giữa hai kỳ ({sum(len(t["rows"]) for t in tables)} dòng, dựng từ bảng của hai báo cáo)'
 
 def make_brief(work, budget=14000):
     """Nguồn dài (vd 36 slide, 63K ký tự): đọc cả content.md làm đầy ngữ cảnh rồi bị nén giữa chừng. Dựng bản tóm tắt ~14K ký tự
@@ -1038,15 +1153,32 @@ def resume(work):
         settle_quality(work, argparse.Namespace(work=str(work)));return
     plan = work / 'plan.json'
     if not plan.exists():
-        cmp = compare_periods(work)
+        cmp = compare_periods(work) if state.get('so_sanh') else None
+        if not cmp and not state.get('so_sanh'):
+            try:
+                import importlib.util as _u
+                _sp = _u.spec_from_file_location('so_sanh', ROOT / 'scripts' / 'so_sanh.py'); _m = _u.module_from_spec(_sp); _sp.loader.exec_module(_m)
+                _r = _m.similar(work)
+            except Exception:
+                _r = None
+            if _r and _r >= 0.5:
+                print(f'LƯU Ý: hai tệp giống nhau khoảng {_r:.0%}. CHỈ khi người dùng NHỜ so sánh hai kỳ/hai bản thì chạy lại đúng lệnh start đã dùng, thêm cờ --so-sanh; nếu người dùng không nhờ so sánh thì bỏ qua dòng này và làm slide như bình thường.')
         brief = None if cmp else make_brief(work)
         if cmp:
             path, prev, cur, n = cmp
-            print(f'HAI KỲ CỦA CÙNG MỘT BÁO CÁO ({prev} → {cur}; chỉ {n} chỗ khác nhau, phần còn lại giống nhau). ĐỌC (một lần): {local(path)} và {local(work / "facts.md")}. '
-                  f'KHÔNG đọc content.md và tom-tat.md (hàng trăm nghìn ký tự, làm đầy ngữ cảnh); cần chi tiết một chỗ thì read content.md đúng trang ghi trong so-sanh.md.')
-            print('VIẾT BÁO CÁO SO SÁNH HAI KỲ (không chép lại báo cáo). BÌA là MỤC ĐÍCH của báo cáo đúng như người dùng nhờ (vd tiêu đề "So sánh tiến độ tuần 4 và tuần 5", dòng phụ nêu dự án và hai kỳ), KHÔNG đặt kết quả hay số liệu làm tiêu đề bìa; kết luận và số chính để slide 2 "Tóm tắt điều hành". Sau đó: (1) tóm tắt điều hành: số chính của kỳ trước và kỳ này; (2) mẫu `bang` cột Kỳ trước | Kỳ này cho tiến độ tổng thể và từng nhóm/đơn vị '
-                  '(tối đa 12 hàng/bảng, nhiều hơn thì chia slide); (3) hạng mục chậm, rủi ro, vướng mắc MỚI hoặc nặng hơn; (4) slide "Điểm cần chú ý" (việc cần quyết, hạn sắp tới). '
+            print(f'HAI KỲ CỦA CÙNG MỘT BÁO CÁO ({prev} → {cur}; chỉ {n} chỗ khác nhau, phần còn lại giống nhau). ĐỌC (một lần, chỉ tệp này): {local(path)}. '
+                  f'KHÔNG đọc facts.md, content.md, tom-tat.md, SKILL.md, huong-dan-k7.md (hàng trăm nghìn ký tự, làm đầy ngữ cảnh rồi bị nén và dừng giữa chừng); cần chi tiết một chỗ thì read content.md đúng trang ghi trong so-sanh.md. NGAY SAU KHI ĐỌC: ghi plan.json rồi các parts, không đọc thêm.')
+            print('VIẾT BÁO CÁO SO SÁNH HAI KỲ (không chép lại báo cáo). BÌA là MỤC ĐÍCH đúng như người dùng nhờ (vd "So sánh tiến độ tuần 4 và tuần 5", dòng phụ nêu dự án và hai kỳ), KHÔNG đặt kết quả làm tiêu đề bìa. '
+                  'Driver TỰ THÊM các slide bảng thay đổi (Mục | Chỉ tiêu | Kỳ trước | Kỳ này: tổng thể, theo đơn vị, theo hệ thống, theo giai đoạn) ngay sau slide 2, đã so từng dòng bằng code: bạn KHÔNG chép lại các bảng đó và không tự trừ. '
+                  'Bạn chỉ viết các slide sau, theo thứ tự: (1) bìa; (2) tóm tắt điều hành (mẫu so-lieu, 6 số chính, mỗi số kèm giá trị kỳ trước); '
+                  '(3) ĐIỂM TIẾN BỘ (mẫu the, dauMuc đúng chữ "Điểm tiến bộ", 3–6 thẻ, mỗi thẻ MỘT HẠNG MỤC KHÁC NHAU (không dồn nhiều thẻ vào cùng một phần mềm), kèm "tăng từ A lên B" lấy từ mục TĂNG MẠNH NHẤT và các việc đã hoàn thành trong so-sanh.md); '
+                  '(4) ĐIỂM CẦN CHÚ Ý (mẫu the, dauMuc đúng chữ "Điểm cần chú ý", 6 thẻ, mỗi thẻ một câu đầy đủ nêu hạng mục và số cụ thể; có mục SỐ LIỆU CẦN ĐỐI CHIẾU thì ít nhất 1 thẻ nêu số đó, có nội dung MỚI quan trọng (vd rủi ro mới) thì 1 thẻ nêu rõ là mới); '
+                  '(5) khối lượng thi công, nhập liệu thay đổi nếu so-sanh.md có (mẫu bang: Hạng mục | Chỉ tiêu | Kỳ trước | Kỳ này, tối đa 12 hàng, mỗi ô một dòng); (6) rủi ro và phương án xử lý (mẫu van-de; rủi ro mới ở kỳ này ghi thêm "(mới)"); (7) việc tiếp theo (mẫu lo-trinh). '
+                  'KHÔNG viết slide về chỉ đạo quá hạn, bảng tiến độ, mới/hết hay số liệu cần đối chiếu: driver đã tự thêm. KHÔNG chép câu tính thời gian theo mốc cũ của nguồn (vd "còn hơn 02 tháng từ 17/7"). Gọi đúng "khối phần mềm", "khối CSDL" (một gói thầu, không viết "hai gói"). '
                   'Chênh lệch viết bằng chữ ("tăng từ A lên B"); số tính thêm phải khai trong meta.computed. Ghi nguồn: tên hai kỳ.')
+            if not (work / 'so-sanh-bang.json').is_file():
+                print('CHÚ Ý (thay cho câu "driver tự thêm bảng" ở trên): lần này driver KHÔNG bóc được bảng có cấu trúc nào từ hai nguồn nên KHÔNG tự thêm các slide bảng. Bạn tự viết các slide bảng thay đổi '
+                      '(mẫu bang: Mục | Chỉ tiêu | Kỳ trước | Kỳ này, tối đa 12 hàng mỗi slide, lấy từ so-sanh.md) và không bị giới hạn 9 slide.')
         if brief:
             print(f'ĐỌC (một lần): {local(brief)} (nguồn dài nên đã tóm tắt) và {local(work / "facts.md")}. Chỉ khi cần số liệu/ý chi tiết của một slide mới read {local(work / "content.md")} đúng khoảng dòng ghi trong tóm tắt (offset/limit); KHÔNG đọc cả tệp. Không cần đọc huong-dan-k7.md: bảng mẫu K7 in ngay dưới đây.')
         else:
@@ -1063,6 +1195,10 @@ def resume(work):
     outline = load(plan).get('outline', [])
     if not outline or not all(isinstance(x, str) and x.strip() for x in outline):
         raise SystemExit('LỖI: plan.json cần outline là danh sách tiêu đề slide không rỗng.')
+    if (work / 'so-sanh-bang.json').is_file() and not state.get('cmp_tables') and len(outline) > CMP_MAX_AUTHORED:
+        raise SystemExit(f'LỖI: báo cáo so sánh hai kỳ: driver TỰ THÊM các slide bảng thay đổi (tổng thể, theo đơn vị, theo hệ thống, theo giai đoạn, chỉ đạo quá hạn) nên bạn chỉ viết tối đa {CMP_MAX_AUTHORED} slide '
+                         f'(đang có {len(outline)}): bìa; tóm tắt điều hành; điểm tiến bộ; điểm cần chú ý; khối lượng thi công thay đổi (nếu có); rủi ro và phương án xử lý; việc tiếp theo. Bỏ các slide bảng CSDL/phần mềm/hệ thống/chỉ đạo '
+                         'và các slide rủi ro hoặc việc tiếp theo lặp lại, ghi lại plan.json rồi chạy lại: ' + command('resume', work))
     if (work / 'parts' / '00.json').exists():
         raise SystemExit('LỖI: parts bắt đầu từ 01.json (bìa), không phải 00.json. Đánh lại số các phần theo outline; không bỏ mất bìa.')
     inventory_errors = part_inventory_errors(work, outline)
@@ -1088,8 +1224,50 @@ def resume(work):
         print('Ghi xong CẢ LÔ rồi chạy NGAY TRONG CÙNG LƯỢT: ' + command('resume', work))
         print('KHÔNG DỪNG ĐỂ TRẢ LỜI NGƯỜI DÙNG khi phase chưa complete.')
         return
+    issues = authored_checks(work, outline, state)
+    if issues:
+        state['lint_rounds'] = state.get('lint_rounds', 0) + 1; write_json(work / 'iwork-state.json', state)
+        raise SystemExit('LỖI NỘI DUNG (sửa đúng các slide nêu dưới bằng công cụ edit/write rồi chạy lại ' + command('resume', work) + '):\n- ' + '\n- '.join(issues))
     print('ĐÃ ĐỦ PHẦN. NEXT: ' + command('build', work))
     print('Chạy build NGAY TRONG CÙNG LƯỢT; không dừng để báo tiến độ.')
+
+STALE_SPAN = re.compile(r'còn\s+(?:hơn\s+|khoảng\s+|gần\s+)?\d+\s+(?:tháng|tuần|ngày)[^.;]{0,30}?\btừ\s+(?:ngày\s+)?\d{1,2}/\d{1,2}', re.I)
+TWO_PACKAGES = re.compile(r'\b(?:cả\s+)?(?:hai|2)\s+gói\b', re.I)
+LINT_MAX_ROUNDS = 2      # quá số lần này thì bỏ qua kiểm, để model không lặp tới hết lượt
+
+def authored_checks(work, outline, state):
+    """Kiểm nội dung model viết trước khi build: (1) ca so sánh hai kỳ phải có slide "Điểm tiến bộ" và "Điểm cần chú ý";
+    (2) không chép câu tính thời gian theo mốc cũ ("còn hơn 02 tháng từ 17/7"); (3) không gọi hai khối là "hai gói"."""
+    if state.get('lint_rounds', 0) >= LINT_MAX_ROUNDS: return []
+    out, slides = [], []
+    for i in range(1, len(outline) + 1):
+        p = work / 'parts' / f'{i:02d}.json'
+        if p.is_file():
+            try: slides.append((i, load(p)))
+            except Exception: pass
+    compare = (work / 'so-sanh-bang.json').is_file()
+    if compare:
+        def has(word):
+            return any(isinstance(d, dict) and d.get('mau') == 'the' and word in (_vi(d.get('dauMuc', '')) + ' ' + _vi(d.get('tieuDe', ''))).lower() for _, d in slides)
+        if not has('tiến bộ'):
+            out.append('Thiếu slide "Điểm tiến bộ" (mẫu the, dauMuc "Điểm tiến bộ", 3–6 thẻ, mỗi thẻ một hạng mục tăng "tăng từ A lên B" lấy từ mục TĂNG MẠNH NHẤT trong so-sanh.md). Thêm sau slide tóm tắt điều hành, cập nhật plan.json.')
+        if not has('chú ý'):
+            out.append('Thiếu slide "Điểm cần chú ý" (mẫu the, dauMuc "Điểm cần chú ý", 6 thẻ).')
+        try:
+            blocks = json.loads((work / 'so-sanh.json').read_text(encoding='utf-8')).get('blocks', [])
+        except Exception:
+            blocks = []
+        volume = [b for b in blocks if b.get('nums') and re.search(r'lũy kế|khối lượng|trong ngày|số hóa|nhập', str(b.get('new', '')), re.I)]
+        if len(volume) >= 3 and not any(isinstance(d, dict) and d.get('mau') == 'bang' and re.search(r'thi công|nhập liệu|khối lượng|số hóa', (_vi(d.get('dauMuc', '')) + ' ' + _vi(d.get('tieuDe', ''))).lower()) for _, d in slides):
+            out.append(f'Thiếu slide khối lượng thi công, nhập liệu thay đổi (mẫu bang, dauMuc "Khối lượng thi công", cột Hạng mục | Chỉ tiêu | Kỳ trước | Kỳ này, tối đa 12 hàng, mỗi ô một dòng): so-sanh.md có {len(volume)} chỗ thay đổi khối lượng (lũy kế, trong ngày). Thêm sau slide "Điểm cần chú ý", cập nhật plan.json.')
+    for i, d in slides:
+        text = _slide_text(d) if isinstance(d, dict) else ''
+        m = STALE_SPAN.search(text)
+        if m: out.append(f'Slide {i}: "{m.group(0)}" là câu tính thời gian theo mốc cũ của nguồn, đọc ở ngày báo cáo không còn đúng. Bỏ câu này hoặc viết theo ngày báo cáo (vd hạn tháng 11/2026).')
+        if compare:
+            m = TWO_PACKAGES.search(text)
+            if m: out.append(f'Slide {i}: "{m.group(0)}": dự án chỉ có một gói thầu; viết "khối phần mềm" và "khối CSDL" (hoặc "cả hai khối").')
+    return out
 
 def fresh_work(work):
     """Thư mục kết quả đã dùng cho tài liệu khác: lấy tên kế tiếp (-2, -3, ...) thay vì báo lỗi, để model không tự `rm -rf` (iWork hỏi quyền)."""
@@ -1105,6 +1283,8 @@ def start(a):
         print(f'LƯU Ý: thư mục {old.name} đang giữ kết quả của tài liệu khác; tài liệu này dùng thư mục mới {work.name}. Không xoá thư mục cũ; chạy đúng lệnh driver in ra.')
     if (work / 'iwork-state.json').exists():
         previous = load(work / 'iwork-state.json')
+        if getattr(a, 'so_sanh', False) and not previous.get('so_sanh') and not (work / 'plan.json').exists():
+            previous['so_sanh'] = True; write_json(work / 'iwork-state.json', previous)   # người dùng nhờ so sánh: model chạy lại start kèm --so-sanh
         if a.logo or a.chan_trang is not None:
             # Gắn/đổi logo sau khi đã làm: giữ nguyên nội dung, chỉ build lại.
             logo = workpath(a.logo) if a.logo else None
@@ -1146,7 +1326,7 @@ def start(a):
     result = subprocess.run([sys.executable, str(ROOT/'scripts/facts.py'), str(work), date, *files], capture_output=True, text=True, encoding='utf-8', errors='replace')
     if result.returncode: raise SystemExit(result.stderr or result.stdout)
     state = {'files': files, 'date': date, 'source_hashes':{f:sha(f) for f in files}, 'author_override':getattr(a,'author',None),
-             'giao_dien': a.giao_dien, 'song_ngu': bool(a.song_ngu)}
+             'giao_dien': a.giao_dien, 'song_ngu': bool(a.song_ngu), 'so_sanh': bool(getattr(a, 'so_sanh', False))}
     if logo:
         (work / 'sources').mkdir(exist_ok=True)
         kept = work / 'sources' / ('logo' + logo.suffix.lower()); shutil.copy2(logo, kept)
@@ -1267,6 +1447,16 @@ def settle_quality(work, a):
     """Driver tự lập audit từ bằng chứng đã kiểm rồi finish; model chỉ được giao phần bao phủ không tự đáp ứng được."""
     audit, unmet = auto_audit(work)
     state = load(work / 'iwork-state.json')
+    if not state.get('cmp_tables') and (work / 'so-sanh-bang.json').is_file():
+        note = add_compare_slides(work)
+        state['cmp_tables'] = True; write_json(work / 'iwork-state.json', state)
+        if note:
+            plan = load(work / 'plan.json')
+            rules = json.loads((ROOT / 'k7' / state.get('giao_dien', DEFAULT_THEME) / 'khung' / 'quy-tac-mau.json').read_text(encoding='utf-8'))
+            label = ', '.join(Path(f).name for f in state.get('files', []))
+            autofix_parts(work, plan['outline'], set(rules.get('icon', [])), label, state.get('date', ''), state.get('giao_dien') == 'vnpt-ai')
+            print('TỰ SỬA: ' + note + '. Dựng lại ngay.')
+            build(a); return
     if unmet and not state.get('auto_cover'):
         note = add_coverage_slides(work, unmet)
         if note:
@@ -1517,6 +1707,16 @@ def advance(a):
         write_json(work/'job-step.json', step)
         resume(work)
         return
+    if state.get('phase') != 'quality':
+        issues = authored_checks(work, outline, state)
+        if issues:
+            state['lint_rounds'] = state.get('lint_rounds', 0) + 1; write_json(work / 'iwork-state.json', state)
+            step.update(status='repairable_error', action='Sửa đúng các slide nêu dưới (công cụ edit/write) rồi advance; không hỏi người dùng.',
+                        errors=[{'muc': 'loi', 'y': x} for x in issues])
+            write_json(work/'job-step.json', step)
+            print(json.dumps(step, ensure_ascii=False, indent=2))
+            print('Sửa xong chạy lại đúng: ' + command('advance', work))
+            raise SystemExit(2)
     try:
         if state.get('phase') == 'quality' and state.get('authored_sha256') == authored_hash(work):
             resume(work)
@@ -1600,6 +1800,7 @@ def main():
     q.add_argument('--giao-dien', dest='giao_dien', choices=THEMES, default=DEFAULT_THEME,
                    help='Giao diện có trong skill này (k7/); mặc định ' + DEFAULT_THEME)
     q.add_argument('--song-ngu', dest='song_ngu', action='store_true', help='Viết cả bản tiếng Anh và lời thoại (mặc định chỉ tiếng Việt, nhanh hơn một nửa)')
+    q.add_argument('--so-sanh', dest='so_sanh', action='store_true', help='CHỈ khi người dùng NHỜ so sánh hai kỳ/hai bản (đưa hai tệp): driver dựng so-sanh.md và các bảng thay đổi. Không nhờ so sánh thì không thêm, dù hai tệp giống nhau')
     q.add_argument('--logo', help='Tệp ảnh logo người dùng đưa (PNG/JPG/SVG/WEBP); driver tự gắn vào mọi slide')
     q.add_argument('--chan-trang', dest='chan_trang', help='Chữ chân trang thay mặc định (vd "VNPT · Nội bộ")')
     q.set_defaults(fn=start)

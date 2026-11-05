@@ -69,9 +69,18 @@ def render(run,src,wd):
         with tempfile.TemporaryDirectory(prefix='full-form-render-') as tmp:
             exe=next((c for c in (shutil.which('soffice'),shutil.which('libreoffice'),'/Applications/LibreOffice.app/Contents/MacOS/soffice',r'C:\Program Files\LibreOffice\program\soffice.exe',r'C:\Program Files (x86)\LibreOffice\program\soffice.exe') if c and os.path.exists(c)),None)
             if os.environ.get('IWORK_NO_LIBREOFFICE'):exe=None   # chỉ để test
-            if not exe:raise ValueError('=== DỪNG: CHƯA tạo được file HTML vì máy chưa có LibreOffice nên không đọc được PPTX/DOCX. Báo người dùng cài LibreOffice tại https://www.libreoffice.org/download/download-libreoffice/ rồi chạy lại skill (hoặc đính kèm bản PDF của tài liệu). Nói rõ điều này ngay câu đầu; không tự viết bản đánh giá bằng tay, không nói đã xong. ===')
-            subprocess.run([exe,'-env:UserInstallation='+Path(tmp,'profile').as_uri(),'--headless','--convert-to','pdf','--outdir',tmp,str(src)],check=True,capture_output=True,timeout=120)
-            shutil.copyfile(Path(tmp)/(src.stem+'.pdf'),v/'source.pdf')
+            if exe:
+                subprocess.run([exe,'-env:UserInstallation='+Path(tmp,'profile').as_uri(),'--headless','--convert-to','pdf','--outdir',tmp,str(src)],check=True,capture_output=True,timeout=120)
+                shutil.copyfile(Path(tmp)/(src.stem+'.pdf'),v/'source.pdf')
+            else:
+                # Máy không có LibreOffice (vd Windows của người dùng): PyMuPDF (skill đã tự cài) mở thẳng DOCX/PPTX và xuất PDF, không bắt người dùng cài thêm gì.
+                try:
+                    import fitz
+                    if os.environ.get('IWORK_NO_OFFICE_FALLBACK'):raise RuntimeError('tắt dự phòng để test')
+                    with fitz.open(src) as office:(v/'source.pdf').write_bytes(office.convert_to_pdf())
+                    print('LƯU Ý: máy không có LibreOffice nên ảnh trang dựng bằng PyMuPDF (bố cục có thể lệch Word/PowerPoint đôi chút).')
+                except Exception as error:
+                    raise ValueError('=== DỪNG: CHƯA tạo được file HTML vì máy chưa có LibreOffice và PyMuPDF không mở được tệp này ('+str(error)[:100]+'). Báo người dùng cài LibreOffice tại https://www.libreoffice.org/download/ rồi chạy lại skill (hoặc đính kèm bản PDF của tài liệu). Nói rõ điều này ngay câu đầu; không tự viết bản đánh giá bằng tay, không nói đã xong. ===')
         pdf=v/'source.pdf'
     pages=[]
     import fitz
