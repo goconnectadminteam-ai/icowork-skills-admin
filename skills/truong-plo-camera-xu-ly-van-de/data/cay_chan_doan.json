@@ -1,0 +1,115 @@
+[
+ {
+  "so": 1,
+  "khi": "Sản lượng PTM lệch mục tiêu",
+  "trinh_tu": "Kiểm tra Inventory (đủ hàng không?) → Kiểm tra Bán hàng (phễu chuyển đổi nghẽn ở đâu?) → Kiểm tra Governance (đủ nhân sự có chứng nhận không?).",
+  "buoc": [
+   {
+    "thu_tu": "1. Kiểm tra Inventory",
+    "cau_hoi": "Có đủ thiết bị không?",
+    "nguyen_nhan": "Tồn kho khả dụng thấp; đơn hàng thoái trả do thiếu thiết bị tăng; Nhà cung cấp giao chậm hoặc thiếu",
+    "ai_xu_ly": "Chuyên viên Quản lý Thiết bị & Đối soát",
+    "hanh_dong": "Rà tồn kho theo tỉnh; kích hoạt điều chuyển ứng cứu liên tỉnh; làm việc với VNPT TECH về SLA giao hàng"
+   },
+   {
+    "thu_tu": "2. Kiểm tra nguồn khách hàng tiềm năng",
+    "cau_hoi": "Có đủ đơn hàng được phân giao không?",
+    "nguyen_nhan": "Tập tiềm năng chưa được lọc và đẩy về địa bàn; phiếu B2A chưa phân giao hết; tỷ lệ nhân viên được phân giao thấp",
+    "ai_xu_ly": "Lãnh đạo VNPT Khu vực/TTVT khu vực",
+    "hanh_dong": "Rà soát nguồn đơn hàng, yêu cầu bổ sung tập khách hàng tiềm năng; kiểm tra tiến độ phân giao phiếu B2A"
+   },
+   {
+    "thu_tu": "3. Kiểm tra phễu bán hàng",
+    "cau_hoi": "Nghẽn ở bước nào của phễu?",
+    "nguyen_nhan": "Tỷ lệ tiếp xúc thấp (nhân viên không đi) hoặc tỷ lệ chốt thấp (kỹ năng tư vấn yếu, sản phẩm thiếu ưu thế cạnh tranh)",
+    "ai_xu_ly": "Lãnh đạo VNPT Khu vực/TTVT khu vực",
+    "hanh_dong": "Đối chiếu 5 bước phễu B2A; kiểm tra tuân thủ kịch bản tư vấn; dự giờ và nghe lại ca tư vấn mẫu; đào tạo lại"
+   },
+   {
+    "thu_tu": "4. Kiểm tra Governance",
+    "cau_hoi": "Nhân sự có đủ và có chứng nhận không?",
+    "nguyen_nhan": "Chưa giao BSC đủ 100% nhân sự; nhân sự chưa có chứng nhận năng lực nên bị chặn giao chỉ tiêu; tỷ lệ nhân sự không phát sinh sản lượng cao",
+    "ai_xu_ly": "Lãnh đạo VNPT T/TP",
+    "hanh_dong": "Hoàn thiện giao BSC; tổ chức lớp đào tạo bổ sung; xử lý từng trường hợp không phát sinh sản lượng"
+   },
+   {
+    "thu_tu": "5. Kiểm tra cơ chế",
+    "cau_hoi": "Cơ chế có đủ hấp dẫn so với sản phẩm khác không?",
+    "nguyen_nhan": "Barem CPNCHH Camera thấp hơn các dịch vụ khác nên nhân viên ưu tiên bán dịch vụ khác; chương trình thi đua chưa đủ động lực",
+    "ai_xu_ly": "Trưởng PLO Camera phối hợp Ban ĐHKD",
+    "hanh_dong": "Mô phỏng thu nhập nhân viên theo bậc gói; thử nghiệm điều chỉnh cơ chế tại nhóm tỉnh hụt; điều chỉnh chương trình thúc đẩy kỳ tiếp theo"
+   }
+  ]
+ },
+ {
+  "so": 2,
+  "khi": "Doanh thu lệch mục tiêu",
+  "trinh_tu": "Kiểm tra Đối soát (giao dịch treo chưa gắn 3 chiều?) → Kiểm tra Nợ cước (nợ khó thu tăng?) → Kiểm tra Sản lượng thực tế.",
+  "buoc": [
+   {
+    "thu_tu": "1. Kiểm tra Đối soát Doanh thu",
+    "cau_hoi": "Có giao dịch đang \"treo\" chưa xác định đủ 3 chiều doanh thu không?",
+    "nguyen_nhan": "Giao dịch lắp đặt/hoàn công đã phát sinh nhưng chưa đồng bộ đủ 3 chiều Kinh doanh (OneBSS) – Kỹ thuật (nghiệm thu) – Tài chính (Billing/FMIS); sai lệch thông tin gói cước/thiết bị giữa các hệ thống; lỗi đồng bộ dữ liệu.",
+    "ai_xu_ly": "Chuyên viên Điều hành kinh doanh dịch vụ – VNPT T/TP phối hợp Chuyên viên Quản lý Thiết bị & Đối soát (Ban Sản phẩm)",
+    "hanh_dong": "Rà soát danh sách giao dịch \"treo\" theo tuần trên OneBSS/FMIS; đối chiếu đủ 3 chiều trước khi chốt doanh thu kỳ; báo cáo Trưởng PLO Camera nếu tồn đọng vượt ngưỡng.",
+    "_ghi_chu": "dòng này nằm ngoài khung bảng trong PDF, chép tay từ trang PDF 56"
+   },
+   {
+    "thu_tu": "2. Kiểm tra Đối soát Doanh thu (tiếp)",
+    "cau_hoi": "Tỷ lệ nợ khó thu có tăng bất thường không?",
+    "nguyen_nhan": "Thuê bao trả sau không thanh toán đúng hạn tăng; quy trình nhắc nợ/khóa dịch vụ chưa thực hiện đúng SLA; nợ tồn đọng chưa được thu hồi.",
+    "ai_xu_ly": "Giám đốc TT CSKH phối hợp Chuyên viên Điều hành kinh doanh dịch vụ - VNPT T/TP",
+    "hanh_dong": "Rà soát danh sách thuê bao nợ khó thu theo tuổi nợ; đẩy nhanh quy trình nhắc nợ (OB)/khóa dịch vụ đúng SLA; đánh giá nguyên nhân nợ tăng theo địa bàn."
+   },
+   {
+    "thu_tu": "3. Kiểm tra Khách hàng & Bán hàng",
+    "cau_hoi": "Có phải doanh thu/đơn hàng thấp thực sự (không phải vấn đề ghi nhận)?",
+    "nguyen_nhan": "Sản lượng PTM/gia hạn thực tế giảm (không do lỗi ghi nhận); phễu bán hàng nghẽn; tỷ lệ gia hạn/GHTT giảm.",
+    "ai_xu_ly": "Chuyên viên Điều hành kinh doanh dịch vụ - VNPT T/TP phối hợp Trưởng PLO Camera",
+    "hanh_dong": "Đối chiếu số liệu doanh thu với sản lượng PTM/gia hạn thực tế trên OneBSS; nếu xác nhận sản lượng thực giảm, chuyển sang chẩn đoán theo cây \"Khi Sản lượng PTM lệch mục tiêu\" (mục 1) để xử lý tiếp."
+   }
+  ]
+ },
+ {
+  "so": 3,
+  "khi": "Tỷ lệ Giữ khách giảm",
+  "trinh_tu": "Kiểm tra SLA xử lý báo hỏng & Cảnh báo AI → Kiểm tra Rủi ro/Chất lượng thiết bị.",
+  "buoc": [
+   {
+    "thu_tu": "1. Kiểm tra Khách hàng & Bán hàng",
+    "cau_hoi": "SLA xử lý báo hỏng có đang chậm không? Cảnh báo AI churn có đúng không?",
+    "nguyen_nhan": "Phiếu báo hỏng tồn quá SLA (72 giờ); mô hình AI Churn cảnh báo sai (false positive/negative) do dữ liệu đầu vào chưa chuẩn.",
+    "ai_xu_ly": "Lãnh đạo TTVT khu vực phối hợp Giám đốc TT CSKH",
+    "hanh_dong": "Rà soát phiếu báo hỏng tồn quá hạn theo từng NVKT; đối chiếu độ chính xác cảnh báo AI Churn với tỷ lệ rời mạng thực tế, hiệu chỉnh mô hình nếu sai lệch lớn."
+   },
+   {
+    "thu_tu": "2. Kiểm tra Rủi ro & Governance",
+    "cau_hoi": "Có sự cố nào (bảo mật/chất lượng) ảnh hưởng niềm tin khách hàng không?",
+    "nguyen_nhan": "Sự cố bảo mật dữ liệu hình ảnh hoặc lỗi chất lượng thiết bị hàng loạt làm giảm niềm tin khách hàng, dẫn tới tăng tỷ lệ hủy/không gia hạn.",
+    "ai_xu_ly": "Trưởng PLO Camera phối hợp Ban Sản phẩm (Bộ phận Trải nghiệm khách hàng)",
+    "hanh_dong": "Rà soát log sự cố bảo mật/chất lượng gần nhất; đối chiếu thời điểm sự cố với biến động tỷ lệ Giữ khách; kích hoạt quy trình xử lý sự cố bảo mật dữ liệu hình ảnh (Luồng 8.1) và truyền thông khủng hoảng nếu cần (Luồng 8.7)."
+   }
+  ]
+ },
+ {
+  "so": 4,
+  "khi": "CSAT giảm",
+  "trinh_tu": "Kiểm tra thời gian xử lý sự cố & Tần suất B2A gây phiền → Kiểm tra tồn kho RMA.",
+  "buoc": [
+   {
+    "thu_tu": "1. Kiểm tra Khách hàng & Bán hàng",
+    "cau_hoi": "Thời gian xử lý báo hỏng, tỷ lệ B2A bị làm phiền quá mức",
+    "nguyen_nhan": "SLA đến nhà/xử lý báo hỏng vượt 24/48/72 giờ; cùng một khách hàng bị nhiều kênh chạm liên tiếp (B2A, OB gia hạn, nhắc cước, khảo sát) trong thời gian ngắn gây khó chịu.",
+    "ai_xu_ly": "Lãnh đạo TTVT khu vực phối hợp Chuyên viên vận hành/dữ liệu",
+    "hanh_dong": "Rà soát phân bổ phiếu báo hỏng theo nhân viên, đảm bảo đúng SLA; áp quy tắc chống trùng lặp trên Customer Timeline, hạ ưu tiên khách đã từ chối trong 90 ngày để giảm tần suất làm phiền."
+   },
+   {
+    "thu_tu": "2. Kiểm tra Inventory",
+    "cau_hoi": "Có phải khách phải chờ lâu vì thiếu thiết bị/RMA chậm?",
+    "nguyen_nhan": "Hết thiết bị cùng chủng loại để thay 1 đổi 1; VNPT Tech chậm cấp thiết bị bù quá 10 ngày.",
+    "ai_xu_ly": "Chuyên viên Quản lý Thiết bị & Đối soát",
+    "hanh_dong": "Kích hoạt điều chuyển ứng cứu liên tỉnh; làm việc với VNPT Tech về SLA cấp bù thiết bị RMA."
+   }
+  ]
+ }
+]

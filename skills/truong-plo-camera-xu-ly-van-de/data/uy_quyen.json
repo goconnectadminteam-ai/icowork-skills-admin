@@ -1,0 +1,126 @@
+{
+ "_nguon": "Phần X.A, X.B, X.G, X.H, XI.C — Tổ chức triển khai, quản trị GTM PLO Camera (02/9/2026)",
+ "hai_tang": {
+  "tang_1": "Cấp điều hành ủy quyền: Trưởng PLO Camera (toàn quốc) / Đầu mối phụ trách dịch vụ Camera tại VNPT T/TP — War room chuyên sâu PLO Camera 2 buổi/tuần; War room Tỉnh hằng tuần; tự quyết trong hạn mức đã được phê duyệt trước.",
+  "tang_2": "Cấp phê duyệt cao cấp: PTGĐ VNPT VinaPhone phụ trách dịch vụ (toàn quốc) / Phó Giám đốc VNPT T/TP — Portfolio Review hằng tháng; phê duyệt vượt hạn mức qua kênh bất đồng bộ; họp khẩn chỉ khi sự cố nghiêm trọng hoặc xung đột nguồn lực.",
+  "nguon": "X-0"
+ },
+ "loai": {
+  "1": {
+   "ten": "Vận hành thường xuyên trong hạn mức",
+   "vi_du": "Phân bổ lại tập khách hàng tiềm năng giữa các khu vực; điều chỉnh tiến độ chiến dịch B2A trong tháng; ưu tiên xử lý phiếu tồn giữa các địa bàn; kích hoạt điều chuyển thiết bị nội tỉnh; phân công kèm cặp 1-1 cho nhân sự năng suất thấp.",
+   "cap": "Trưởng PLO Camera (toàn quốc) / PGĐ VNPT T/TP phụ trách BRCĐ (cấp tỉnh)",
+   "hinh_thuc": "Tự quyết ngay trong War room vận hành hằng tuần.",
+   "nguon": "X-A"
+  },
+  "2": {
+   "ten": "Vượt hạn mức ngân sách / thẩm quyền",
+   "vi_du": "Đơn đặt hàng thiết bị vượt hạn mức mua sắm; ký biên bản đối soát với nhà cung cấp vượt thẩm quyền Trưởng PLO; bổ sung ngân sách chương trình thúc đẩy giữa kỳ; ngoại lệ giao BSC cho nhân sự chưa có chứng nhận.",
+   "cap": "PTGĐ VNPT VinaPhone / Phó Giám đốc VNPT T/TP",
+   "hinh_thuc": "Phê duyệt bất đồng bộ qua hệ thống (App 9610/OneBSS) trong 24h/48h, không họp. Đề xuất (chưa chốt): SLA 24 giờ làm việc thường, 4 giờ nếu gắn cờ khẩn; quá SLA tự nhắc, khẩn thì chuyển họp khẩn. Hạn mức đề xuất phân biệt Loại 1/2: 50 triệu đồng/lần (chưa chốt).",
+   "nguon": "X-A; X-G; X-J"
+  },
+  "3": {
+   "ten": "Xung đột nguồn lực giữa các PLO/kênh",
+   "vi_du": "Cùng lực lượng NVKD được giao chỉ tiêu Camera, Mesh, MyTV vượt năng lực; kênh dùng chung bị Khối Di động và Khối Cố định cùng ưu tiên; một tỉnh từ chối điều chuyển thiết bị ứng cứu khi khẩn.",
+   "cap": "Trong 1 tỉnh: WR địa bàn — Lãnh đạo VNPT T/TP quyết; không giải quyết được → Giám đốc VNPT T/TP / Trưởng PLO Camera. Liên tỉnh/liên mảng: War room cấp Tổng công ty — PTGĐ VNPT VinaPhone.",
+   "hinh_thuc": "Đưa vào Portfolio Review hằng tháng toàn danh mục (tiêu chí 'chờ được' và 'họp khẩn' chưa chốt — X.J #4).",
+   "nguon": "X-A; XI-C; X-J"
+  },
+  "4": {
+   "ten": "Sự cố nghiêm trọng (bảo mật, pháp lý)",
+   "vi_du": "Lộ lọt dữ liệu hình ảnh khách hàng; vụ việc lan ra truyền thông đại chúng; yêu cầu từ cơ quan quản lý nhà nước.",
+   "cap": "PTGĐ VNPT VinaPhone / Lãnh đạo Tập đoàn",
+   "hinh_thuc": "Họp khẩn NGAY bất kể lịch — ngoại lệ duy nhất; không qua kênh async. Luồng 8.1: ghi T0 ≤ 1 giờ; P1–P2 vượt thẩm quyền Tổng công ty → War room ATBM cấp Tập đoàn.",
+   "nguon": "X-A; X-H; L-8.1"
+  },
+  "5": {
+   "ten": "Thay đổi chính sách / mô hình tổ chức",
+   "vi_du": "Điều chỉnh bảng giá, cấu trúc gói; thay đổi cơ chế CPNCHH nền; điều chỉnh mô hình đầu mối PLO Camera cấp Tỉnh; tạm ngưng bán một chủng loại do biên gộp âm.",
+   "cap": "PTGĐ VNPT VinaPhone / Giám đốc VNPT T/TP; một số nội dung cần thống nhất Lãnh đạo Tập đoàn và Ban Chiến lược sản phẩm Tập đoàn",
+   "hinh_thuc": "Phiên chuyên đề hoặc Portfolio Review định kỳ.",
+   "nguon": "X-A"
+  }
+ },
+ "nhom_nguyen_nhan": [
+  {
+   "nhom": "Chính sách sản phẩm, giá cước, cấu trúc gói cước",
+   "chu_so_huu": "Trưởng PLO Camera (Ban Sản phẩm)",
+   "tu_khoa": [
+    "giá",
+    "gói",
+    "chính sách sản phẩm",
+    "cấu trúc gói"
+   ]
+  },
+  {
+   "nhom": "Cơ chế hoa hồng, chương trình thi đua kênh bán",
+   "chu_so_huu": "Ban Điều hành kinh doanh / Ban Kênh bán",
+   "tu_khoa": [
+    "hoa hồng",
+    "thi đua",
+    "kênh bán",
+    "cpnchh"
+   ]
+  },
+  {
+   "nhom": "Sự cố hạ tầng kỹ thuật, chất lượng đường truyền, SLA",
+   "chu_so_huu": "TTVT Khu vực / VNPT NET",
+   "tu_khoa": [
+    "hạ tầng",
+    "đường truyền",
+    "sla",
+    "mạng"
+   ]
+  },
+  {
+   "nhom": "Thiết bị (cung ứng, bảo hành, điều chuyển)",
+   "chu_so_huu": "VNPT Tech / Bộ phận Quản lý thiết bị",
+   "tu_khoa": [
+    "thiết bị",
+    "bảo hành",
+    "điều chuyển",
+    "cung ứng",
+    "vật tư"
+   ]
+  },
+  {
+   "nhom": "Sự cố hệ thống CNTT (9610, OneBSS, App, Dashboard)",
+   "chu_so_huu": "VNPT IT / TT KTNV (Ban Sản phẩm)",
+   "tu_khoa": [
+    "9610",
+    "onebss",
+    "app",
+    "dashboard",
+    "hệ thống"
+   ]
+  }
+ ],
+ "escalation_4_nhom": [
+  {
+   "nhom": "Inventory",
+   "truoc": "VNPT Tech không đáp ứng cam kết → báo PTGĐ Tập đoàn",
+   "loai": "3",
+   "cach": "Trưởng PLO Camera gửi đề xuất qua hệ thống; nếu ảnh hưởng nghiêm trọng tiến độ PTM tháng → đề nghị đưa vào Portfolio Review sớm hoặc xin trao đổi riêng 15 phút."
+  },
+  {
+   "nhom": "Inventory",
+   "truoc": "Thiếu hụt kéo dài > 7 ngày → đề nghị PLO hỗ trợ điều chuyển liên tỉnh",
+   "loai": "1",
+   "cach": "Trong thẩm quyền Trưởng PLO Camera; chỉ Trưởng PLO Camera và Đầu mối Camera 2 tỉnh xử lý, PGĐ VNPT T/TP không cần tham gia."
+  },
+  {
+   "nhom": "Doanh thu",
+   "truoc": "Đạt < 85% liên tiếp 2 tháng → báo PTGĐ",
+   "loai": "3/5",
+   "cach": "Đưa vào Portfolio Review hằng tháng đúng lịch; không họp khẩn trừ khi nguyên nhân là sự cố (Loại 4, ví dụ lỗi hệ thống đối soát doanh thu)."
+  },
+  {
+   "nhom": "Rủi ro",
+   "truoc": "Sự cố bảo mật nghiêm trọng → báo PTGĐ/Ban Công nghệ ngay",
+   "loai": "4",
+   "cach": "Giữ nguyên — luôn họp khẩn ngay, không qua async, không chờ lịch."
+  }
+ ],
+ "plo_clo": "Xem references/gtm/X-C.md: PLO toàn quyền chính sách/giá/gói; CLO toàn quyền số điểm bán, năng lực kênh, chất lượng vận hành kênh; phân bổ ưu tiên kênh khi nhiều PLO đề nghị → CLO quyết, PLO không đồng ý thì escalate Ban ĐHKD."
+}

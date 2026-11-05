@@ -1,0 +1,1897 @@
+[
+ {
+  "id": "I-A",
+  "ten": "Phần I.A Thông tin chung",
+  "phan": "I",
+  "trang": [
+   6,
+   6
+  ],
+  "file": "references/gtm/I-A.md",
+  "so_dong": 11,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "I-B",
+  "ten": "Phần I.B Đặc điểm sản phẩm & thị trường",
+  "phan": "I",
+  "trang": [
+   6,
+   6
+  ],
+  "file": "references/gtm/I-B.md",
+  "so_dong": 8,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "I-C",
+  "ten": "Phần I.C Mục tiêu doanh thu Giữ/Mới",
+  "phan": "I",
+  "trang": [
+   6,
+   7
+  ],
+  "file": "references/gtm/I-C.md",
+  "so_dong": 22,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "IX-A-0",
+  "ten": "Phần IX.A 4 Mục tiêu GTM — số mục tiêu toàn quốc",
+  "phan": "IX",
+  "trang": [
+   7,
+   8
+  ],
+  "file": "references/gtm/IX-A-0.md",
+  "so_dong": 12,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "IX-A-pho-tong-giam-doc-vnp",
+  "ten": "Phần IX.A Thẻ vai trò: 1. Phó Tổng giám đốc VNPT Vinaphone",
+  "phan": "IX",
+  "trang": [
+   8,
+   9
+  ],
+  "file": "references/gtm/IX-A-pho-tong-giam-doc-vnp.md",
+  "so_dong": 24,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "Chủ trì họp đột xuất khi có escalate từ cấp Ban"
+  ]
+ },
+ {
+  "id": "IX-A-pho-giam-doc-ban-san-pham",
+  "ten": "Phần IX.A Thẻ vai trò: 2. Phó giám đốc Ban sản phẩm",
+  "phan": "IX",
+  "trang": [
+   9,
+   10
+  ],
+  "file": "references/gtm/IX-A-pho-giam-doc-ban-san-pham.md",
+  "so_dong": 39,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "Tham dự họp Warroom Camera Toàn quốc (do Trưởng PLO chủ trì) khi có escalate từ PLO Camera để xử lý vướng mắc",
+   "Escalate lên Lãnh đạo Tổng công ty khi có vướng mắc vượt thẩm quyền"
+  ]
+ },
+ {
+  "id": "IX-A-truong-plo-camera",
+  "ten": "Phần IX.A Thẻ vai trò: 3. Trưởng PLO Camera",
+  "phan": "IX",
+  "trang": [
+   10,
+   13
+  ],
+  "file": "references/gtm/IX-A-truong-plo-camera.md",
+  "so_dong": 70,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "Escalate lên Lãnh đạo Ban sản phẩm khi điểm nghẽn thuộc các đơn vị ngoài thẩm quyền của Trưởng PLO"
+  ]
+ },
+ {
+  "id": "IX-A-chuyen-vien-truyen-thong",
+  "ten": "Phần IX.A Thẻ vai trò: 4. Chuyên viên truyền thông",
+  "phan": "IX",
+  "trang": [
+   13,
+   14
+  ],
+  "file": "references/gtm/IX-A-chuyen-vien-truyen-thong.md",
+  "so_dong": 26,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "Escalate lên Lãnh đạo Tổng công ty đối với nội dung vượt thẩm quyền (khủng hoảng",
+   "Escalate lên Trưởng PLO Camera khi có phát sinh vượt thẩm quyền"
+  ]
+ },
+ {
+  "id": "IX-A-chuyen-vien-quan-ly-thiet-bi-doi-soat",
+  "ten": "Phần IX.A Thẻ vai trò: 5. Chuyên viên Quản lý Thiết bị",
+  "phan": "IX",
+  "trang": [
+   14,
+   15
+  ],
+  "file": "references/gtm/IX-A-chuyen-vien-quan-ly-thiet-bi-doi-soat.md",
+  "so_dong": 29,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "Escalate lên Trưởng PLO Camera/Ban Sản phẩm đối với sai lệch lớn hoặc tranh chấp",
+   "Escalate lên Trưởng PLO Camera khi có phát sinh vượt thẩm quyền"
+  ]
+ },
+ {
+  "id": "IX-A-chuyen-vien-dieu-hanh-kenh",
+  "ten": "Phần IX.A Thẻ vai trò: 6. Chuyên viên điều hành kênh",
+  "phan": "IX",
+  "trang": [
+   15,
+   16
+  ],
+  "file": "references/gtm/IX-A-chuyen-vien-dieu-hanh-kenh.md",
+  "so_dong": 30,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "lý đơn, tuân thủ SLA gọi lại Bước 5) qua báo cáo định kỳ — chỉ tổng hợp dữ liệu Camera và escalate khi tỷ lệ chuyển đổi kênh Online thấp",
+   "Escalate lên Trưởng PLO Camera khi có phát sinh vượt thẩm quyền"
+  ]
+ },
+ {
+  "id": "IX-A-chuyen-vien-ob-tt-dvkh",
+  "ten": "Phần IX.A Thẻ vai trò: 7. Chuyên viên OB của TT DVKH",
+  "phan": "IX",
+  "trang": [
+   16,
+   16
+  ],
+  "file": "references/gtm/IX-A-chuyen-vien-ob-tt-dvkh.md",
+  "so_dong": 24,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "IX-A-lanh-dao-dai-ho-tro-online",
+  "ten": "Phần IX.A Thẻ vai trò: Thẻ vị trí mới — Lãnh đạo Đài Hỗ trợ",
+  "phan": "IX",
+  "trang": [
+   16,
+   17
+  ],
+  "file": "references/gtm/IX-A-lanh-dao-dai-ho-tro-online.md",
+  "so_dong": 13,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "Escalate lên Ban Lãnh đạo TT DVKH hoặc Trưởng Ban ĐHKD/PTGĐ Kênh bán & Di động khi vượt thẩm quyền"
+  ]
+ },
+ {
+  "id": "IX-A-pho-giam-doc-vnpt-tinh",
+  "ten": "Phần IX.A Thẻ vai trò: 8. Phó giám đốc VNPT T/TP",
+  "phan": "IX",
+  "trang": [
+   17,
+   18
+  ],
+  "file": "references/gtm/IX-A-pho-giam-doc-vnpt-tinh.md",
+  "so_dong": 29,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "Không tự quyết chính sách giá/sản phẩm Camera - Escalate lên WR Toàn quốc nếu vượt thẩm quyền tỉnh",
+   "dự War room Camera cấp VNPT T/TP (do Đầu mối phụ trách Camera tại đơn vị chủ trì) khi có escalation (Loại 2 trở lên) hoặc xung đột nguồn lực liên quan PLO"
+  ]
+ },
+ {
+  "id": "IX-A-chuyen-vien-dhkd-tinh",
+  "ten": "Phần IX.A Thẻ vai trò: 9. Chuyên viên Điều hành kinh doanh dịch vụ",
+  "phan": "IX",
+  "trang": [
+   18,
+   20
+  ],
+  "file": "references/gtm/IX-A-chuyen-vien-dhkd-tinh.md",
+  "so_dong": 37,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "Quyết định biện pháp xử lý nhanh khi phát hiện vướng mắc vận hành/dữ liệu tại địa bàn - Escalate lên Phó giám đốc VNPT T/TP phụ trách dịch vụ khi địa bàn không cải thiện sau 2 tuần hoặc"
+  ]
+ },
+ {
+  "id": "IX-A-lanh-dao-vnpt-kv",
+  "ten": "Phần IX.A Thẻ vai trò: 10. Lãnh đạo VNPT khu vực",
+  "phan": "IX",
+  "trang": [
+   20,
+   21
+  ],
+  "file": "references/gtm/IX-A-lanh-dao-vnpt-kv.md",
+  "so_dong": 33,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "IX-A-lanh-dao-ttvt-kv",
+  "ten": "Phần IX.A Thẻ vai trò: 11. Lãnh đạo TTVT khu vực",
+  "phan": "IX",
+  "trang": [
+   21,
+   22
+  ],
+  "file": "references/gtm/IX-A-lanh-dao-ttvt-kv.md",
+  "so_dong": 24,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "IX-A-giam-doc-tt-cskh",
+  "ten": "Phần IX.A Thẻ vai trò: 12. Giám đốc TT CSKH",
+  "phan": "IX",
+  "trang": [
+   22,
+   23
+  ],
+  "file": "references/gtm/IX-A-giam-doc-tt-cskh.md",
+  "so_dong": 28,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "Escalate lên Phó giám đốc VNPT T/TP phụ trách dịch vụ khi khiếu nại vượt thẩm quyền, hoặc khi tỷ l"
+  ]
+ },
+ {
+  "id": "IX-A-nvkd",
+  "ten": "Phần IX.A Thẻ vai trò: 13. Nhân viên kinh doanh",
+  "phan": "IX",
+  "trang": [
+   23,
+   24
+  ],
+  "file": "references/gtm/IX-A-nvkd.md",
+  "so_dong": 24,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "IX-A-nvkt",
+  "ten": "Phần IX.A Thẻ vai trò: 14. Nhân viên kỹ thuật",
+  "phan": "IX",
+  "trang": [
+   24,
+   25
+  ],
+  "file": "references/gtm/IX-A-nvkt.md",
+  "so_dong": 25,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "IX-A-nhan-vien-ob",
+  "ten": "Phần IX.A Thẻ vai trò: 15. Nhân viên OB",
+  "phan": "IX",
+  "trang": [
+   25,
+   25
+  ],
+  "file": "references/gtm/IX-A-nhan-vien-ob.md",
+  "so_dong": 22,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "Chuyển tiếp (escalate) cho ĐTV 18001166/Giám đốc TT CSKH các trường hợp khách hàng khiếu nại hoặc yêu cầu vượt",
+   "Tỷ lệ chuyển tiếp (escalate) sang CSKH/ĐTV 18001166"
+  ]
+ },
+ {
+  "id": "IX-B",
+  "ten": "Phần IX.B Bộ chỉ số",
+  "phan": "IX",
+  "trang": [
+   25,
+   55
+  ],
+  "file": "references/gtm/IX-B.md",
+  "so_dong": 2002,
+  "trang_thai": null,
+  "sla": [
+   "àn quốc – T/TP - Tần suất đo: Theo từng sự cố phát sinh - Ngưỡng cảnh báo: Xanh ≤2 giờ · Vàng 2– 4 giờ · Đỏ >4 giờ - Chủ sở hữu toàn quốc: Ban Sản"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "IX-C",
+  "ten": "Phần IX.C Cây chẩn đoán khi Mục tiêu lệch",
+  "phan": "IX",
+  "trang": [
+   55,
+   57
+  ],
+  "file": "references/gtm/IX-C.md",
+  "so_dong": 42,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "IX-D",
+  "ten": "Phần IX.D War room & Dashboard theo cấp (agenda các cấp, Portfolio Review)",
+  "phan": "IX",
+  "trang": [
+   57,
+   62
+  ],
+  "file": "references/gtm/IX-D.md",
+  "so_dong": 132,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "cước, cấu trúc gói cước Camera (thuộc thẩm quyền Trưởng PLO Camera theo Ma trận Ủy quyền Loại 1)",
+   "Xử lý trong thẩm quyền Trưởng PLO Camera (Ma trận Ủy quyền Loại 1)",
+   "xác định nội dung Loại 2–5 cần đưa lên War room cấp Tổng công ty hoặc Portfolio Review",
+   "yết định phân giao, điều chỉnh kế hoạch hành động hàng tuần tại địa bàn (Ma trận Ủy quyền Loại 1)",
+   "xung đột nguồn lực liên PLO/kênh trong phạm vi 1 Tỉnh được xử lý tại WR địa bàn trước khi escalate lên Phó Giám đốc VNPT T/TP",
+   "Phân công NVKD xử lý trong phạm vi được giao (Ma trận Ủy quyền Loại 1)",
+   "Phân công NVKT xử lý trong phạm vi được giao (Ma trận Ủy quyền Loại 1)",
+   "Phân công Nhân viên OB xử lý cuộc gọi/khiếu nại ưu tiên trong ngày (Ma trận Ủy quyền Loại 1)"
+  ]
+ },
+ {
+  "id": "IX-E",
+  "ten": "Phần IX.E Danh sách cần xác nhận",
+  "phan": "IX",
+  "trang": [
+   62,
+   62
+  ],
+  "file": "references/gtm/IX-E.md",
+  "so_dong": 5,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "X-0",
+  "ten": "Phần X Hai tầng điều hành",
+  "phan": "X",
+  "trang": [
+   62,
+   63
+  ],
+  "file": "references/gtm/X-0.md",
+  "so_dong": 22,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "X-A",
+  "ten": "Phần X.A Ma trận Ủy quyền 5 loại quyết định",
+  "phan": "X",
+  "trang": [
+   63,
+   63
+  ],
+  "file": "references/gtm/X-A.md",
+  "so_dong": 44,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "Loại 1: Vận hành thường xuyên trong hạn mức",
+   "Loại 2: Vượt hạn mức ngân sách / thẩm quyền",
+   "Loại 3: Xung đột nguồn lực giữa các PLO/kênh",
+   "Loại 4: Sự cố",
+   "Loại 5: Thay đổi chính sách / mô hình tổ chức",
+   "Loại 1: Vận hành thường xuyên trong hạn mức Tự quyết ngay trong War room vận hành hàng tuần",
+   "Loại 2: Vượt hạn mức ngân sách / thẩm quyền Phê duyệt bất đồng bộ (Async) qua hệ thống trong 24h",
+   "Loại 3: Xung đột nguồn lực giữa các PLO/kênh Đưa vào Portfolio Review hàng tháng toàn danh mục"
+  ]
+ },
+ {
+  "id": "X-B",
+  "ten": "Phần X.B Trách nhiệm theo nhóm nguyên nhân",
+  "phan": "X",
+  "trang": [
+   63,
+   64
+  ],
+  "file": "references/gtm/X-B.md",
+  "so_dong": 10,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "X-C",
+  "ten": "Phần X.C Ma trận PLO – CLO",
+  "phan": "X",
+  "trang": [
+   64,
+   64
+  ],
+  "file": "references/gtm/X-C.md",
+  "so_dong": 9,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "CLO quyết, escalate Ban ĐHKD nếu PLO không đồng ý"
+  ]
+ },
+ {
+  "id": "X-D",
+  "ten": "Phần X.D Mô hình điều hành 4 tầng",
+  "phan": "X",
+  "trang": [
+   64,
+   65
+  ],
+  "file": "references/gtm/X-D.md",
+  "so_dong": 31,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "Hàng tháng (họp trực tiếp Tỉnh) + đột xuất qua escalation"
+  ]
+ },
+ {
+  "id": "X-E",
+  "ten": "Phần X.E Lịch họp rút gọn PTGĐ VNP",
+  "phan": "X",
+  "trang": [
+   65,
+   65
+  ],
+  "file": "references/gtm/X-E.md",
+  "so_dong": 6,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "a cùng 19 sản phẩm khác — chỉ đi sâu vào Camera nếu chỉ số đèn đỏ kéo dài hoặc có đề xuất Loại 3/5 cần quyết định",
+   "Duyệt các đề xuất Loại 2 (vượt hạn mức) do Trưởng PLO Camera gửi qua hệ thống — xem Mục F",
+   "Chỉ khi có sự cố Loại 4"
+  ]
+ },
+ {
+  "id": "X-F",
+  "ten": "Phần X.F Lịch họp rút gọn Phó Giám đốc VNPT T/TP",
+  "phan": "X",
+  "trang": [
+   65,
+   66
+  ],
+  "file": "references/gtm/X-F.md",
+  "so_dong": 7,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "dashboard tổng hợp Camera cùng các PLO/kênh bán khác tại tỉnh — chỉ đi sâu nếu có vấn đề Loại 3/5 cấp tỉnh"
+  ]
+ },
+ {
+  "id": "X-G",
+  "ten": "Phần X.G Kênh phê duyệt bất đồng bộ",
+  "phan": "X",
+  "trang": [
+   66,
+   66
+  ],
+  "file": "references/gtm/X-G.md",
+  "so_dong": 6,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "nếu vẫn không phản hồi và tính chất khẩn cấp → chuyển thành đề xuất họp khẩn"
+  ]
+ },
+ {
+  "id": "X-H",
+  "ten": "Phần X.H Escalation theo 4 nhóm quy trình",
+  "phan": "X",
+  "trang": [
+   66,
+   67
+  ],
+  "file": "references/gtm/X-H.md",
+  "so_dong": 14,
+  "trang_thai": null,
+  "sla": [
+   "\"Thiếu hụt kéo dài >7 ngày → đề nghị PLO hỗ trợ điều chuyển liên tỉnh\""
+  ],
+  "escalation": [
+   "H Escalation theo 4 nhóm quy trình Nguồn: Tổ chức triển khai, quản trị GTM PLO Camera (bản chính thức",
+   "Cập nhật cột Escalation — áp dụng Ma trận Ủy quyền vào 4 nhóm quy trình Bảng dưới thay thế cách viết \"báo cáo PLO",
+   "/PTGĐ\" chung chung ở tài liệu trước bằng cơ chế cụ thể theo đúng Mục 3 — mỗi escalation của Camera giờ đây được gắn rõ Loại quyết định và hình thức xử lý:",
+   "Escalation (bản trước)",
+   "Loại 3",
+   "Loại 1",
+   "Đây thực chất là Loại 1 (trong thẩm quyền Trưởng PLO Camera) — Phó Giám đốc VNPT T/TP KHÔNG cần tham gia, chỉ Trư",
+   "Loại 3/5"
+  ]
+ },
+ {
+  "id": "X-I",
+  "ten": "Phần X.I Bảng lịch họp tổng hợp cho Camera",
+  "phan": "X",
+  "trang": [
+   67,
+   67
+  ],
+  "file": "references/gtm/X-I.md",
+  "so_dong": 12,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "Công việc chuyên trách — tự quyết Loại 1, gửi đề xuất async cho Loại 2, đề xuất đưa vào Portfolio Review cho Loại 3/5",
+   "Chỉ họp khẩn khi Loại 4",
+   "Chỉ họp khẩn khi sự cố cấp tỉnh"
+  ]
+ },
+ {
+  "id": "X-J",
+  "ten": "Phần X.J Đề xuất cần xác nhận",
+  "phan": "X",
+  "trang": [
+   67,
+   68
+  ],
+  "file": "references/gtm/X-J.md",
+  "so_dong": 8,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "Xác nhận hạn mức ngân sách/số tiền cụ thể phân biệt Loại 1 (tự quyết) và Loại 2 (cần phê duyệt) — đề xuất tại Mục C: 50 triệu đồng/lần phát sinh (đặt hàng thiết bị) hoặc",
+   "Xác nhận tiêu chí cụ thể để phân biệt \"chờ được đến Portfolio Review tháng sau\" và \"cần họp khẩn ngay\" ở Loại 3 — tránh tình trạng mọi việc đều bị gắn nhãn \"khẩn cấp\""
+  ]
+ },
+ {
+  "id": "XI-0",
+  "ten": "Phần XI Đầu mối PLO Camera cấp Tỉnh",
+  "phan": "XI",
+  "trang": [
+   68,
+   71
+  ],
+  "file": "references/gtm/XI-0.md",
+  "so_dong": 5,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "XI-A",
+  "ten": "Phần XI.A Thẩm quyền trên 3 đơn vị thực thi",
+  "phan": "XI",
+  "trang": [
+   71,
+   71
+  ],
+  "file": "references/gtm/XI-A.md",
+  "so_dong": 11,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "XI-B",
+  "ten": "Phần XI.B WR địa bàn VNPT T/TP",
+  "phan": "XI",
+  "trang": [
+   71,
+   73
+  ],
+  "file": "references/gtm/XI-B.md",
+  "so_dong": 42,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "XI-C",
+  "ten": "Phần XI.C Loại 3 – xung đột nguồn lực",
+  "phan": "XI",
+  "trang": [
+   73,
+   73
+  ],
+  "file": "references/gtm/XI-C.md",
+  "so_dong": 10,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "C Loại 3 – xung đột nguồn lực Nguồn: Tổ chức triển khai, quản trị GTM PLO Camera (bản chính thức",
+   "Cập nhật Ma trận Ủy quyền — Loại 3 (Xung đột nguồn lực giữa các PLO/kênh)",
+   "Escalate tiếp nếu không giải quyết được",
+   "WR địa bàn — Lãnh đạo VNPT Tỉnh/Thành quyết định khi có escalation"
+  ]
+ },
+ {
+  "id": "XI-D",
+  "ten": "Phần XI.D Nhịp họp WR địa bàn",
+  "phan": "XI",
+  "trang": [
+   73,
+   73
+  ],
+  "file": "references/gtm/XI-D.md",
+  "so_dong": 6,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "MUC-1",
+  "ten": "Mục 1 Ma trận vị trí × tài liệu × kỹ năng × quy trình",
+  "phan": "XI",
+  "trang": [
+   73,
+   75
+  ],
+  "file": "references/gtm/MUC-1.md",
+  "so_dong": 31,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "Không vận hành trực tiếp luồng nào — áp dụng Ma trận Ủy quyền Loại 2-5 khi vượt thẩm quyền cấp dưới",
+   "Giám sát toàn bộ luồng vận hành cấp tỉnh — Ma trận Ủy quyền Loại 1 tại tỉnh"
+  ]
+ },
+ {
+  "id": "MUC-2",
+  "ten": "Mục 2 Quyền ban hành/sửa đổi tài liệu",
+  "phan": "XI",
+  "trang": [
+   75,
+   76
+  ],
+  "file": "references/gtm/MUC-2.md",
+  "so_dong": 24,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "đổi hạn mức Loại 1/2",
+   "Thẩm định: Phó giám đốc Ban Sản phẩm → Phê duyệt: Phó Tổng giám đốc VNPT VinaPhone (đúng Loại 5, Phần X"
+  ]
+ },
+ {
+  "id": "MUC-3",
+  "ten": "Mục 3 Gán đầu mối & war room co giãn theo quy mô",
+  "phan": "XI",
+  "trang": [
+   76,
+   77
+  ],
+  "file": "references/gtm/MUC-3.md",
+  "so_dong": 56,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "Chỉ nội dung vượt thẩm quyền của đầu mối (Loại 2 trở lên) mới escalate lên cấp trên — cấp trên KHÔNG cần dự War-room thường xuyên của từng dịch vụ"
+  ]
+ },
+ {
+  "id": "PL1",
+  "ten": "Phụ lục 1 — 56 luồng",
+  "phan": "PL1",
+  "trang": [
+   77,
+   77
+  ],
+  "file": "references/gtm/PL1.md",
+  "so_dong": 2,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "L-2.1",
+  "ten": "Luồng 2.1: Tiếp nhận nhu cầu đa kênh (Inbound)",
+  "phan": "II Bán hàng",
+  "trang": [
+   77,
+   79
+  ],
+  "file": "references/gtm/L-2.1.md",
+  "so_dong": 91,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "137289&rtpof=true&sd=true Ghi chú hoàn thiện: • Bổ sung SLA đề xuất cho Bước 1 (≤30 phút, đồng bộ với Bước 2), Bước 3 (≤4 giờ làm việc), Bước 4 (≤24",
+   "giờ làm việc) và Bước 5 (≤48 giờ làm việc) — tất cả đánh dấu vì bản gốc chỉ có SLA số tại Bư",
+   "ớc 2 (≤30 phút)",
+   "SLA tạo phiếu tiếp nhận ≤30 phút kể từ khi khách hàng có mặt tại quầy — áp dụng tương tự SLA",
+   "≤30 phút đã ban hành tại",
+   "Tạo phiếu ≤30 phút",
+   "SLA xác định năng lực mạng trên OneBSS ≤4 giờ làm việc kể từ khi tiếp nhận yêu cầu — căn cứ đề xuất theo",
+   "SLA hoàn thành giải trình và cung cấp mốc thời gian dự kiến cho ĐVKD ≤48 giờ làm việc kể từ khi xác định không đáp ứng tại Bước 3"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-2.2",
+  "ten": "Luồng 2.2: Tư vấn & Chốt đơn",
+  "phan": "II Bán hàng",
+  "trang": [
+   79,
+   81
+  ],
+  "file": "references/gtm/L-2.2.md",
+  "so_dong": 70,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "• Bổ sung SLA đề xuất cho Bước 2 và Bước 3 (≤30 phút) do bản gốc không có SLA cho 2 bước này (chỉ Bước 1 có điểm",
+   "SLA hoàn tất ký hợp đồng và tạo phiếu yêu cầu lắp đặt ≤30 phút kể từ khi khách hàng đồng ý sử dụng dịch vụ tại quầy — căn",
+   "cứ đề xuất tương tự SLA ≤30 phút tại luồng 2",
+   "SLA tạo phiếu yêu cầu lắp đặt ≤30 phút kể từ khi khách hàng xác nhận đồng ý qua điện thoại/online"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-2.3",
+  "ten": "Luồng 2.3: Ký Hợp đồng",
+  "phan": "II Bán hàng",
+  "trang": [
+   81,
+   82
+  ],
+  "file": "references/gtm/L-2.3.md",
+  "so_dong": 64,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "• Bổ sung SLA đề xuất cho Bước 2 (≤24 giờ làm việc) — bản gốc chỉ có điểm chốt phi số liệu",
+   "ần thêm thời gian → chuyển trạng thái 'Tạm hoãn ký hợp đồng' và hẹn liên hệ lại trong vòng 05 ngày làm việc trước khi đóng phiếu",
+   "SLA hoàn tất ký hợp đồng qua kênh gián tiếp (gửi/nhận hồ sơ, xác nhận chữ ký) ≤24 giờ làm việc kể từ khi khách hàng đồng ý — dài hơn kênh trực ti"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-2.4",
+  "ten": "Luồng 2.4: Phễu bán hàng PTM Fiber mới",
+  "phan": "II Bán hàng",
+  "trang": [
+   82,
+   86
+  ],
+  "file": "references/gtm/L-2.4.md",
+  "so_dong": 108,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "!-- trang 83 --> Ghi chú hoàn thiện: • Định lượng SLA thi công (Bước 3, đề xuất ≤72 giờ) và xử lý trở ngại/cấu hình dịch vụ (Bước 4, đề xuất ngưỡng",
+   "cảnh báo ≤4 giờ, đôn đốc trong 2 giờ tiếp theo) — bản gốc chỉ mô tả 'cảnh b",
+   "• Bổ sung SLA đề xuất cho Bước 2 (tạo đơn + ký hợp đồng ≤30 phút) để đồng bộ với SLA của luồng 2",
+   "SLA hoàn tất tạo đơn hàng gộp và ký hợp đồng ≤30 phút — áp dụng tương tự SLA ký hợp đồng trực tiếp tại Luồng 2",
+   "hàng vắng mặt → TTVT ghi nhận lý do trên OneBSS, lập lịch thi công lại trong vòng 48 giờ kể từ lần hẹn đầu, tối đa 02 lần hẹn lại",
+   "nghiệm thu hoàn tất ≤72 giờ kể từ khi phiếu yêu cầu được chuyển xuống TTVT",
+   "Định lượng ngưỡng: SLA cấu hình dịch vụ ≤4 giờ làm việc kể từ khi hoàn công tại hiện trường (Bước 3)",
+   "ng chưa chuyển trạng thái 'Đang hoạt động' → TT CSKH đôn đốc đầu mối TTVT xử lý trong vòng 02 giờ tiếp theo"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-2.5",
+  "ten": "Luồng 2.5: B2A Cross-sell trên Fiber hiện hữu",
+  "phan": "II Bán hàng",
+  "trang": [
+   86,
+   90
+  ],
+  "file": "references/gtm/L-2.5.md",
+  "so_dong": 95,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "Bổ sung: thời hạn khóa chạm mặc định đến hết chu kỳ phân giao hiện hành (tối đa 30 ngày) hoặc đến khi phiếu chuyển trạng thái SUCCESS/FAIL (tuỳ điề"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-2.5.a",
+  "ten": "Luồng 2.5.a — Phân tập và đẩy dữ liệu về điểm chạm thực thi",
+  "phan": "II Bán hàng",
+  "trang": [
+   90,
+   91
+  ],
+  "file": "references/gtm/L-2.5.a.md",
+  "so_dong": 10,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "L-2.5.b",
+  "ten": "Luồng 2.5.b — Quy trình OB Telesale Camera của Đài Hỗ trợ khách hàng Online",
+  "phan": "II Bán hàng",
+  "trang": [
+   91,
+   93
+  ],
+  "file": "references/gtm/L-2.5.b.md",
+  "so_dong": 16,
+  "trang_thai": null,
+  "sla": [
+   "Hạn xử lý: tối đa 3 ngày làm việc kể từ thời điểm hẹn — hết",
+   "úc gián tiếp — VNPT khu vực/TTVT khu vực/TT DVKH phối hợp hoàn thiện và ký, SLA ≤24 giờ làm việc đã quy định sẵn)"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-2.5.c",
+  "ten": "Luồng 2.5.c — Field tiếp nhận phiếu trực tiếp + phiếu bàn giao từ OB",
+  "phan": "II Bán hàng",
+  "trang": [
+   93,
+   94
+  ],
+  "file": "references/gtm/L-2.5.c.md",
+  "so_dong": 10,
+  "trang_thai": null,
+  "sla": [
+   "vực/TTVT khu vực (VNPT T/TP) và TT DVKH phối hợp hoàn thiện, ký hợp đồng — SLA ≤24 giờ làm việc (đã quy định tại Luồng 2",
+   "SLA tổng: ≤24 giờ làm việc để ký hợp đồng (theo Luồng 2",
+   "3) + tối đa 3 ngày làm việc kể từ khi ký đến khi NVKT liên hệ khách xác nhận l"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-2.6",
+  "ten": "Luồng 2.6: Quản trị Giá Combo",
+  "phan": "II Bán hàng",
+  "trang": [
+   94,
+   99
+  ],
+  "file": "references/gtm/L-2.6.md",
+  "so_dong": 149,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "m định chéo: mỗi PLO thành viên phản hồi (approve/reject) trên hệ thống điện tử ≤5 ngày làm việc kể từ khi nhận đủ hồ sơ Bước 2",
+   "SLA phê duyệt trên hệ thống điện tử ≤7 ngày làm việc kể từ khi hồ sơ trình đầy đủ hợp lệ (không tính th",
+   "SLA hoàn thành báo cáo rà soát định kỳ theo quý ≤10 ngày làm việc kể từ ngày chốt số liệu quý hoặc kể từ khi phát si"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-2.7",
+  "ten": "Luồng 2.7: Đặt hàng Multi-product (Combo)",
+  "phan": "II Bán hàng",
+  "trang": [
+   99,
+   104
+  ],
+  "file": "references/gtm/L-2.7.md",
+  "so_dong": 160,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "aring Ghi chú hoàn thiện: • Bổ sung SLA đề xuất cho Bước 4 (giao phiếu thi công ≤4 giờ), Bước 5 (hoàn tất lắp đặt + kích hoạt toàn bộ thành phần b",
+   "ắt buộc ≤72 giờ) và Bước 9 (xác định phương án ngoại lệ ≤24 giờ, hoàn tất xử lý ≤72 giờ) — bản gốc chưa có SLA số cho các bước này",
+   "SLA giao phiếu thi công cho đơn vị/NVKT ≤4 giờ làm việc kể từ khi hợp đồng và thanh toán hoàn tất — căn cứ",
+   "đề xuất theo mốc SLA tạo phiếu ≤30 phút tại luồng 2",
+   "SLA hoàn tất lắp đặt và kích hoạt toàn bộ thành phần bắt buộc của Combo ≤72 giờ kể từ khi nhận phiếu thi công tại Bước 4",
+   "SLA xử lý ngoại lệ: xác định phương án xử lý và thông báo khách hàng ≤24 giờ kể từ khi phát sinh ngoại lệ",
+   "hoàn tất xử lý (bổ sung/đổi/hủy) ≤72 giờ kể từ khi khách hàng xác nhận phương án — căn cứ đề xuất th"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-2.8",
+  "ten": "Luồng 2.8: Bán hàng qua Kênh Online tự vận hành — gồm 2 luồng con độc lập",
+  "phan": "II Bán hàng",
+  "trang": [
+   104,
+   104
+  ],
+  "file": "references/gtm/L-2.8.md",
+  "so_dong": 5,
+  "trang_thai": "Hoàn thiện",
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "L-2.8.1",
+  "ten": "Luồng 2.8.1 — Landing page marketing (Facebook/Instagram/Google Ads/TikTok) + NV OB",
+  "phan": "II Bán hàng",
+  "trang": [
+   104,
+   109
+  ],
+  "file": "references/gtm/L-2.8.1.md",
+  "so_dong": 146,
+  "trang_thai": null,
+  "sla": [
+   "Lượng hoá số lần gọi lại tối đa: 03 lần trong vòng 48 giờ kể từ lần gọi đầu tiên, mỗi lần cách nhau tối thiểu 4 giờ v"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-2.8.2",
+  "ten": "Luồng 2.8.2 — Mua/thuê thiết bị tự phục vụ trong App MyVNPT",
+  "phan": "II Bán hàng",
+  "trang": [
+   109,
+   111
+  ],
+  "file": "references/gtm/L-2.8.2.md",
+  "so_dong": 22,
+  "trang_thai": "Hoàn thiện một phần — nội dung Bước 5-6 của URD gốc (giữa bước chọn thiết bị và bước",
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "L-2.9",
+  "ten": "Luồng 2.9: Chương trình Giới thiệu Khách hàng (Affiliate)",
+  "phan": "II Bán hàng",
+  "trang": [
+   111,
+   114
+  ],
+  "file": "references/gtm/L-2.9.md",
+  "so_dong": 147,
+  "trang_thai": "Hoàn thiện",
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "L-2.10",
+  "ten": "Luồng 2.10: Truyền thông giới thiệu sản phẩm & chương trình thúc đẩy bán hàng theo kỳ",
+  "phan": "II Bán hàng",
+  "trang": [
+   114,
+   118
+  ],
+  "file": "references/gtm/L-2.10.md",
+  "so_dong": 80,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "e/Portal điều hành nội bộ hiện có, kèm SLA phê duyệt theo cấp: PGĐ Ban Sản phẩm ≤3 ngày làm việc (Bước 1), Ban Truyền thông ≤2 ngày làm việc (Bước",
+   "2), và SLA báo cáo đóng chiến dịch ≤5 ngày làm việc (Bước 4) — toàn bộ là đề xuất mới, chưa có trong b",
+   "n workflow điện tử: PGĐ Ban Sản phẩm phản hồi (duyệt/từ chối/yêu cầu chỉnh sửa) ≤3 ngày làm việc kể từ khi phiếu trình đầy đủ trên hệ thống — căn c",
+   "SLA duyệt bản cuối trên workflow điện tử ≤2 ngày làm việc kể từ khi nội dung được trình đầy đủ (kèm rà",
+   "SLA hoàn thành báo cáo đo lường và đóng chiến dịch trên Portal điều hành nội bộ ≤5 ngày làm việc kể từ ngày kết thúc chiến dịch",
+   "Toàn bộ phạm vi, trường dữ liệu, quy tắc phê duyệt và SLA (PGĐ Ban Sản phẩm ≤3 ngày, Ban Truyền thông ≤2 ngày, báo cáo đóng chiến dịch ≤5 ngày)"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-3.1",
+  "ten": "Luồng 3.1: Dự báo nhu cầu & Đặt hàng thiết bị",
+  "phan": "III Inventory",
+  "trang": [
+   118,
+   120
+  ],
+  "file": "references/gtm/L-3.1.md",
+  "so_dong": 66,
+  "trang_thai": "Hoàn thiện",
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "L-3.2",
+  "ten": "Luồng 3.2: Nhập kho, gắn định danh, phân bổ theo cấp",
+  "phan": "III Inventory",
+  "trang": [
+   120,
+   128
+  ],
+  "file": "references/gtm/L-3.2.md",
+  "so_dong": 212,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "SLA: hoàn tất xác nhận chứng từ nhập kho trong vòng 24 giờ làm việc kể từ khi có đủ phiếu nhập kho và BBGN",
+   "SLA hoàn tất tính toán và công bố trong vòng 4 giờ làm việc kể từ khi sản lượng dịch vụ chính được duyệt tại B",
+   "xuất cấp phát VTTB (mẫu 02-DKY) phải được hệ thống phát hành và chuyển tới CƯVT trong vòng 2 giờ làm việc kể từ khi xác định xong số lượng tại Bước 5",
+   ") → trả lại NVKT/TTVT yêu cầu điều chỉnh trong vòng 4 giờ trước khi xử lý xuất kho",
+   "trường hợp đột xuất/ứng cứu: tiếp nhận và xử lý tức thời (≤ 2 giờ) theo đúng mô tả trigger của bước",
+   "SLA: hoàn tất tạo phiếu xuất kho và cấp phát trong vòng 24 giờ làm việc kể từ khi nhận ĐKCP hợp lệ tại Bước 7 đối với trườ",
+   "≤ 4 giờ đối với trường hợp đột xuất/LĐSC",
+   "Người lập phiếu/Phụ trách cung ứng/Thủ kho) và bàn giao cho bộ phận vận chuyển trong vòng 24 giờ kể từ khi có phiếu xuất kho tại Bước 8",
+   "Trường hợp người nhận hàng chưa xác nhận chứng từ sau 2 ngày làm việc kể từ lúc thủ kho xác nhận xuất kho: hệ thống tự đ",
+   "SLA: NVKT/Tổ trưởng/LĐ TTVT xác nhận điện tử nhận hàng trong vòng 2 ngày làm việc kể từ khi thủ kho xác nhận xuất kho (đã nêu tại cộ"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-3.3",
+  "ten": "Luồng 3.3: Thu hồi thiết bị khi khách hàng hủy/thanh lý",
+  "phan": "III Inventory",
+  "trang": [
+   128,
+   133
+  ],
+  "file": "references/gtm/L-3.3.md",
+  "so_dong": 126,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "SLA: hoàn tất xác minh & giữ chân trong vòng 24 giờ kể từ khi ghi nhận yêu cầu, trước khi hệ thống xuất Phiếu c",
+   "SLA: hoàn thành thu hồi và đóng Phiếu công tác trong vòng 24 giờ kể từ khi PCT phát hành (đối với thu hồi tại nhà khách hàng",
+   "ờng hợp phát sinh luân chuyển S/N giữa các thuê bao, hoàn tất thao tác trên App trong vòng 24 giờ",
+   "SLA: hoàn tất nhập kho và phân loại chất lượng trong vòng 24 giờ kể từ khi kết quả kiểm tra S/N tại Bước 3 hoàn tất",
+   "SLA: hoàn trả thiết bị hư/xấu về kho CƯVT theo định kỳ, tối đa 7 ngày làm việc kể từ khi phát sinh (mã kho 530/540) để tránh tồn",
+   "BVT hoàn tất kiểm tra, xác nhận, cập nhật lý do từ chối bảo hành/không sửa được trong vòng 5 ngày làm việc kể từ khi tiếp nhận thiết bị",
+   "SLA: hoàn tất hạch toán chứng từ nhập- xuất kho hàng tuần trong vòng 3 ngày làm việc kể từ ngày chốt số liệu tuần"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-3.4",
+  "ten": "Luồng 3.4: Bảo hành/Đổi trả (RMA) 1 đổi 1",
+  "phan": "III Inventory",
+  "trang": [
+   133,
+   136
+  ],
+  "file": "references/gtm/L-3.4.md",
+  "so_dong": 152,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "hị, thiếu mã lô hàng) → NCC có quyền từ chối tiếp nhận, CƯVT phải bổ sung hồ sơ trong vòng 24 giờ",
+   "SLA: hoàn tất xuất kho gửi thiết bị cho NCC bảo hành trong vòng 3 ngày làm việc kể từ khi thiết bị được hoàn trả về kho CƯVT (mã k",
+   "kết quả bảo hành (chấp nhận/từ chối) trong vòng cam kết theo hợp đồng, đề xuất tối đa 15 ngày làm việc kể từ ngày nhận thiết bị tại Bước 1",
+   "SCTBVT trong vòng 3 ngày làm việc kể từ khi thiết bị được hoàn trả về kho CƯVT (mã k",
+   "(sửa được/không sửa được) trong vòng 10 ngày làm việc kể từ khi tiếp nhận thiết bị tại Bước 4",
+   "SLA: hoàn tất nhập kho và phân bổ xuất đến kho NVKT/Tổ/TTVT trong vòng 3 ngày làm việc kể từ khi nhận thiết bị tốt",
+   "3, Bước 6 (tối đa 30 ngày làm việc từ khi nhập kho chờ thanh lý)",
+   "SLA: hoàn tất hạch toán hàng tuần trong vòng 2 ngày làm việc kể từ ngày chốt số liệu tuần"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-3.5",
+  "ten": "Luồng 3.5: Điều chuyển thiết bị ứng cứu giữa các Tỉnh",
+  "phan": "III Inventory",
+  "trang": [
+   136,
+   139
+  ],
+  "file": "references/gtm/L-3.5.md",
+  "so_dong": 64,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "Nếu PO đã xác nhận có ngày giao trong vòng 7 ngày: không kích hoạt điều chuyển, tránh phát sinh chi phí vận c"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-3.6",
+  "ten": "Luồng 3.6: Quản trị Danh mục SKU",
+  "phan": "III Inventory",
+  "trang": [
+   139,
+   143
+  ],
+  "file": "references/gtm/L-3.6.md",
+  "so_dong": 150,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "Đối soát thời điểm gửi hồ sơ hợp lệ với mốc SLA cấp mã đã cam kết (≤05 ngày làm việc kể từ ngày đăng ký hợp lệ) theo Điều 7",
+   "mã SKU đã đồng bộ trên từng hệ thống CNTT với danh mục SPDV Tập đoàn đã công bố trong vòng 10 ngày làm việc kể từ ngày thông báo triển khai chính thức (Điều 7",
+   "SLA: hoàn tất đồng bộ tự động SKU sang ONEBSS/App Employee trong vòng 4 giờ làm việc kể từ khi danh mục được công bố tại Bước 8 hoặc tr",
+   "vn xuống ONEBSS và App Employee trong vòng 4 giờ kể từ khi công bố, có cơ chế cảnh báo lỗi đồng bộ và fallba"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-3.7",
+  "ten": "Luồng 3.7: Quản lý Firmware/Cập nhật phần mềm thiết bị",
+  "phan": "III Inventory",
+  "trang": [
+   143,
+   146
+  ],
+  "file": "references/gtm/L-3.7.md",
+  "so_dong": 130,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "Nghiêm trọng (Critical) phải phát hành bản vá và hoàn tất kiểm tra tương thích trong vòng 72 giờ kể từ khi phát hiện/công bố lỗ hổng"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-3.8",
+  "ten": "Luồng 3.8: Quản trị Dung lượng Lưu trữ Cloud",
+  "phan": "III Inventory",
+  "trang": [
+   146,
+   149
+  ],
+  "file": "references/gtm/L-3.8.md",
+  "so_dong": 113,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "g SLA xử lý sự cố đã cam kết trong hợp đồng đối tác: thời gian khắc phục (MTTR) tối đa 4 giờ đối với sự cố ảnh hưởng diện rộng (>10% thuê bao đang dùng",
+   "dịch vụ), tối đa 24 giờ đối với sự cố cục bộ",
+   "ắc nghiệp vụ đề xuất: %uptime tối thiểu 99,5%/tháng, độ trễ tối đa 3 giây, MTTR tối đa 4 giờ (sự cố diện rộng >10% thuê bao)/24 giờ (cục bộ), không quá"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-3.9",
+  "ten": "Luồng 3.9: Phương án Đa nguồn cung khi VNPT Tech gặp sự cố lớn",
+  "phan": "III Inventory",
+  "trang": [
+   149,
+   155
+  ],
+  "file": "references/gtm/L-3.9.md",
+  "so_dong": 105,
+  "trang_thai": "Dự thảo mới",
+  "sla": [
+   "n mức độ ảnh hưởng và quyết định có kích hoạt phương án đa nguồn cung hay không trong vòng 24 giờ kể từ khi nhận thông báo sự cố từ VNPT Technology",
+   "SLA: hoàn tất phê duyệt chủ trương kích hoạt trong vòng 48 giờ kể từ",
+   "SLA: hoàn tất lựa chọn nhà cung cấp thay thế và phát hành PO trong vòng 5 ngày làm việc kể từ khi phương án được kích hoạt tại Bước 2 (nha",
+   "SLA: hoàn tất báo cáo tổng kết sau sự cố trong vòng 15 ngày làm việc kể từ khi tình hình cung ứng trở lại bình thường"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-4.1",
+  "ten": "Luồng 4.1: Active/Kích hoạt dịch vụ khi lắp đặt cho khách hàng",
+  "phan": "IV Giao hàng & Cài đặt",
+  "trang": [
+   155,
+   158
+  ],
+  "file": "references/gtm/L-4.1.md",
+  "so_dong": 104,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "Mất kết nối mạng tại hiện trường: App Employee cho phép lưu tạm offline tối đa 12 giờ, tự đồng bộ khi có mạng"
+  ],
+  "escalation": [
+   "ang trạng thái khác 'Đã tiếp nhận'/'Chờ thiết bị' kèm phương án cụ thể), hệ thống tự động escalate lên Giám đốc Trung tâm Kỹ thuật khu vực",
+   "nếu tồn quá 48 giờ, tiếp tục escalate và bắt buộc báo cáo nguyên nhân + phương án xử lý",
+   "Bổ sung mốc leo thang: escalate lên Giám đốc Trung tâm Kỹ thuật khu vực khi phiếu tồn war room quá 24 giờ",
+   "escalate lặp lại và yêu cầu báo cáo phương án khi tồn quá 48 giờ",
+   "room' cấp Khu vực: nếu phiếu tồn quá 24 giờ mà chưa được xử lý dứt điểm, hệ thống tự động escalate lên Giám đốc Trung tâm Kỹ thuật khu vực",
+   "nếu tồn quá 48 giờ, tiếp tục escalate và yêu cầu báo cáo nguyên nhân + phương án xử lý trong ngày làm việc kế tiếp"
+  ]
+ },
+ {
+  "id": "L-4.2",
+  "ten": "Luồng 4.2: Lắp đặt & Ký Bàn giao",
+  "phan": "IV Giao hàng & Cài đặt",
+  "trang": [
+   158,
+   160
+  ],
+  "file": "references/gtm/L-4.2.md",
+  "so_dong": 49,
+  "trang_thai": "Hoàn thiện",
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "L-4.3",
+  "ten": "Luồng 4.3: Đối tác Lắp đặt Thuê ngoài - Tình trạng công cụ: Chưa triển khai luồng này tại thời",
+  "phan": "IV Giao hàng & Cài đặt",
+  "trang": [
+   160,
+   163
+  ],
+  "file": "references/gtm/L-4.3.md",
+  "so_dong": 207,
+  "trang_thai": null,
+  "sla": [
+   "ại địa bàn vượt quá năng lực xử lý của NVKT nội bộ trong ngưỡng SLA đã cam kết (≤2 giờ giao phiếu, hoàn tất trong ngày hẹn), hoặc thiếu hụt nhân s"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-4.4",
+  "ten": "Luồng 4.4: Nâng cấp/Hạ cấp Gói (thực thi kỹ thuật)",
+  "phan": "IV Giao hàng & Cài đặt",
+  "trang": [
+   163,
+   167
+  ],
+  "file": "references/gtm/L-4.4.md",
+  "so_dong": 95,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "SLA liên hệ và xác nhận thông tin thuê bao với khách hàng: trong vòng 4 giờ làm việc kể từ khi phát sinh chênh lệch thông tin cần đối c",
+   "SLA hoàn thiện hồ sơ và thông báo kết quả cho khách hàng: trong vòng 30 phút kể từ khi hệ thống xác nhận trạng thái 'Hoàn thành' tại Bướ",
+   "SLA hoàn thiện hồ sơ, thông báo khách hàng và đóng Phiếu yêu cầu: trong vòng 30 phút kể từ khi hệ thống ghi nhận trạng thái 'Hoàn thành' kết quả"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-4.5",
+  "ten": "Luồng 4.5: Chuyển nhượng khi Chuyển nhà/Bán nhà",
+  "phan": "IV Giao hàng & Cài đặt",
+  "trang": [
+   167,
+   170
+  ],
+  "file": "references/gtm/L-4.5.md",
+  "so_dong": 64,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "n → in bản kê → nộp Tổ trưởng Tổ KTĐB → gom nộp Kho Hợp đồng lưu trữ): hoàn tất trong vòng 3 ngày làm việc kể từ thời điểm hoàn tất chuyển nhượng (bấm Hoàn t"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-5.1",
+  "ten": "Luồng 5.1: Gia hạn Đóng trước cước (ĐTC)",
+  "phan": "V CSKH",
+  "trang": [
+   170,
+   174
+  ],
+  "file": "references/gtm/L-5.1.md",
+  "so_dong": 139,
+  "trang_thai": "Hoàn thiện",
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "L-5.2",
+  "ten": "Luồng 5.2: Chăm sóc thuê bao trả sau",
+  "phan": "V CSKH",
+  "trang": [
+   174,
+   185
+  ],
+  "file": "references/gtm/L-5.2.md",
+  "so_dong": 291,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "i gian hệ thống tự tạo phiếu báo hỏng Camera kể từ khi NVOB ghi nhận kết quả OB ≤ 5 phút",
+   "3 – Phụ lục A QT- 1263 (KH cá nhân nhóm A ≤ 2 giờ, nhóm B ≤ 3 giờ)",
+   "n đề xuất khóa máy cưỡng bức: chọn ngày đề xuất khóa (ngày khóa – ngày hiện tại > 2 ngày",
+   "Chỉ tiêu: thời gian đồng bộ trạng thái khóa từ OneBSS sang OneHome ≤ 5 phút kể từ thời điểm phát sinh sự kiện khóa",
+   "Đối với dịch vụ không dây: khóa 1 chiều do nợ cước, nếu sau 15 ngày KH vẫn chưa thanh",
+   "Chỉ tiêu: thời gian đồng bộ trạng thái khóa sang OneHome ≤ 5 phút",
+   "gửi, điền thông tin số liên hệ để tạm thời mở khóa và tiếp tục sử dụng dịch vụ trong vòng 24 giờ",
+   "Khách hàng đã mở khóa máy tạm thời và đang sử dụng dịch vụ trong vòng 24 giờ (Bước 10)",
+   "thời gian hệ thống tự tạo phiếu báo hỏng Camera (nếu có phản ánh) ≤ 5 phút",
+   "c với luồng OB bán tự động (không mở dịch vụ bằng link và chưa thanh toán, hoặc sau 2 ngày kể từ khi khóa máy vẫn không có động thái/không bấm vào lin"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-5.3",
+  "ten": "Luồng 5.3: Xử lý báo hỏng/sự cố kỹ thuật",
+  "phan": "V CSKH",
+  "trang": [
+   185,
+   194
+  ],
+  "file": "references/gtm/L-5.3.md",
+  "so_dong": 220,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "Tiếp nhận thông tin sự cố, hỗ trợ gián tiếp, tiền xử lý: ≤30 phút",
+   "được ghi nhận trên OneBSS, làm căn cứ đối chiếu mốc tiền xử lý ≤30 phút tại Bước 1 và tránh khách hàng phải hỏi lại nhiều lần",
+   "Tiếp nhận, xử lý, xác nhận hoàn tất, đánh giá hài lòng khách hàng, khóa phiếu: ≤1 giờ (KH tổ chức DN nhóm A)/≤2 giờ (nhóm B)/≤3 giờ (nhóm C)",
+   "KH cá nhân nhóm A ≤2 giờ, nhóm B ≤3 giờ (Phụ lục A – QT-1263)",
+   "Xử lý lỗi vật lý (VNPT Tỉnh/TP): ≤3,5 giờ (KH tổ chức DN nhóm A)/≤4,5 giờ (nhóm B)/≤5,5 giờ (nhóm C)",
+   "KH cá nhân nhóm A ≤5,5 giờ, nhóm B ≤11,5 giờ",
+   "KH cá nhân nhóm A ≤5,5 giờ, nhóm B ≤11,5 giờ (Phụ lục A – QT- 1263)",
+   "Xử lý lỗi Logic (VNPT Net): ≤30 phút (KH tổ chức DN nhóm A)/≤1 giờ (nhóm B/C)",
+   "KH cá nhân nhóm A ≤30 phút, nhóm B ≤1 giờ (Phụ lục A – QT-1263)",
+   "xử lý, xác nhận hoàn tất, phản hồi thông tin (đơn vị thực hiện xử lý báo hỏng): ≤3 giờ (KH tổ chức DN nhóm A)/≤4 giờ (nhóm B)/≤5 giờ (nhóm C)"
+  ],
+  "escalation": [
+   "nếu lỗi thuộc hệ thống lưu trữ tập trung → escalate cho VNPT IT/VNPT Media (áp dụng tương tự nhánh 'lỗi mạng core/lớp cao hơn' → chuyển Bước",
+   "riêng nhánh escalate lên VNPT IT/VNPT Media do lỗi nền tảng OneHome/Cloud áp dụng khung SLA 'xử lý lỗi Logic'",
+   "nếu quá 30 phút chưa xác định được phân đoạn, escalate lên cấp quản lý trực tiếp để huy động thêm nguồn lực xác định lỗi, tương tự cơ chế escala"
+  ]
+ },
+ {
+  "id": "L-5.4",
+  "ten": "Luồng 5.4: Chăm sóc chủ động & cảnh báo rời mạng (AI Churn)",
+  "phan": "V CSKH",
+  "trang": [
+   194,
+   196
+  ],
+  "file": "references/gtm/L-5.4.md",
+  "so_dong": 84,
+  "trang_thai": "Hoàn thiện",
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "L-5.5",
+  "ten": "Luồng 5.5: Chăm sóc chủ động 30 ngày đầu sử dụng",
+  "phan": "V CSKH",
+  "trang": [
+   196,
+   198
+  ],
+  "file": "references/gtm/L-5.5.md",
+  "so_dong": 76,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "TT DVKH và TT CSKH tại VNPT T/TP thực hiện khảo sát trong vòng 72h sau khi",
+   "Nếu Callbot/IPCC không liên hệ được khách hàng sau 3 lần gọi trong vòng 72 giờ → hệ thống tự động chuyển danh sách cho AM/Lãnh đạo TT",
+   "thời gian khảo sát trong vòng 72 giờ",
+   "ần gọi tại Bước 2: nếu Callbot/IPCC không liên hệ được khách hàng sau 3 lần gọi trong vòng 72 giờ, hệ thống tự động chuyển danh sách cho AM/Lãnh đạo TT",
+   "hỉnh cho Camera): Hệ thống OneBSS chức năng tự động sinh lịch khảo sát chăm sóc trong vòng 72 giờ sau khi hoàn công/khoá phiếu lắp đặt Camera, giao TT DVKH/T"
+  ],
+  "escalation": [
+   "hàng đánh giá không hài lòng trong đợt khảo sát tại một địa bàn/thời điểm > 20% → tự động escalate cảnh báo rủi ro rời mạng sớm lên Lãnh đạo TT",
+   "á không hài lòng trong đợt khảo sát 30 ngày đầu tại một địa bàn/thời điểm > 20% → tự động escalate cảnh báo rủi ro rời mạng sớm lên Lãnh đạo TT",
+   "• Đã bổ sung nhánh escalation khi không liên hệ được khách hàng sau 3 lần gọi tại Bước 2: nếu Callbot/IPCC không liên h",
+   "nếu tỷ lệ khách hàng đánh giá không hài lòng tại một địa bàn/thời điểm vượt 20%, tự động escalate cảnh báo rủi ro rời mạng sớm lên Lãnh đạo TT"
+  ]
+ },
+ {
+  "id": "L-5.6",
+  "ten": "Luồng 5.6: Vòng đời khi 1 phần Combo bị hủy",
+  "phan": "V CSKH",
+  "trang": [
+   198,
+   202
+  ],
+  "file": "references/gtm/L-5.6.md",
+  "so_dong": 152,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "vô hiệu hoá tài khoản OneHome: ≤2 giờ kể từ khi hoàn tất Bước 4 (Hủy/rã thành phần Camera khỏi gó",
+   "Chỉ tiêu: tỷ lệ vô hiệu hoá tài khoản OneHome đúng SLA ≤2 giờ đạt ≥99%, đối chiếu nguyên lý đối soát dữ liệu giữa các điể",
+   "i Bước 8: thời gian rã gói trên OneBSS và đồng bộ cước sang các dịch vụ còn lại ≤2 giờ kể từ khi hoàn tất Bước 4 (Hủy/rã thành phần Camera khỏi gó",
+   "SLA rã gói/đồng bộ cước và vô hiệu hoá OneHome ≤2 giờ kể từ khi hủy thành phần Camera, tỷ lệ thành công ≥99%"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-5.7",
+  "ten": "Luồng 5.7: Thanh lý/Gia hạn khi Hết hạn Cam kết",
+  "phan": "V CSKH",
+  "trang": [
+   202,
+   206
+  ],
+  "file": "references/gtm/L-5.7.md",
+  "so_dong": 102,
+  "trang_thai": "Hoàn thiện",
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "L-5.8",
+  "ten": "Luồng 5.8: Bồi thường/Hoàn tiền Chính thức",
+  "phan": "V CSKH",
+  "trang": [
+   206,
+   210
+  ],
+  "file": "references/gtm/L-5.8.md",
+  "so_dong": 158,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "chỉ áp dụng khung tối đa 55 ngày cho các trường hợp đặc biệt (ngân hàng phát hành thẻ quốc t",
+   "còn khung 7–15 ngày làm việc đối với trường hợp thông thường, chỉ áp dụng khung tối đa 55 ngày cho các trường hợp đặc biệt (ngân hàng phát hành thẻ quốc t"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-5.9",
+  "ten": "Luồng 5.9: Tiếp nhận & Xử lý Khiếu nại Chính thức",
+  "phan": "V CSKH",
+  "trang": [
+   210,
+   214
+  ],
+  "file": "references/gtm/L-5.9.md",
+  "so_dong": 125,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "1) ≤4 giờ tiếp nhận và báo cáo ban đầu",
+   "giờ/nhóm B ≤48 giờ/nhóm C ≤72 giờ",
+   "KH cá nhân nhóm A ≤48 giờ/nhóm B ≤72 giờ",
+   "Khiếu nại cước/hợp đồng — nhóm A ≤48 giờ/nhóm B ≤72 giờ/nhóm C ≤5 ngày làm việc",
+   "KH cá nhân nhóm A ≤72 giờ/nhóm B ≤5 ngày làm việc",
+   "Khiếu nại thái độ phục vụ — tất cả nhóm ≤5 ngày làm việc",
+   "3 (ví dụ khiếu nại kỹ thuật: nhóm A ≤24h, nhóm B ≤48h, nhóm C ≤72h) và cơ chế mở lại phiếu cũ (không tạo phiếu mới) nếu khách"
+  ],
+  "escalation": [
+   "Bước 8 — Xử lý leo thang (escalat ion) khi cần",
+   "Bước 8 — Xử lý leo thang (escalat ion) khi cần Bước 9 — Đóng khiếu nại, cập nhật số liệu"
+  ]
+ },
+ {
+  "id": "L-5.10",
+  "ten": "Luồng 5.10: Thông báo thay đổi chính sách/giá/gói cước cho thuê bao hiện hữu",
+  "phan": "V CSKH",
+  "trang": [
+   214,
+   216
+  ],
+  "file": "references/gtm/L-5.10.md",
+  "so_dong": 72,
+  "trang_thai": "Hoàn thiện",
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "L-5.11",
+  "ten": "Luồng 5.11: Thông báo chủ động khi có sự cố kỹ thuật diện rộng",
+  "phan": "V CSKH",
+  "trang": [
+   216,
+   219
+  ],
+  "file": "references/gtm/L-5.11.md",
+  "so_dong": 84,
+  "trang_thai": "Dự thảo mới",
+  "sla": [
+   "thời gian phê duyệt tối đa 30 phút kể từ khi có phạm vi ảnh hưởng tại Bước 2, để đảm bảo tính",
+   "ệ gửi thành công qua ít nhất 1 trong 3 kênh (SMS/Push App MyVNPT/Zalo OA) ≥ 90% trong vòng 30 phút kể từ khi nội dung được duyệt",
+   "huê bao ảnh hưởng, nội dung thông báo được soạn theo mẫu chuẩn, phê duyệt trong tối đa 30 phút, rồi gửi đa kênh (SMS, Push App MyVNPT, Zalo OA) tới danh s"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-6.1",
+  "ten": "Luồng 6.1: Bản đồ Hành trình Khách hàng (Customer Journey Map)",
+  "phan": "VI CX",
+  "trang": [
+   219,
+   230
+  ],
+  "file": "references/gtm/L-6.1.md",
+  "so_dong": 319,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "thời gian phản hồi chat/chatbot ≤ 5 phút",
+   "Đề xuất ngưỡng: liên hệ khảo sát trong vòng ≤ 24 giờ làm việc kể từ khi tiếp nhận yêu cầu",
+   "sai lệch phải được NVKD giải trình trong vòng 24 giờ",
+   "sai lệch dữ liệu giữa OneHome và OneBSS phải được phát hiện và xử lý trong vòng ≤ 24 giờ",
+   "Đề xuất ngưỡng: xác nhận đã tiếp nhận PAKN cho KH trong ≤ 15 phút kể từ khi tạo ticket trên OneBSS",
+   "Đề xuất ngưỡng: thông báo phải được gửi trong ≤ 2 giờ kể từ khi sự kiện phát sinh trên OneBSS",
+   "Đề xuất ngưỡng tham chiếu severity_level: P1 ≤ 4 giờ, P2 ≤ 8 giờ, P3 ≤ 24 giờ, P4 ≤ 72 giờ (đồng bộ với ma trận phân loại mức độ tại luồn",
+   "xuất ngưỡng: phản hồi bình luận/phản ánh công khai trên MXH trong ≤ 4 giờ làm việc",
+   "Đề xuất ngưỡng: sai lệch quyền lợi phải được phát hiện và xử lý trong ≤ 48 giờ kể từ khi KH phản ánh",
+   "Đề xuất ngưỡng: hoàn tất thu hồi thiết bị và chốt công nợ trong ≤ 7 ngày làm việc kể từ khi tiếp nhận yêu cầu"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-6.2",
+  "ten": "Luồng 6.2: Cơ chế Phục hồi Trải nghiệm (Service Recovery)",
+  "phan": "VI CX",
+  "trang": [
+   230,
+   236
+  ],
+  "file": "references/gtm/L-6.2.md",
+  "so_dong": 129,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "và đánh giá có kích hoạt Service Recovery hay không trong thời hạn quy định (VD ≤2 giờ làm việc)"
+  ],
+  "escalation": [
+   "ẫn chưa hài lòng dù đã khắc phục và đền bù đúng chính sách → không đóng case, chuyển sang escalation lên cấp cao hơn xem xét phương án bổ sung — đơn vị trách nhiệm xử lý: TT DVKH escalate th",
+   "ch hàng mất niềm tin, yêu cầu ngừng dịch vụ/thanh lý hợp đồng sau sự cố lộ lọt hình ảnh → chuyển cấp có thẩm quyền xem xét và ghi nhận là case phục hồi không thành công để phục vụ phân tích",
+   "000 VNĐ/case, không cần chuyển cấp"
+  ]
+ },
+ {
+  "id": "L-6.3",
+  "ten": "Luồng 6.3: Chủ sở hữu CX Xuyên suốt",
+  "phan": "VI CX",
+  "trang": [
+   236,
+   242
+  ],
+  "file": "references/gtm/L-6.3.md",
+  "so_dong": 126,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "case xuyên suốt phải có đúng 1 chủ sở hữu được gán trong thời hạn quy định (VD ≤4 giờ",
+   "riêng nhóm tình huống bảo mật/lộ lọt hình ảnh phải gán ≤1 giờ",
+   "hiệp vụ: mọi case liên quan lộ lọt hình ảnh bắt buộc mở hồ sơ và gán chủ sở hữu ≤1 giờ (không phụ thuộc số đơn vị tham gia)"
+  ],
+  "escalation": [
+   "Actor: TT DVKH chủ động escalate lên cấp có thẩm quyền phù hợp theo Ma trận Ủy quyền (tóm tắt tại ghi_chu_hoan_ thien — tá",
+   "escalation_level, escalation_reaso n (OneBSS — lý do leo thang, cấp tiếp nhận xử lý)",
+   "Bước 5 — Cơ chế escalati on khi vượt SLA/th ẩm quyền",
+   "Bước 4 — Quy tắc bàn giao/ch uyển tiếp giữa các đơn vị Bước 5 — Cơ chế escalati on khi vượt SLA/th ẩm quyền",
+   "000 VNĐ giá trị đền bù liên quan, không cần escalate",
+   "ớc: mở hồ sơ & gán mã → chỉ định case owner → theo dõi điều phối → bàn giao giữa đơn vị → escalation khi vượt SLA/thẩm quyền → xác nhận hoàn tất → đối soát báo cáo",
+   "guyên nhân nào — đơn vị đó chủ trì'), handover_log (người bàn giao/nhận/thời điểm/lý do), escalation_level/escalation_reason, <!-- trang 242 --> update_frequency_actual, handover_count, csat_score",
+   "case lộ lọt/leo thang nhiều lần, vượt cấp 3 trình Ban lãnh đạo) áp dụng cho cả quyết định escalation và mức phê duyệt đền bù đi kèm"
+  ]
+ },
+ {
+  "id": "L-6.4",
+  "ten": "Luồng 6.4: Insight Vận hành → Ban Sản phẩm",
+  "phan": "VI CX",
+  "trang": [
+   242,
+   249
+  ],
+  "file": "references/gtm/L-6.4.md",
+  "so_dong": 166,
+  "trang_thai": "Hoàn thiện",
+  "sla": [],
+  "escalation": [
+   "Mức 3: nghiêm trọng/kéo dài hoặc có rủi ro gian lận, pháp lý, thương hiệu, bắt buộc chuyển cấp trên",
+   "(2) Mọi dấu hiệu liên quan lộ lọt hình ảnh/truy cập trái phép mặc định xếp Mức 3 và chuyển cấp ngay, không chờ tích lũy đủ số lượng phản ánh mới nâng mức — đơn vị trách nhiệm xử lý: VN",
+   "PT IT/đầu mối ATTT chuyển cấp ngay khi phát hiện",
+   "mọi cảnh báo Mức 3 đều phải kèm bằng chứng dữ liệu trước khi chuyển cấp có thẩm quyền",
+   "Quy tắc nghiệp vụ: mọi dấu hiệu lộ lọt hình ảnh/truy cập trái phép mặc định xếp Mức 3 và chuyển cấp ngay"
+  ]
+ },
+ {
+  "id": "L-7.1",
+  "ten": "Luồng 7.1: Ghi nhận doanh thu Lắp đặt & Bán đứt thiết bị",
+  "phan": "VII Doanh thu & Chi phí",
+  "trang": [
+   249,
+   252
+  ],
+  "file": "references/gtm/L-7.1.md",
+  "so_dong": 113,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "SLA đề xuất: hoàn tất thi công trong vòng 48 giờ làm việc kể từ khi hợp đồng ký hoàn tất (nội thành) / 72 gi",
+   "đề xuất ngưỡng SLA tổng thể: hoàn tất thi công trong vòng 48 giờ làm việc kể từ khi hợp đồng được ký hoàn tất (khu vực nội t"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-7.2",
+  "ten": "Luồng 7.2: Ghi nhận doanh thu Trả trước (ĐTC)",
+  "phan": "VII Doanh thu & Chi phí",
+  "trang": [
+   252,
+   254
+  ],
+  "file": "references/gtm/L-7.2.md",
+  "so_dong": 93,
+  "trang_thai": "Hoàn thiện",
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "L-7.3",
+  "ten": "Luồng 7.3: Ghi nhận doanh thu Trả sau theo kỳ cước",
+  "phan": "VII Doanh thu & Chi phí",
+  "trang": [
+   254,
+   257
+  ],
+  "file": "references/gtm/L-7.3.md",
+  "so_dong": 104,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "Ngưỡng đề xuất: quá hạn >90 ngày kể từ hạn thanh toán trên hóa đơn thì đánh dấu 'Nợ khó thu'",
+   "!-- trang 257 --> • Ngưỡng ngày quá hạn trích lập dự phòng nợ khó thu (Bước 7): >90 ngày kể từ hạn thanh toán ghi trên hóa đơn — quá 90 ngày chưa th"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-7.4",
+  "ten": "Luồng 7.4: Đối soát Doanh thu/Chi phí thiết bị với VNPT Tech (VNPT TECH)",
+  "phan": "VII Doanh thu & Chi phí",
+  "trang": [
+   257,
+   259
+  ],
+  "file": "references/gtm/L-7.4.md",
+  "so_dong": 88,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "SLA đề xuất: ký biên bản đối soát trong vòng 5 ngày làm việc kể từ khi số liệu hai bên khớp",
+   "oàn thiện: • Đã bổ sung SLA ký biên bản đối soát (Bước 5): ký biên bản đối soát trong vòng 5 ngày làm việc kể từ khi số liệu hai bên (PLO và VNPT Tech) đã kh",
+   "Đã bổ sung SLA thanh toán sau đối soát (Bước 5): Ban KTTC thực hiện thanh toán trong vòng 15 ngày làm việc kể từ ngày biên bản đối soát được ký"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-7.5",
+  "ten": "Luồng 7.5: Đối soát Hoa hồng kênh bán & Quỹ lương TTP",
+  "phan": "VII Doanh thu & Chi phí",
+  "trang": [
+   259,
+   263
+  ],
+  "file": "references/gtm/L-7.5.md",
+  "so_dong": 196,
+  "trang_thai": "Hoàn thiện",
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "L-7.6",
+  "ten": "Luồng 7.6: Tổng hợp P&L cấp PLO & Khóa sổ kỳ",
+  "phan": "VII Doanh thu & Chi phí",
+  "trang": [
+   263,
+   265
+  ],
+  "file": "references/gtm/L-7.6.md",
+  "so_dong": 77,
+  "trang_thai": "Hoàn thiện",
+  "sla": [
+   "ó, gắn cờ 'Khóa tạm — chờ điều chỉnh', điều chỉnh hồi tố vào kỳ báo cáo kế tiếp trong vòng 5 ngày làm việc khi có dữ liệu chính thức, không mở lại kỳ đã khóa",
+   "khi có đầy đủ dữ liệu chính thức (chậm nhất trong vòng 5 ngày làm việc sau đó), thực hiện điều chỉnh hồi tố (retrospectiv"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-7.7",
+  "ten": "Luồng 7.7: Chia Doanh thu/Hoa hồng Combo giữa các PLO",
+  "phan": "VII Doanh thu & Chi phí",
+  "trang": [
+   265,
+   270
+  ],
+  "file": "references/gtm/L-7.7.md",
+  "so_dong": 146,
+  "trang_thai": "Hoàn thiện",
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "L-8.1",
+  "ten": "Luồng 8.1: Xử lý sự cố bảo mật dữ liệu hình ảnh (RỦI RO CAO NHẤT)",
+  "phan": "VIII Quản trị & Rủi ro",
+  "trang": [
+   270,
+   275
+  ],
+  "file": "references/gtm/L-8.1.md",
+  "so_dong": 155,
+  "trang_thai": "Dự thảo mới — chờ ban hành chính thức QT-ATBM-CAM-01",
+  "sla": [
+   "Ghi nhận T0 ≤ 1 giờ kể từ khi có dấu hiệu đầu tiên (mốc SLA mức P1)",
+   "Xác minh sơ bộ ≤ 2 giờ",
+   "phân loại mức độ ≤ 2 giờ (mốc SLA mức P1)",
+   "Ngăn chặn nguồn rò rỉ ≤ 2 giờ kể từ khi xác nhận sự cố (mốc SLA mức P1)",
+   "SLA báo cáo nội bộ War room ≤ 24 giờ kể từ mốc T0 (mốc nội bộ, không phải mốc pháp lý) — theo đú",
+   "SLA đề xuất ≤ 72 giờ kể từ khi phát hiện/xác nhận sự cố, theo Luật Bảo vệ dữ liệ",
+   "SLA đề xuất ≤ 72 giờ kể từ khi xác định phạm vi ảnh hưởng, tách riêng khỏi SLA b",
+   "Khắc phục lỗ hổng nghiêm trọng ≤ 72 giờ (mốc SLA mức P1, theo bản gốc)",
+   "Báo cáo hậu sự cố ≤ 7 ngày làm việc kể từ khi đóng sự cố (mốc SLA theo bản gốc)",
+   "• SLA báo cáo cơ quan quản lý nhà nước về bảo vệ dữ liệu cá nhân (đề xuất ≤72 giờ theo Luật Bảo vệ dữ liệu cá nhân số 91/2025/QH15 và Nghị đị"
+  ],
+  "escalation": [
+   "Sự cố mức P1–P2 vượt thẩm quyền cấp Tổng công ty → escalation ngay lên War room ATBM cấp Tập đoàn, không chờ đến chu"
+  ]
+ },
+ {
+  "id": "L-8.2",
+  "ten": "Luồng 8.2: Escalation dữ liệu qua các cấp War room",
+  "phan": "VIII Quản trị & Rủi ro",
+  "trang": [
+   275,
+   278
+  ],
+  "file": "references/gtm/L-8.2.md",
+  "so_dong": 135,
+  "trang_thai": "Đang vận hành — bổ sung lượng hoá SLA và định danh công cụ số hoá",
+  "sla": [
+   "y cụ thể theo từng cấp: cấp Tỉnh (VNPT khu vực/TTVT khu vực, War room cấp Tỉnh) tối đa 2 ngày làm việc",
+   "cấp Khối (War room VNPT T/TP, PGĐ VNPT T/TP chủ trì) tối đa 3 ngày làm việc",
+   "TGĐ VNP chủ trì) tối đa 5 ngày làm việc — tính từ thời điểm cảnh báo chỉ tiêu đạt mức 2/3",
+   "đồng thời lượng hoá SLA xử lý theo từng cấp escalation (cấp Tỉnh ≤2 ngày, cấp Khối ≤3 ngày, cấp Ban ≤5 ngày làm việc kể từ mốc cảnh"
+  ],
+  "escalation": [
+   "2: Escalation dữ liệu qua các cấp War room Nguồn: Tổ chức triển khai, quản trị GTM PLO Camera (bản chí",
+   "2: Escalation dữ liệu qua các cấp War room Trạng thái: Đang vận hành — bổ sung lượng hoá SLA và định da",
+   "Bước 7 — Escalati on lên War room 34 T/TP toàn quốc",
+   "êu vẫn ở mức Đỏ sau chu kỳ hành động đã cam kết (2/3/5 ngày tương ứng theo cấp) → tự động escalation lên cấp cao hơn liền kề, không chờ đến chu kỳ họp định kỳ tiếp theo",
+   "Đối soát kết quả thực tế với mục tiêu cam kết tại Bước 8, làm căn cứ đóng hồ sơ escalation hoặc tiếp tục theo dõi ở chu kỳ sau",
+   "Bước 7 — Escalati on lên War room 34 T/TP toàn quốc Bước 8 — Ban hành quyết định hành động và giao lại cấp",
+   "cấp Ban (Escalation lên War room 34 T/TP toàn quốc, P",
+   "nh báo chỉ tiêu đạt mức 2/3 tương ứng (Bước 5–7) đến khi có kết quả xử lý hoặc quyết định escalation tiếp theo"
+  ]
+ },
+ {
+  "id": "L-8.3",
+  "ten": "Luồng 8.3: Giao BSC/chỉ tiêu cá nhân xuống NVKD/NVKT",
+  "phan": "VIII Quản trị & Rủi ro",
+  "trang": [
+   278,
+   281
+  ],
+  "file": "references/gtm/L-8.3.md",
+  "so_dong": 124,
+  "trang_thai": "Đang vận hành — bổ sung SLA toàn trình và định danh hệ thống CNTT",
+  "sla": [
+   "ừ Bước 1 (Tập đoàn giao tổng mục tiêu) đến Bước 6 (ký cam kết chỉ tiêu cá nhân) tối đa 5 ngày làm việc, bảo đảm chỉ tiêu cá nhân được xác lập trước khi b"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-8.4",
+  "ten": "Luồng 8.4: Đào tạo & chứng nhận năng lực bán hàng",
+  "phan": "VIII Quản trị & Rủi ro",
+  "trang": [
+   281,
+   283
+  ],
+  "file": "references/gtm/L-8.4.md",
+  "so_dong": 109,
+  "trang_thai": "Đang vận hành — bổ sung ngưỡng định lượng, sửa URD và định danh hệ thống",
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "L-8.5",
+  "ten": "Luồng 8.5: Xác nhận Hợp quy Thiết bị trước khi Bán",
+  "phan": "VIII Quản trị & Rủi ro",
+  "trang": [
+   283,
+   286
+  ],
+  "file": "references/gtm/L-8.5.md",
+  "so_dong": 127,
+  "trang_thai": "Đang vận hành — bổ sung SLA thẩm định/xác nhận và sửa URD",
+  "sla": [
+   "công bố của cơ quan quản lý nhà nước có thẩm quyền — thẩm định nội bộ hoàn tất tối đa 10 ngày làm việc kể từ khi tiếp nhận hồ sơ đầy đủ",
+   "c phê duyệt bổ sung danh mục tại Bước 4 — xác nhận với cơ quan quản lý hoàn tất tối đa 10 ngày làm việc kể từ ngày gửi yêu cầu (không tính thời gian chờ p",
+   "n: • Bổ sung SLA thẩm định nội bộ (Bước 2) và xác nhận cơ quan quản lý (Bước 3) tối đa 10 ngày làm việc mỗi bước"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-8.6",
+  "ten": "Luồng 8.6: Quản trị Dữ liệu Tổng thể (Data Governance)",
+  "phan": "VIII Quản trị & Rủi ro",
+  "trang": [
+   286,
+   289
+  ],
+  "file": "references/gtm/L-8.6.md",
+  "so_dong": 113,
+  "trang_thai": "Đang vận hành — bổ sung URD Data Governance Framework và lượng hoá ngưỡng",
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "L-8.7",
+  "ten": "Luồng 8.7: Truyền thông khủng hoảng ra khách hàng/báo chí",
+  "phan": "VIII Quản trị & Rủi ro",
+  "trang": [
+   289,
+   290
+  ],
+  "file": "references/gtm/L-8.7.md",
+  "so_dong": 69,
+  "trang_thai": "Đang vận hành — bổ sung URD kênh thông báo cá nhân hoá và lượng hoá",
+  "sla": [
+   "Khung giờ khẩn đề xuất: trong vòng 2 giờ kể từ khi xác nhận mức Nghiêm trọng (P1/P2), phải phát ra t",
+   "• Lượng hoá 'khung giờ khẩn' tại Bước 1 là trong vòng 2 giờ kể từ khi xác nhận mức Nghiêm trọng"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-8.8",
+  "ten": "Luồng 8.8: Truyền thông chính sách/sản phẩm mới xuống toàn bộ chuỗi thực thi",
+  "phan": "VIII Quản trị & Rủi ro",
+  "trang": [
+   290,
+   292
+  ],
+  "file": "references/gtm/L-8.8.md",
+  "so_dong": 64,
+  "trang_thai": "Đang vận hành — sửa URD và bổ sung tỷ lệ mẫu kiểm tra",
+  "sla": [
+   "NVKD/NVKT chưa xác nhận đã đọc sau 24 giờ → Tổ trưởng/Lãnh đạo trực tiếp nhắc lại, không tính là đã p",
+   "áo tự động tỷ lệ NVKD/NVKT xác nhận đã đọc/hiểu văn bản chính sách trên eOffice trong vòng 24 giờ kể từ khi văn bản được gửi",
+   "ệ xác nhận theo đơn vị/thời gian thực, hiển thị danh sách cá nhân chưa xác nhận sau 24 giờ"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-8.9",
+  "ten": "Luồng 8.9: Truyền thông kết quả kinh doanh & thi đua khen thưởng định kỳ",
+  "phan": "VIII Quản trị & Rủi ro",
+  "trang": [
+   292,
+   294
+  ],
+  "file": "references/gtm/L-8.9.md",
+  "so_dong": 68,
+  "trang_thai": "Đang vận hành — bổ sung nhánh ngoại lệ gian lận/thu hồi khen thưởng",
+  "sla": [
+   "Phản hồi sau 48 giờ → không điều chỉnh số liệu kỳ đã công bố, trừ trường hợp lỗ"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "L-8.10",
+  "ten": "Luồng 8.10: Truyền thông nội bộ khi có sự cố/khủng hoảng",
+  "phan": "VIII Quản trị & Rủi ro",
+  "trang": [
+   294,
+   296
+  ],
+  "file": "references/gtm/L-8.10.md",
+  "so_dong": 80,
+  "trang_thai": "Đang vận hành — định danh nền tảng kênh nhanh, lượng hoá SLA và sửa URD",
+  "sla": [
+   "Kịch bản Q&A (kể cả bản rút gọn) được gửi tới toàn bộ đầu mối TT DVKH trong vòng 30 phút kể từ khi War room được kích hoạt — mốc tính SLA nội bộ the",
+   "• Lượng hoá SLA gửi kịch bản Q&A ban đầu tại Bước 2 là trong vòng 30 phút kể từ khi War room kích hoạt"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "XII",
+  "ten": "Phần XII Checklist sẵn sàng GTM",
+  "phan": "XII",
+  "trang": [
+   296,
+   298
+  ],
+  "file": "references/gtm/XII.md",
+  "so_dong": 138,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "XIII",
+  "ten": "Phần XIII Tài liệu tham chiếu & khuyến nghị",
+  "phan": "XIII",
+  "trang": [
+   298,
+   299
+  ],
+  "file": "references/gtm/XIII.md",
+  "so_dong": 15,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": []
+ },
+ {
+  "id": "PL-DAO-TAO",
+  "ten": "Phụ lục Kế hoạch đào tạo",
+  "phan": "PL2",
+  "trang": [
+   299,
+   303
+  ],
+  "file": "references/gtm/PL-DAO-TAO.md",
+  "so_dong": 79,
+  "trang_thai": null,
+  "sla": [
+   "đơn vị có tối đa 03 ngày làm việc để đối soát/phản hồi"
+  ],
+  "escalation": []
+ },
+ {
+  "id": "PL-CONG-CU",
+  "ten": "Phụ lục Thống kê công cụ – quy trình",
+  "phan": "PL2",
+  "trang": [
+   303,
+   312
+  ],
+  "file": "references/gtm/PL-CONG-CU.md",
+  "so_dong": 85,
+  "trang_thai": null,
+  "sla": [],
+  "escalation": [
+   "Escalation dữ liệu qua các cấp War room"
+  ]
+ }
+]

@@ -1,0 +1,1093 @@
+[
+ {
+  "ma": "pt-sanluong",
+  "mo_ta": "Sản lượng PTM Camera thấp / không đạt kế hoạch thuê bao",
+  "tu_khoa": [
+   "sản lượng",
+   "ptm",
+   "phát triển mới",
+   "không đạt",
+   "thấp",
+   "thuê bao mới",
+   "kế hoạch thuê bao"
+  ],
+  "nhom": "chi_so",
+  "cay": 1,
+  "luong": [
+   "L-2.4",
+   "L-2.5",
+   "L-8.3",
+   "L-8.4"
+  ],
+  "muc": [
+   "IX-B",
+   "IX-C"
+  ]
+ },
+ {
+  "ma": "pt-doanhthu",
+  "mo_ta": "Doanh thu Camera lệch kế hoạch",
+  "tu_khoa": [
+   "doanh thu",
+   "thấp",
+   "lệch",
+   "hụt doanh thu"
+  ],
+  "nhom": "chi_so",
+  "cay": 2,
+  "luong": [
+   "L-7.1",
+   "L-7.2",
+   "L-7.3",
+   "L-5.2"
+  ],
+  "muc": [
+   "IX-B",
+   "IX-C",
+   "X-H"
+  ]
+ },
+ {
+  "ma": "pt-giukhach",
+  "mo_ta": "Tỷ lệ giữ khách giảm / rời mạng / hủy dịch vụ tăng",
+  "tu_khoa": [
+   "giữ khách",
+   "rời mạng",
+   "hủy",
+   "churn",
+   "thanh lý",
+   "ngưng",
+   "gia hạn thấp"
+  ],
+  "nhom": "chi_so",
+  "cay": 3,
+  "luong": [
+   "L-5.3",
+   "L-5.4",
+   "L-5.1",
+   "L-5.7",
+   "L-8.1"
+  ],
+  "muc": [
+   "IX-B",
+   "IX-C"
+  ]
+ },
+ {
+  "ma": "pt-csat",
+  "mo_ta": "CSAT giảm / khách không hài lòng / phàn nàn bị làm phiền",
+  "tu_khoa": [
+   "csat",
+   "hài lòng",
+   "không hài lòng",
+   "làm phiền",
+   "phàn nàn",
+   "trải nghiệm"
+  ],
+  "nhom": "chi_so",
+  "cay": 4,
+  "luong": [
+   "L-5.3",
+   "L-6.2",
+   "L-3.4",
+   "L-6.3"
+  ],
+  "muc": [
+   "IX-B",
+   "IX-C"
+  ]
+ },
+ {
+  "ma": "pt-pssl",
+  "mo_ta": "Nhiều nhân viên không phát sinh sản lượng (PSSL thấp)",
+  "tu_khoa": [
+   "pssl",
+   "không phát sinh",
+   "chưa có sản lượng",
+   "năng suất",
+   "nhân viên không bán"
+  ],
+  "nhom": "chi_so",
+  "cay": 1,
+  "luong": [
+   "L-8.3",
+   "L-8.4",
+   "L-2.5"
+  ],
+  "muc": [
+   "IX-B",
+   "IX-C"
+  ]
+ },
+ {
+  "ma": "pt-b2a",
+  "mo_ta": "B2A thấp: phiếu chưa phân giao, chuyển đổi thấp, khách từ chối nhiều",
+  "tu_khoa": [
+   "b2a",
+   "cross-sell",
+   "bán kèm",
+   "phiếu b2a",
+   "fiber hiện hữu",
+   "từ chối tư vấn",
+   "chuyển đổi"
+  ],
+  "nhom": "chi_so",
+  "cay": 1,
+  "luong": [
+   "L-2.5",
+   "L-2.5.a",
+   "L-2.5.b",
+   "L-2.5.c"
+  ],
+  "muc": [
+   "IX-B",
+   "IX-C"
+  ]
+ },
+ {
+  "ma": "pt-fibermoi",
+  "mo_ta": "Tỷ lệ Camera trên Fiber mới thấp",
+  "tu_khoa": [
+   "fiber mới",
+   "fiber ptm",
+   "lắp mới fiber",
+   "bán kèm fiber"
+  ],
+  "nhom": "chi_so",
+  "cay": 1,
+  "luong": [
+   "L-2.4",
+   "L-2.7"
+  ],
+  "muc": [
+   "IX-B",
+   "IX-C"
+  ]
+ },
+ {
+  "ma": "pt-cochebanhang",
+  "mo_ta": "Nhân viên ưu tiên bán dịch vụ khác, cơ chế/hoa hồng Camera kém hấp dẫn",
+  "tu_khoa": [
+   "hoa hồng",
+   "cơ chế",
+   "thi đua",
+   "cpnchh",
+   "barem",
+   "ưu tiên bán dịch vụ khác",
+   "động lực"
+  ],
+  "nhom": "chi_so",
+  "cay": 1,
+  "luong": [
+   "L-7.5",
+   "L-2.10",
+   "L-8.9"
+  ],
+  "muc": [
+   "IX-C",
+   "X-B",
+   "X-C"
+  ]
+ },
+ {
+  "ma": "pt-congno",
+  "mo_ta": "Nợ cước trả sau tăng / nợ khó thu",
+  "tu_khoa": [
+   "nợ cước",
+   "nợ khó thu",
+   "thu cước",
+   "trả sau",
+   "nhắc nợ"
+  ],
+  "nhom": "chi_so",
+  "cay": 2,
+  "luong": [
+   "L-5.2",
+   "L-7.3"
+  ],
+  "muc": [
+   "IX-C"
+  ]
+ },
+ {
+  "ma": "pt-giaodichtreo",
+  "mo_ta": "Giao dịch 'treo', doanh thu chưa khớp 3 chiều OneBSS–nghiệm thu–FMIS",
+  "tu_khoa": [
+   "treo",
+   "3 chiều",
+   "đối soát",
+   "fmis",
+   "billing",
+   "không khớp",
+   "lệch số"
+  ],
+  "nhom": "chi_so",
+  "cay": 2,
+  "luong": [
+   "L-7.1",
+   "L-7.6",
+   "L-8.6"
+  ],
+  "muc": [
+   "IX-C"
+  ]
+ },
+ {
+  "ma": "l-thieuthietbi",
+  "mo_ta": "Thiếu thiết bị, hết tồn kho, đơn thoái trả do thiếu hàng",
+  "tu_khoa": [
+   "thiếu thiết bị",
+   "hết hàng",
+   "tồn kho",
+   "thiếu hàng",
+   "vật tư",
+   "chờ thiết bị",
+   "thoái trả"
+  ],
+  "nhom": "luong",
+  "cay": 1,
+  "luong": [
+   "L-3.1",
+   "L-3.2",
+   "L-3.5"
+  ],
+  "muc": [
+   "X-H",
+   "IX-C"
+  ]
+ },
+ {
+  "ma": "l-vnpttech",
+  "mo_ta": "VNPT Tech giao chậm / không đáp ứng / sự cố nguồn cung lớn",
+  "tu_khoa": [
+   "vnpt tech",
+   "nhà cung cấp",
+   "giao chậm",
+   "nguồn cung",
+   "đa nguồn"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-3.1",
+   "L-3.9",
+   "L-7.4"
+  ],
+  "muc": [
+   "X-H"
+  ]
+ },
+ {
+  "ma": "l-baohong",
+  "mo_ta": "Khách báo hỏng, camera mất kết nối/offline, xử lý sự cố chậm SLA",
+  "tu_khoa": [
+   "báo hỏng",
+   "offline",
+   "mất kết nối",
+   "sự cố kỹ thuật",
+   "sửa chữa",
+   "không xem được",
+   "sla báo hỏng"
+  ],
+  "nhom": "luong",
+  "cay": 3,
+  "luong": [
+   "L-5.3",
+   "L-5.11"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-suco-dienrong",
+  "mo_ta": "Sự cố kỹ thuật diện rộng ảnh hưởng nhiều khách",
+  "tu_khoa": [
+   "diện rộng",
+   "nhiều khách",
+   "sự cố mạng",
+   "hàng loạt"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-5.11",
+   "L-8.10",
+   "L-8.7"
+  ],
+  "muc": [
+   "X-F"
+  ]
+ },
+ {
+  "ma": "l-baomat",
+  "mo_ta": "Lộ lọt / truy cập trái phép dữ liệu hình ảnh khách hàng",
+  "tu_khoa": [
+   "lộ",
+   "lọt",
+   "rò rỉ",
+   "hình ảnh",
+   "bảo mật",
+   "truy cập trái phép",
+   "hack",
+   "an toàn thông tin",
+   "video",
+   "bị lộ",
+   "lộ hình",
+   "lộ video",
+   "xem trộm",
+   "đăng lên mạng",
+   "lọt ra ngoài"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-8.1",
+   "L-8.7",
+   "L-8.10"
+  ],
+  "muc": [
+   "X-A",
+   "X-H"
+  ]
+ },
+ {
+  "ma": "l-khunghoang-truyenthong",
+  "mo_ta": "Vụ việc lan ra báo chí / mạng xã hội / cơ quan quản lý yêu cầu",
+  "tu_khoa": [
+   "báo chí",
+   "mạng xã hội",
+   "truyền thông",
+   "khủng hoảng",
+   "cơ quan quản lý"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-8.7",
+   "L-8.10",
+   "L-8.1"
+  ],
+  "muc": [
+   "X-A"
+  ]
+ },
+ {
+  "ma": "l-rma",
+  "mo_ta": "Bảo hành / đổi trả 1 đổi 1 chậm, thiếu thiết bị thay",
+  "tu_khoa": [
+   "bảo hành",
+   "đổi trả",
+   "rma",
+   "1 đổi 1",
+   "lỗi thiết bị"
+  ],
+  "nhom": "luong",
+  "cay": 4,
+  "luong": [
+   "L-3.4",
+   "L-3.5"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-thuhoi",
+  "mo_ta": "Thu hồi thiết bị khi khách hủy/thanh lý chưa làm",
+  "tu_khoa": [
+   "thu hồi",
+   "tbđc",
+   "thanh lý thiết bị",
+   "hủy thiết bị"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-3.3"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-firmware",
+  "mo_ta": "Lỗi firmware / cần cập nhật phần mềm thiết bị",
+  "tu_khoa": [
+   "firmware",
+   "phần mềm thiết bị",
+   "cập nhật",
+   "lỗi phần mềm"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-3.7"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-cloud",
+  "mo_ta": "Dung lượng lưu trữ cloud đầy / gói cloud",
+  "tu_khoa": [
+   "cloud",
+   "lưu trữ",
+   "dung lượng"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-3.8"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-sku",
+  "mo_ta": "Danh mục SKU / chủng loại thiết bị",
+  "tu_khoa": [
+   "sku",
+   "chủng loại",
+   "danh mục thiết bị",
+   "mã hàng"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-3.6",
+   "L-8.5"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-hopquy",
+  "mo_ta": "Thiết bị chưa hợp quy / chưa được phép bán",
+  "tu_khoa": [
+   "hợp quy",
+   "chứng nhận hợp quy",
+   "chưa được bán"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-8.5"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-active",
+  "mo_ta": "Lắp đặt xong nhưng chưa kích hoạt / chưa tính cước / sai serial",
+  "tu_khoa": [
+   "kích hoạt",
+   "active",
+   "serial",
+   "chưa tính cước",
+   "hoàn công"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-4.1",
+   "L-4.2"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-lapdat",
+  "mo_ta": "Lắp đặt chậm, tồn phiếu lắp, bàn giao",
+  "tu_khoa": [
+   "lắp đặt",
+   "tồn phiếu",
+   "lắp chậm",
+   "bàn giao",
+   "hẹn lắp"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-4.2",
+   "L-4.3"
+  ],
+  "muc": [
+   "IX-B"
+  ]
+ },
+ {
+  "ma": "l-nangcap",
+  "mo_ta": "Nâng cấp/hạ cấp gói",
+  "tu_khoa": [
+   "nâng cấp",
+   "hạ cấp",
+   "đổi gói"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-4.4"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-chuyennha",
+  "mo_ta": "Khách chuyển nhà / bán nhà / chuyển nhượng",
+  "tu_khoa": [
+   "chuyển nhà",
+   "bán nhà",
+   "chuyển nhượng",
+   "chuyển địa điểm"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-4.5"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-giahan",
+  "mo_ta": "Gia hạn đóng trước cước (GHTT/ĐTC) thấp",
+  "tu_khoa": [
+   "gia hạn",
+   "ghtt",
+   "đtc",
+   "đóng trước",
+   "hết hạn trả trước"
+  ],
+  "nhom": "luong",
+  "cay": 3,
+  "luong": [
+   "L-5.1",
+   "L-7.2"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-30ngay",
+  "mo_ta": "Chăm sóc 30 ngày đầu, khảo sát sau lắp",
+  "tu_khoa": [
+   "30 ngày",
+   "khảo sát",
+   "sau lắp đặt",
+   "khách mới"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-5.5"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-aichurn",
+  "mo_ta": "Cảnh báo AI Churn sai / chưa liên hệ khách nguy cơ",
+  "tu_khoa": [
+   "ai churn",
+   "nguy cơ rời mạng",
+   "cảnh báo sớm"
+  ],
+  "nhom": "luong",
+  "cay": 3,
+  "luong": [
+   "L-5.4"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-combo-huy",
+  "mo_ta": "Khách hủy một phần combo",
+  "tu_khoa": [
+   "combo",
+   "hủy một phần",
+   "hủy fiber",
+   "hủy mytv"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-5.6",
+   "L-7.7"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-hetcamket",
+  "mo_ta": "Hết hạn cam kết, thanh lý hợp đồng",
+  "tu_khoa": [
+   "hết cam kết",
+   "cam kết",
+   "thanh lý hợp đồng"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-5.7"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-boithuong",
+  "mo_ta": "Bồi thường / hoàn tiền cho khách",
+  "tu_khoa": [
+   "bồi thường",
+   "hoàn tiền",
+   "đền bù"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-5.8"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-khieunai",
+  "mo_ta": "Khiếu nại chính thức (kỹ thuật, cước, hợp đồng)",
+  "tu_khoa": [
+   "khiếu nại",
+   "phản ánh",
+   "tố cáo"
+  ],
+  "nhom": "luong",
+  "cay": 4,
+  "luong": [
+   "L-5.9",
+   "L-6.2"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-thongbao-giagoi",
+  "mo_ta": "Thay đổi giá/gói cần thông báo khách hiện hữu",
+  "tu_khoa": [
+   "thay đổi giá",
+   "thông báo chính sách",
+   "đổi gói cước",
+   "tăng giá"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-5.10",
+   "L-8.8"
+  ],
+  "muc": [
+   "X-A"
+  ]
+ },
+ {
+  "ma": "l-servicerecovery",
+  "mo_ta": "Phục hồi trải nghiệm (Service Recovery) / khách vẫn không hài lòng",
+  "tu_khoa": [
+   "service recovery",
+   "phục hồi",
+   "vẫn không hài lòng"
+  ],
+  "nhom": "luong",
+  "cay": 4,
+  "luong": [
+   "L-6.2",
+   "L-6.3"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-insight",
+  "mo_ta": "Phản hồi thị trường/vận hành cần đưa về Ban Sản phẩm",
+  "tu_khoa": [
+   "insight",
+   "phản hồi thị trường",
+   "đối thủ",
+   "góp ý sản phẩm"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-6.4",
+   "L-6.1"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-giacombo",
+  "mo_ta": "Giá combo / khuyến mại / khách đòi giá ngoài chính sách",
+  "tu_khoa": [
+   "giá combo",
+   "khuyến mại",
+   "giảm giá",
+   "giá đặc biệt",
+   "ưu đãi"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-2.6",
+   "L-2.7"
+  ],
+  "muc": [
+   "X-A",
+   "X-C"
+  ]
+ },
+ {
+  "ma": "l-hopdong",
+  "mo_ta": "Ký hợp đồng / lỗi hợp đồng điện tử",
+  "tu_khoa": [
+   "hợp đồng",
+   "ký hợp đồng",
+   "hợp đồng điện tử"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-2.3"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-inbound",
+  "mo_ta": "Tiếp nhận nhu cầu đa kênh, lead không được xử lý",
+  "tu_khoa": [
+   "inbound",
+   "lead",
+   "nhu cầu",
+   "khách tự liên hệ"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-2.1",
+   "L-2.2"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-online",
+  "mo_ta": "Bán qua landing page/quảng cáo/App MyVNPT",
+  "tu_khoa": [
+   "landing page",
+   "quảng cáo",
+   "facebook",
+   "tiktok",
+   "myvnpt",
+   "online"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-2.8",
+   "L-2.8.1",
+   "L-2.8.2"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-ob-telesale",
+  "mo_ta": "OB telesale Camera: liên hệ thấp, phiếu FAIL bàn giao field",
+  "tu_khoa": [
+   "ob",
+   "telesale",
+   "gọi ra",
+   "đài hỗ trợ",
+   "fail",
+   "bàn giao field"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-2.5.b",
+   "L-2.5.c"
+  ],
+  "muc": [
+   "IX-B"
+  ]
+ },
+ {
+  "ma": "l-affiliate",
+  "mo_ta": "Chương trình giới thiệu khách hàng (affiliate)",
+  "tu_khoa": [
+   "affiliate",
+   "giới thiệu khách hàng",
+   "ctv"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-2.9"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-truyenthong-ban",
+  "mo_ta": "Truyền thông/chương trình thúc đẩy bán theo kỳ",
+  "tu_khoa": [
+   "truyền thông",
+   "chương trình thúc đẩy",
+   "chiến dịch"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-2.10",
+   "L-8.8",
+   "L-8.9"
+  ],
+  "muc": []
+ },
+ {
+  "ma": "l-hoahong",
+  "mo_ta": "Đối soát hoa hồng kênh / quỹ lương sai",
+  "tu_khoa": [
+   "đối soát hoa hồng",
+   "quỹ lương",
+   "chi trả hoa hồng",
+   "tính lương"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-7.5",
+   "L-7.7"
+  ],
+  "muc": [
+   "X-B"
+  ]
+ },
+ {
+  "ma": "l-pnl",
+  "mo_ta": "Khóa sổ kỳ, P&L PLO",
+  "tu_khoa": [
+   "p&l",
+   "khóa sổ",
+   "lãi lỗ",
+   "biên gộp"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-7.6"
+  ],
+  "muc": [
+   "X-A"
+  ]
+ },
+ {
+  "ma": "l-bsc",
+  "mo_ta": "Chưa giao BSC/chỉ tiêu cá nhân xuống NVKD/NVKT",
+  "tu_khoa": [
+   "bsc",
+   "giao chỉ tiêu",
+   "kpi cá nhân",
+   "b50"
+  ],
+  "nhom": "luong",
+  "cay": 1,
+  "luong": [
+   "L-8.3"
+  ],
+  "muc": [
+   "X-A"
+  ]
+ },
+ {
+  "ma": "l-daotao",
+  "mo_ta": "Nhân sự chưa được đào tạo / chưa có chứng nhận năng lực",
+  "tu_khoa": [
+   "đào tạo",
+   "chứng nhận",
+   "kỹ năng",
+   "năng lực bán hàng"
+  ],
+  "nhom": "luong",
+  "cay": 1,
+  "luong": [
+   "L-8.4"
+  ],
+  "muc": [
+   "PL-DAO-TAO"
+  ]
+ },
+ {
+  "ma": "l-dulieu",
+  "mo_ta": "Dữ liệu sai lệch giữa hệ thống, chất lượng dữ liệu, dashboard sai",
+  "tu_khoa": [
+   "dữ liệu",
+   "dashboard",
+   "sai số liệu",
+   "data",
+   "chất lượng dữ liệu"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-8.6",
+   "L-8.2"
+  ],
+  "muc": [
+   "X-B"
+  ]
+ },
+ {
+  "ma": "l-hethong",
+  "mo_ta": "Lỗi hệ thống CNTT: 9610, OneBSS, App Employee, OneHome",
+  "tu_khoa": [
+   "9610",
+   "onebss",
+   "app employee",
+   "onehome",
+   "lỗi hệ thống",
+   "lỗi app"
+  ],
+  "nhom": "luong",
+  "cay": null,
+  "luong": [
+   "L-8.6",
+   "L-5.3"
+  ],
+  "muc": [
+   "X-B"
+  ]
+ },
+ {
+  "ma": "q-ai-quyet",
+  "mo_ta": "Việc này ai được quyết / vượt hạn mức / cần phê duyệt",
+  "tu_khoa": [
+   "ai quyết",
+   "thẩm quyền",
+   "vượt hạn mức",
+   "phê duyệt",
+   "ngân sách",
+   "hạn mức",
+   "50 triệu"
+  ],
+  "nhom": "tham_quyen",
+  "cay": null,
+  "luong": [],
+  "muc": [
+   "X-0",
+   "X-A",
+   "X-G",
+   "X-J"
+  ]
+ },
+ {
+  "ma": "q-xungdot",
+  "mo_ta": "Xung đột nguồn lực giữa PLO/kênh (VD NVKT bán cả Mesh, VTCI)",
+  "tu_khoa": [
+   "xung đột",
+   "nguồn lực",
+   "dùng chung",
+   "mesh",
+   "mytv",
+   "vtci",
+   "ưu tiên bên nào",
+   "liên plo",
+   "vừa bán",
+   "ưu tiên mesh",
+   "bán cả",
+   "tranh chấp nguồn lực"
+  ],
+  "nhom": "tham_quyen",
+  "cay": null,
+  "luong": [],
+  "muc": [
+   "X-A",
+   "XI-B",
+   "XI-C",
+   "X-C"
+  ]
+ },
+ {
+  "ma": "q-plo-clo",
+  "mo_ta": "Ranh giới PLO – CLO (kênh bán, điểm bán, phân bổ ưu tiên kênh)",
+  "tu_khoa": [
+   "clo",
+   "kênh bán",
+   "điểm bán",
+   "phân bổ kênh",
+   "ban đhkd"
+  ],
+  "nhom": "tham_quyen",
+  "cay": null,
+  "luong": [],
+  "muc": [
+   "X-C",
+   "X-B"
+  ]
+ },
+ {
+  "ma": "q-leothang",
+  "mo_ta": "Báo cáo/leo thang lên đâu, họp gì, khi nào họp khẩn",
+  "tu_khoa": [
+   "leo thang",
+   "escalate",
+   "báo cáo lên",
+   "họp khẩn",
+   "war room",
+   "portfolio review",
+   "họp"
+  ],
+  "nhom": "tham_quyen",
+  "cay": null,
+  "luong": [
+   "L-8.2"
+  ],
+  "muc": [
+   "IX-D",
+   "X-D",
+   "X-E",
+   "X-F",
+   "X-H",
+   "X-I",
+   "XI-B",
+   "XI-D"
+  ]
+ },
+ {
+  "ma": "q-dauomoi-tinh",
+  "mo_ta": "Đầu mối Camera cấp tỉnh, thẩm quyền với VNPT KV/TTVT/TT CSKH",
+  "tu_khoa": [
+   "đầu mối",
+   "cấp tỉnh",
+   "plo tỉnh",
+   "hợp đồng nội bộ",
+   "vnpt khu vực",
+   "quan hệ"
+  ],
+  "nhom": "tham_quyen",
+  "cay": null,
+  "luong": [],
+  "muc": [
+   "XI-0",
+   "XI-A",
+   "MUC-3"
+  ]
+ },
+ {
+  "ma": "q-vaitro",
+  "mo_ta": "Vai trò, KPI, quy trình phải biết của một vị trí",
+  "tu_khoa": [
+   "vai trò",
+   "nhiệm vụ",
+   "thẻ vai trò",
+   "kpi của",
+   "phải biết",
+   "chức danh"
+  ],
+  "nhom": "tham_quyen",
+  "cay": null,
+  "luong": [],
+  "muc": [
+   "IX-A-0",
+   "MUC-1"
+  ]
+ },
+ {
+  "ma": "q-tailieu",
+  "mo_ta": "Ai được ban hành/sửa tài liệu, quy trình",
+  "tu_khoa": [
+   "ban hành",
+   "sửa đổi tài liệu",
+   "sửa quy trình",
+   "phiên bản"
+  ],
+  "nhom": "tham_quyen",
+  "cay": null,
+  "luong": [],
+  "muc": [
+   "MUC-2"
+  ]
+ }
+]

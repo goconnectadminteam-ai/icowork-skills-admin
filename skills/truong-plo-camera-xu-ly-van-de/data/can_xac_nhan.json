@@ -1,0 +1,67 @@
+[
+ {
+  "ma": "GTM-IX.E-1",
+  "noi_dung": "Số liệu mục tiêu cụ thể cho từng cấp (sản lượng, doanh thu, giữ khách, CSAT) — cấp tỉnh/khu vực/cá nhân dùng công thức phân rã, cần dữ liệu tỷ trọng thực tế. Mức khẩn: CAO NHẤT.",
+  "nguon": "IX-E"
+ },
+ {
+  "ma": "GTM-IX.E-2",
+  "noi_dung": "Ngưỡng đèn đỏ cho từng chỉ số — đã có bảng đề xuất xanh/vàng/đỏ trong Bộ chỉ số nhưng còn chờ Trưởng PLO Camera + Ban Sản phẩm xác nhận.",
+  "nguon": "IX-E; IX-B"
+ },
+ {
+  "ma": "GTM-IX.E-3",
+  "noi_dung": "Cây chẩn đoán đã đủ nhánh chưa — đề xuất bổ sung nhánh 'Thị trường & Đối thủ'.",
+  "nguon": "IX-E"
+ },
+ {
+  "ma": "GTM-X.J-1",
+  "noi_dung": "Hạn mức phân biệt Loại 1/Loại 2 — đề xuất 50 triệu đồng/lần (đặt hàng thiết bị) hoặc vượt ngân sách khuyến mại quý đã duyệt. Mức khẩn: CAO NHẤT.",
+  "nguon": "X-J"
+ },
+ {
+  "ma": "GTM-X.J-2",
+  "noi_dung": "SLA phản hồi phê duyệt bất đồng bộ — đề xuất 24 giờ (thường) / 4 giờ (khẩn).",
+  "nguon": "X-J; X-G"
+ },
+ {
+  "ma": "GTM-X.J-3",
+  "noi_dung": "Thời lượng Portfolio Review khi xem 20 sản phẩm — đề xuất chia 2 buổi/tháng.",
+  "nguon": "X-J"
+ },
+ {
+  "ma": "GTM-X.J-4",
+  "noi_dung": "Tiêu chí phân biệt Loại 3 'chờ được Portfolio Review tháng sau' và 'cần họp khẩn'.",
+  "nguon": "X-J"
+ },
+ {
+  "ma": "GTM-MUC3",
+  "noi_dung": "Đơn vị duy trì Roster phân công tổng hợp toàn quốc — đề xuất Ban Sản phẩm.",
+  "nguon": "MUC-3"
+ },
+ {
+  "ma": "GTM-L8.1",
+  "noi_dung": "Luồng 8.1 (sự cố bảo mật dữ liệu hình ảnh) đang là 'Dự thảo mới — chờ ban hành chính thức QT-ATBM-CAM-01'.",
+  "nguon": "L-8.1"
+ },
+ {
+  "ma": "LECH-1",
+  "noi_dung": "Chủ trì War room Tỉnh (Camera): GTM IX.D.1.b ghi 'Đầu mối phụ trách Camera tại VNPT T/TP'; GTM XI.B.3 ghi người này chính là PGĐ phụ trách BRCĐ; Playbook 5 Rõ (PGĐ BRCĐ, Mục 4) ghi PGĐ không dự thường xuyên, Trưởng PLO cấp Tỉnh được ủy quyền chủ trì.",
+  "nguon": "IX-D; XI-B; Playbook 5 Rõ số 7"
+ },
+ {
+  "ma": "LECH-2",
+  "noi_dung": "Loại 1 cấp tỉnh: GTM X.A ghi PGĐ VNPT T/TP phụ trách BRCĐ; Playbook 5 Rõ ghi Loại 1 thuộc Trưởng PLO cấp Tỉnh được ủy quyền, PGĐ chỉ duyệt Loại 2 trở lên.",
+  "nguon": "X-A; Playbook 5 Rõ số 7 Mục 7"
+ },
+ {
+  "ma": "LECH-3",
+  "noi_dung": "Quan hệ với VNPT khu vực: GTM XI.A ghi VNPT KV là 'khách hàng nội bộ — đặt hàng theo hợp đồng nội bộ kỳ (quý/6 tháng)'; Playbook 5 Rõ (GĐ VNPT KV, Mục 7) ghi VNPT KV chịu quản lý trực tiếp của Trưởng PLO cấp Tỉnh như TTVT và TT CSKH.",
+  "nguon": "XI-A; Playbook 5 Rõ số 2"
+ },
+ {
+  "ma": "LECH-4",
+  "noi_dung": "War room PLO Camera Toàn quốc: GTM IX.D.1.a ghi Trưởng PLO Camera chủ trì, hằng tuần; X.I ghi 'War room chuyên sâu PLO Camera — 2 buổi/tuần'. War room cấp Tổng công ty do PTGĐ chủ trì (tháng/quý hoặc khẩn) là phiên khác — điều này giải thích điểm K2 của skill mô hình điều hành.",
+  "nguon": "IX-D; X-I; XI-B"
+ }
+]

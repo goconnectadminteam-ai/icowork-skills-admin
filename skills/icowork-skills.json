@@ -69,6 +69,26 @@
       "version": "1.0.0",
       "folder": "danh-gia-tai-lieu-html-ai",
       "isDefault": true
+    },
+    {
+      "name": "truong-plo-camera-mo-hinh-dieu-hanh",
+      "description": "Tra cứu và giải thích mô hình điều hành GTM PLO Camera theo bộ Playbook vận hành",
+      "input": "Thông tin về mô hình điều hành GTM PLO Camera",
+      "output": "Giải thích về mô hình điều hành GTM PLO Camera",
+      "author": "VNPT AI",
+      "version": "1.0.0",
+      "folder": "truong-plo-camera-mo-hinh-dieu-hanh",
+      "isDefault": false
+    },
+    {
+      "name": "truong-plo-camera-xu-ly-van-de",
+      "description": "Playbook xử lý vấn đề cho PLO Camera, tra theo tài liệu chính thức \"Tổ chức triển khai, quản trị GTM PLO Camera",
+      "input": "File hướng dẫn Playbook xử lý vấn đề cho PLO Camera",
+      "output": "Hướng dẫn xử lý vấn đề cho PLO Camera",
+      "author": "VNPT AI",
+      "version": "1.0.0",
+      "folder": "truong-plo-camera-xu-ly-van-de",
+      "isDefault": false
     }
   ]
 }
