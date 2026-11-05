@@ -1,5 +1,5 @@
 ---
-name: truong-plo-camera-xu-ly-van-de
+name: tra-cuu-xu-ly-van-de-plo-cam
 description: Playbook xử lý vấn đề cho PLO Camera, tra theo tài liệu chính thức "Tổ chức triển khai, quản trị GTM PLO Camera" (02/9/2026) — khi chỉ số lệch (sản lượng PTM, doanh thu, giữ khách, CSAT, PSSL, B2A…) thì kiểm theo cây chẩn đoán nào, ai xử lý; khi có sự cố trong 56 luồng nghiệp vụ (thiếu thiết bị, báo hỏng, lộ hình ảnh, khiếu nại, hoàn tiền, nợ cước, hoa hồng, firmware, hợp đồng, OB…) thì luồng nào, bước nào, SLA bao nhiêu, chuyển cấp ra sao; khi cần biết thẩm quyền (Loại 1–5), phê duyệt bất đồng bộ, xung đột nguồn lực, họp nào. Dùng mỗi khi người dùng mô tả một vấn đề, sự cố, chỉ số đỏ/vàng, hoặc hỏi "xử lý thế nào", "ai quyết", "báo ai", "SLA bao nhiêu", "luồng nào" về Camera — kể cả khi không nhắc tên tài liệu.
 ---
 
