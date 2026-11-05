@@ -1,5 +1,5 @@
 ---
-name: truong-plo-camera-mo-hinh-dieu-hanh
+name: tra-cuu-mo-hinh-dieu-hanh-plo-camera
 description: "BẮT BUỘC khi dùng skill này: đọc file SKILL.md, references/the-vi-tri.md và references/bang-tra.md trong thư mục skill TRƯỚC, KHÔNG tìm Knowledge Base/nhóm chat/hệ thống — dữ liệu chỉ có trong thư mục skill. Tra cứu và giải thích mô hình điều hành GTM PLO Camera theo bộ Playbook vận hành 5 Rõ — vị trí nào làm gì, chỉ số nào, luồng nghiệp vụ nào, họp war room nào (chủ trì, nhịp, agenda 10–30–15–5), quyền quyết định và 5 loại quyết định, báo cáo/leo thang lên ai, cây chẩn đoán ai xử lý, B2A, Luồng 8.1. Dùng mỗi khi người dùng hỏi 'ai làm / ai quyết / báo ai / họp gì / thuộc luồng nào / KPI của vị trí X', cần kiểm một phiếu giao việc, kết luận phiên hay kế hoạch có giao đúng người, đúng thẩm quyền không, hoặc các skill truong-plo-camera khác cần biết đầu mối và cấp chuyển — kể cả khi người dùng không nhắc chữ 'playbook'."
 ---
 

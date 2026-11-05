@@ -71,23 +71,23 @@
       "isDefault": true
     },
     {
-      "name": "truong-plo-camera-mo-hinh-dieu-hanh",
-      "description": "Tra cứu và giải thích mô hình điều hành GTM PLO Camera theo bộ Playbook vận hành",
-      "input": "Thông tin về mô hình điều hành GTM PLO Camera",
-      "output": "Giải thích về mô hình điều hành GTM PLO Camera",
+      "name": "tra-cuu-mo-hinh-dieu-hanh-plo-camera",
+      "description": "Tra cứu Playbook vận hành 5 Rõ — vị trí nào làm gì, KPI gì, họp gì, quyền gì; việc Y ai quyết/báo ai; loại quyết định 1-5, luồng, war room, leo thang; kiểm phiếu giao việc có đúng người/đúng thẩm quyền không",
+      "input": "Câu hỏi tự do (từ khóa) hoặc tham số: --vi-tri, --ai-quyet, --loai, --luong, --war-room, --leo-thang, --chan-doan, --tim, --danh-sach, --khoang-trong; hoặc văn bản phiếu giao việc/kết luận phiên cần kiểm",
+      "output": "Câu trả lời ngắn: câu trả lời → căn cứ [PBn Mục x] → lưu ý; hoặc bảng kiểm Việc │ Người giao │ Đúng/Sai │ Lý do",
       "author": "VNPT AI",
       "version": "1.0.0",
-      "folder": "truong-plo-camera-mo-hinh-dieu-hanh",
+      "folder": "tra-cuu-mo-hinh-dieu-hanh-plo-camera",
       "isDefault": false
     },
     {
-      "name": "truong-plo-camera-xu-ly-van-de",
-      "description": "Playbook xử lý vấn đề cho PLO Camera, tra theo tài liệu chính thức \"Tổ chức triển khai, quản trị GTM PLO Camera",
-      "input": "File hướng dẫn Playbook xử lý vấn đề cho PLO Camera",
-      "output": "Hướng dẫn xử lý vấn đề cho PLO Camera",
+      "name": "tra-cuu-xu-ly-van-de-plo-cam",
+      "description": "Playbook xử lý vấn đề theo tài liệu 'Tổ chức triển khai, quản trị GTM PLO Camera' (312 trang) — nhận diện vấn đề, cây chẩn đoán, 56 luồng nghiệp vụ, SLA, chuyển cấp, thẩm quyền Loại 1-5",
+      "input": "Mô tả vấn đề tự do (--van-de) hoặc tham số: --cay, --luong, --chi-so, --loai, --nguyen-nhan, --tim, --danh-muc, --can-xac-nhan",
+      "output": "Bảng PLAYBOOK XỬ LÝ: nhận diện → kiểm theo thứ tự → xử lý theo luồng (bước–actor–SLA) → thẩm quyền & chuyển cấp → theo dõi bằng chỉ số → lưu ý; hoặc danh mục 109 phần, danh sách điểm cần xác nhận",
       "author": "VNPT AI",
       "version": "1.0.0",
-      "folder": "truong-plo-camera-xu-ly-van-de",
+      "folder": "tra-cuu-xu-ly-van-de-plo-cam",
       "isDefault": false
     }
   ]
