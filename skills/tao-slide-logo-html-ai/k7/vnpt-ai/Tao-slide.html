@@ -1359,7 +1359,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .m-van-de li{position:relative;padding-left:var(--margin-32)}
 .m-van-de li::before{content:"";position:absolute;left:4px;top:12px;width:12px;height:12px;border-radius:var(--radius-circle);background:var(--primary)}
 .m-van-de .gp li::before{background:var(--text-light)}
-.m-van-de .vd-so{margin-top:auto;padding-top:var(--margin-24);display:flex;align-items:baseline;gap:var(--margin-20)}
+.m-van-de .vd-so{margin-top:var(--margin-16);padding-top:var(--margin-24);display:flex;align-items:baseline;gap:var(--margin-20)}
 .m-van-de .vd-so b{font:var(--s-so);font-weight:var(--s-dam);color:var(--primary-pressed)}
 .m-van-de .vd-so span{font:var(--s2);color:var(--text-subtitle)}
 
@@ -3135,7 +3135,7 @@ function IC(p, cls){ var v = lay(S, p);
 function soCot(n){ return n === 4 ? 2 : (n <= 3 ? n : 3); }
 
 var VE = {
-  'bia': function(i){ var dt = S.doiTac != null ? '<span class="b-x" aria-hidden="true">×</span>' + F('doiTac', 'span', 'b-doi-tac') : '';
+  'bia': function(i){ var dt = (S.doiTac != null && (typeof S.doiTac === 'object' ? !!(S.doiTac.vi || S.doiTac.en) : !!String(S.doiTac).trim())) ? (/<img|<svg|<use/i.test(logo('b-logo')) || logo('b-logo').replace(/<[^>]*>/g, '').trim() ? '<span class="b-x" aria-hidden="true">×</span>' : '') + F('doiTac', 'span', 'b-doi-tac') : '';      /* chỉ vẽ × khi có logo đứng trước */
     return '<div class="b-trai"><div class="b-logo-hang">' + logo('b-logo') + dt + '</div>' + F('the', 'p', 'b-the') + F('tieuDe', 'h1') + F('phu', 'p', 's-phu') + '<span class="b-gach"></span>' + F('dong', 'p', 'b-dong') + '</div>' +
       (S.anh && S.anh.src ? '<div class="b-hinh">' + IMG('anh') + '</div>' : ''); },
   'muc-luc': function(i){ var h = (S.muc || []).map(function(m, k){ return '<div class="ml-muc the-nen" data-i="' + k + '">' + NB('muc.' + k) + '<span class="ml-so">' + String(k + 1).padStart(2, '0') + '</span><div>' + F('muc.' + k + '.t', 'p', 'ml-t') + F('muc.' + k + '.d', 'p', 'ml-d') + '</div></div>'; }).join('');
@@ -3527,23 +3527,57 @@ window.K7 = {
 })();
 </script>
 <style id="k7-skill-dense">
-/* Bổ sung của skill (không phải K7 gốc): bảng từ 5 dòng trở lên co khoảng đệm và cỡ chữ về mức tối thiểu 20px của thang chữ để chứa được nhiều dòng hơn; ít dòng thì giữ nguyên giao diện gốc. */
-.m-bang table:has(tbody tr:nth-child(5)) :is(th,td){padding:var(--margin-10) var(--margin-20)}
-.m-bang table:has(tbody tr:nth-child(5)) td{font:var(--s3-nhe)}
-.m-bang table:has(tbody tr:nth-child(5)) td:first-child{font:var(--s3);font-weight:var(--weight-bold);width:240px}
+/* Bổ sung của skill (không phải K7 gốc): bảng GIỮ cỡ chữ gốc (to, dễ đọc); chỉ khi bảng không vừa khung thì script bên dưới thêm class "chat" để co khoảng đệm và cỡ chữ về mức tối thiểu 20px của thang chữ.
+   (Trước đây cứ từ 5 hàng là co chữ, dù bảng 6 hàng chỉ chiếm 1/4 slide.) */
+/* Bìa và trang đầu mục cân đối: nội dung ở giữa theo chiều dọc (trước đây dồn xuống đáy, bỏ trống nửa trên), logo/đối tác ở góc trên trái, số chương đặt ngay trên tiêu đề. */
+.m-bia .b-trai{justify-content:center;position:relative}
+.m-bia .b-logo-hang{position:absolute;top:0;left:0}
+.m-bia .b-the{margin-top:0;margin-bottom:var(--margin-24)}
+.m-bia h1{margin-top:0}
+.m-chuong{justify-content:center;padding-bottom:120px}
+.m-chuong .c-so{position:static;align-self:flex-start;text-align:left;min-width:0;padding:0 var(--margin-48) var(--margin-16) 0;margin-bottom:var(--margin-32)}
+.m-chuong .s-phu{font-style:normal;margin-top:var(--margin-24)}
+/* Cột chữ ngắn (mã, ngày, trạng thái, số): co theo nội dung, không xuống dòng; chỗ thừa trả cho cột chữ dài. */
+.m-bang table :is(th,td).nho{width:1%!important;white-space:nowrap}
+.m-bang .bg-khung.chat table :is(th,td){padding:var(--margin-10) var(--margin-20)}
+.m-bang .bg-khung.chat table td{font:var(--s3-nhe)}
+.m-bang .bg-khung.chat table td:first-child{font:var(--s3);font-weight:var(--weight-bold);width:240px}
 </style>
 <script>
 /* Hook riêng của skill tao-slide-html-ai (không phải của bản K7 gốc): phơi kết quả K7.kiem()
    ra thuộc tính trên <html> để headless Chrome (export_pdf.py) đọc được bằng --dump-dom,
    vì K7.kiem() vốn chỉ gọi tay qua console. Không đổi logic kiểm tra, không đổi giao diện. */
 (function(){
+  /* Vừa khung thì giữ chữ gốc; không vừa thì co (class "chat"). Chạy lại mỗi khi khung dựng lại slide (đổi VI/EN). */
+  function vuaBang(){
+    document.querySelectorAll('.m-bang .bg-khung').forEach(function(kh){
+      var tb = kh.querySelector('table'); if (!tb) return;
+      var hang = [].slice.call(tb.rows), nc = hang.length ? hang[0].cells.length : 0;
+      for (var j = 0; j < nc; j++) {
+        var dai = 0;
+        hang.forEach(function(r){ if (r.parentNode.tagName === 'TBODY' && r.cells[j]) dai = Math.max(dai, (r.cells[j].textContent || '').trim().length); });
+        hang.forEach(function(r){ if (r.cells[j]) r.cells[j].classList.toggle('nho', dai <= 18); });
+      }
+      kh.classList.remove('chat');
+      if (tb.offsetHeight > kh.clientHeight + 2) kh.classList.add('chat');
+    });
+  }
+  var hen = 0;
+  new MutationObserver(function(){ clearTimeout(hen); hen = setTimeout(vuaBang, 30); }).observe(document.body, {childList:true, subtree:true});
   function bao(){
     try{
+      vuaBang();
       var ds = window.K7 && window.K7.kiem ? window.K7.kiem() : [];
       /* K7 gốc chỉ đo .s-than; bảng nằm trong .bg-khung (overflow:hidden) nên dòng thừa bị cắt mà không báo. Đo thêm ở đây. */
       document.querySelectorAll('.m-bang').forEach(function(sl){
         var kh = sl.querySelector('.bg-khung'), tb = kh && kh.querySelector('table'), s = sl.closest('[data-slide]');
         if (kh && tb && tb.offsetHeight > kh.clientHeight + 2) ds.push({slide: (s ? +s.getAttribute('data-slide') : 0) + 1, ma:'M7', y:'Bảng bị cắt: các dòng cuối không hiện trên slide'});
+      });
+      /* Lưới thẻ (flex:1; min-height:0) bị ép theo chỗ còn lại, nội dung thẻ không co theo nên tràn xuống nằm SAU thanh kết luận: .s-than không tràn nên K7 gốc không báo. */
+      document.querySelectorAll('.s-than').forEach(function(than){
+        var s = than.closest('[data-slide]'), bad = false;
+        [].forEach.call(than.children, function(c){ if (!c.classList.contains('s-ket-luan') && !c.classList.contains('bg-khung') && c.scrollHeight > c.clientHeight + 2) bad = true; });
+        if (bad) ds.push({slide: (s ? +s.getAttribute('data-slide') : 0) + 1, ma:'M7', y:'Nội dung thẻ cao hơn chỗ chứa nên bị thanh kết luận hoặc chân slide che: rút ý, bỏ khối số lớn hoặc bỏ thanh kết luận'});
       });
       document.documentElement.setAttribute('data-k7-check', JSON.stringify(ds));
     }catch(e){

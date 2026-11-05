@@ -26,9 +26,11 @@ def _lines(body):
     """[(trang, dòng đã chuẩn hoá)] bỏ phần đầu (metadata), dòng quá ngắn và số trang trơ trọi."""
     out, page = [], 0
     for raw in body.splitlines():
-        m = re.match(r'## Trang (\d+)', raw)
+        m = re.match(r'## (?:Trang|Slide) (\d+)', raw)           # PDF: "## Trang n"; PowerPoint: "## Slide n"
         if m:
             page = int(m.group(1)); continue
+        if re.match(r'## Toàn văn\s*$', raw):                      # Word không chia trang: coi cả văn bản là một khối
+            page = 1; continue
         if not page:
             continue
         s = re.sub(r'\s+', ' ', raw).strip()

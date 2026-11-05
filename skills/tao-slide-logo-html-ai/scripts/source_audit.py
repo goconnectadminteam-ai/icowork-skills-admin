@@ -63,7 +63,7 @@ def requirements(work):
             if re.search(r'\d\s*(?:tỷ|triệu|TB|GB)',row.get('result',''),re.I):must.add(row['stt'])
         for row in data['rows']:
             if row['stt'] in must:
-                result.append({'id':source+':'+row['stt'],'kind':'row','row':row['stt'],'unit':row.get('unit',''),'due':row.get('due',''),'result':row.get('result',''),'requirement':'Giữ mã dòng, đơn vị, trạng thái/kết quả và đúng hạn; khoản tiền chỉ là khoản nguồn ghi, không tự suy ra chưa được cấp hoặc là nguyên nhân chậm.'})
+                result.append({'id':source+':'+row['stt'],'kind':'row','row':row['stt'],'unit':row.get('unit',''),'due':row.get('due',''),'result':row.get('result',''),'status':row.get('status',''),'requirement':'Giữ mã dòng, đơn vị, trạng thái/kết quả và đúng hạn; khoản tiền chỉ là khoản nguồn ghi, không tự suy ra chưa được cấp hoặc là nguyên nhân chậm.'})
         for ids in check['duplicate_candidates']:result.append({'id':source+':duplicate:'+','.join(ids),'kind':'duplicate','rows':ids,'requirement':'Nêu rõ nghi trùng, chưa xác nhận bản ghi thừa; không khử âm thầm.'})
         if check['later_than_total']:result.append({'id':source+':timeline','kind':'timeline','requirement':'Nêu mốc tổng khác các hạn thành phần; không gộp thành một deadline.'})
     return result

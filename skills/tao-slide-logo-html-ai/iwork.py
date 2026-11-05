@@ -91,6 +91,9 @@ def identity_meta(state):
 
 def length_hint(slide, issue):
     """Lỗi M2 (quá dài): kèm chữ hiện tại và số ký tự phải bớt, để agent không phải tự đếm ký tự có dấu."""
+    if issue.get('ma') == 'M1' and isinstance(slide, dict) and not slide.get('mau'):
+        keys = ', '.join(f'"{k}"' for k in list(slide)[:8])
+        return {**issue, 'y': f'Slide này THIẾU khoá "mau" (tên mẫu, đúng chữ "mau", không phải "ma"/"type"/"layout"). Khoá hiện có: {keys}. Thêm vd "mau": "the" rồi chạy lại advance; đừng đọc mã nguồn skill để dò lỗi.'}
     m = re.match(r'slide \d+ · (.+?) · (vi|en)$', str(issue.get('vi_tri', '')))
     n = re.search(r'Dài (\d+)/(\d+)', str(issue.get('y', '')))
     if issue.get('ma') != 'M2' or not m or not n:
@@ -208,6 +211,15 @@ def fact_computations(work):
         if fraction and ratio:
             result.append({'value': ratio[1], 'formula': f'{fraction[1]} / {fraction[2]} = {ratio[1]}'})
     return result
+
+def source_file(value):
+    """Ứng dụng liệt kê bản chữ đã trích `_trich-xuat/<tên>.pdf.txt`; model hay đưa nó vào `start` thay cho tệp gốc, khiến driver chỉ thấy chữ thô
+    (mất bảng so sánh, tracker, số trang). Có tệp gốc cạnh thư mục đó thì dùng tệp gốc."""
+    path = workpath(value)
+    if path.parent.name == '_trich-xuat' and path.name.lower().endswith('.txt'):
+        original = path.parent.parent / path.name[:-4]
+        if original.is_file(): return original
+    return path
 
 def workpath(value):
     """Chuẩn hoá thư mục WORK. Agent hay thêm tên thư mục phiên làm tiền tố (vd 261030-0943-j0303x/report-output)
@@ -638,6 +650,10 @@ def sanitize_identity(doc, content, label='', brand_ok=False):
     Driver tự gỡ ô đó (không bắt model sửa, không để lọt tới người xem). Slide cảm ơn cần ≥1 ô liên hệ nên dùng tên tài liệu nguồn thay thế."""
     fixes = []
     bad = lambda text: foreign_identity(_vi(text), content, '', brand_ok)
+    if doc.get('mau') == 'bia' and not brand_ok and 'doiTac' in doc:
+        moved = _vi(doc.pop('doiTac')).strip()                # skill KHÔNG logo: ô đối tác ở góc bìa là chỗ của logo/thương hiệu, không dùng
+        if moved and not _vi(doc.get('dong')).strip(): doc['dong'] = moved[:56]
+        fixes.append('bìa: bỏ ô đối tác (doiTac) ở góc bìa vì skill này không dùng logo/thương hiệu')
     if doc.get('mau') == 'bia':
         for key in ('dong', 'doiTac', 'the'):
             if key in doc and bad(doc[key]): fixes.append(f'bìa: bỏ "{_vi(doc[key])[:40]}" ({key}) vì nguồn không có'); del doc[key]
@@ -690,6 +706,21 @@ def nearest_icon(name, icons):
     close = difflib.get_close_matches(key, list(icons), 1, 0.5)
     return close[0] if close else ('bieu-do' if 'bieu-do' in icons else sorted(icons)[0])
 
+def fit_label(text, limit=32):
+    """Nhãn mục (dauMuc) tối đa `limit` ký tự: cắt ở ranh giới từ, không thêm "…". Driver tự ghép "3 · nhãn" nên phải tự bảo đảm vừa khung (trước đây ra 49/32 và bắt model sửa)."""
+    text = re.sub(r'\s+', ' ', str(text or '')).strip()
+    if len(text) <= limit: return text
+    cut = text[:limit]
+    return (cut.rsplit(' ', 1)[0] if ' ' in cut[limit // 2:] else cut).rstrip(' ,;:/·-–')
+
+def one_emphasis(text):
+    """Tiêu đề chỉ nhấn mạnh tối đa MỘT cụm *…* (K7 M10): giữ cụm đầu, bỏ dấu * của các cụm sau."""
+    seen = []
+    def keep(m):
+        seen.append(1)
+        return m.group(0) if len(seen) == 1 else m.group(1)
+    return re.sub(r'\*([^*]+)\*', keep, text) if text.count('*') >= 4 else text
+
 def _strip_number(label):
     return re.sub(r'^\s*\d+(\.\d+)*\s*[·.\-–:)]?\s*', '', label).strip()
 
@@ -697,6 +728,18 @@ def _map_label(value, fn):
     if isinstance(value, dict):
         return {k: (fn(v) if k == 'vi' and isinstance(v, str) else v) for k, v in value.items()}
     return fn(str(value or ''))
+
+def van_de_is_tight(doc):
+    """Slide van-de CÓ thanh kết luận thì thẻ trái thấp hơn ~70px. Đo thật bằng Chrome (h-noc slide 8): tiêu đề thẻ 2 dòng + 4 ý x 2 dòng + khối số lớn
+    vừa khít đáy thẻ (chừa ~0px), trình xem khác nhích vài px là thanh kết luận cắt mất khối số. Ước theo số dòng: tiêu đề ~46 ký tự/dòng, ý ~60 ký tự/dòng."""
+    if doc.get('mau') != 'van-de' or not _vi(doc.get('ketLuan')).strip(): return False
+    side = doc.get('vanDe')
+    if not isinstance(side, dict) or not side.get('so'): return False
+    lines = lambda t, cpl: max(1, -(-len(_vi(t).strip()) // cpl))
+    cost = 1.3 * lines(side.get('t', ''), 46) + sum(lines(y, 60) for y in (side.get('y') or []))
+    return cost > 8.5
+
+INTERNAL_FILE = re.compile(r'\b(?:content|facts|notes|tom-tat|so-sanh|so-sanh-bang|plan|job-step)\.(?:md|json)\b|_trich-xuat|report-output/')
 
 def autofix_parts(work, outline, icons, source_label='', date='', brand_ok=False):
     content_text = (work / 'content.md').read_text(encoding='utf-8') if (work / 'content.md').is_file() else ''
@@ -710,11 +753,20 @@ def autofix_parts(work, outline, icons, source_label='', date='', brand_ok=False
             try: docs[path] = json.loads(path.read_text(encoding='utf-8'))
             except ValueError: pass
     changed = set()
+    for path, doc in list(docs.items()):                  # khoá viết sai ("ma" thay "mau", "tieuĐề"), khoá thừa ("part", "so-sanh")
+        fixed = _fix_keys(doc)
+        if fixed != doc:
+            docs[path] = fixed; changed.add(path); fixes.append(f'{path.name}: sửa tên khoá sai hoặc bỏ khoá thừa')
     def walk(node, path):
         if isinstance(node, dict):
             if isinstance(node.get('icon'), str) and node['icon'] not in icons:
                 new = nearest_icon(node['icon'], icons)
                 fixes.append(f'{path.name}: icon "{node["icon"]}" không có trong thư viện → "{new}"'); node['icon'] = new; changed.add(path)
+            if 'ma' in node and 'no' in node and 'noi' not in node and isinstance(node['no'], str):       # lớp kiến trúc: "no" là gõ nhầm "noi"
+                node['noi'] = node.pop('no'); changed.add(path); fixes.append(f'{path.name}: lop "no" → "noi"')
+            for k, v in list(node.items()):
+                if isinstance(v, str) and v.count('*') % 2 == 1:                  # dấu * lẻ làm hỏng nhấn mạnh (M10): bỏ dấu, giữ nguyên chữ
+                    node[k] = v.replace('*', ''); changed.add(path); fixes.append(f'{path.name}: bỏ dấu * lẻ ở "{k}"')
             for v in node.values(): walk(v, path)
         elif isinstance(node, list):
             for v in node: walk(v, path)
@@ -724,6 +776,20 @@ def autofix_parts(work, outline, icons, source_label='', date='', brand_ok=False
             label = _kicker_label(_vi(doc.get('nhan')).strip() or _vi(doc.get('tieuDe')), doc.get('mau'))
             if label:
                 doc['dauMuc'] = label; changed.add(path); fixes.append(f'{path.name}: thiếu dauMuc → "{label}"')
+        plain = lambda x: re.sub(r'\s+', ' ', re.sub(r'\*', '', _vi(x))).strip().lower()
+        if doc.get('mau') not in ('bia', 'cam-on') and plain(doc.get('dauMuc')) and plain(doc.get('dauMuc')) == plain(doc.get('tieuDe')):
+            doc['dauMuc'] = _KICKER_BY_MAU.get(doc.get('mau'), 'Nội dung chính'); changed.add(path); fixes.append(f'{path.name}: dauMuc lặp y tiêu đề → "{doc["dauMuc"]}"')      # h-wr: "Vấn đề và kiến nghị" in hai lần
+        if van_de_is_tight(doc) and (doc.get('vanDe') or {}).get('so'):
+            doc['vanDe'].pop('so', None); doc['vanDe'].pop('soNhan', None); changed.add(path)      # h-noc slide 8: thanh kết luận cắt mất khối số lớn ở đáy thẻ
+            fixes.append(f'{path.name}: van-de có thanh kết luận và chữ dài, bỏ khối số lớn để thẻ không bị thanh kết luận che')
+        image = doc.get('anh')
+        if doc.get('mau') == 'hinh-so' and not (isinstance(image, dict) and image.get('src')) and isinstance(doc.get('so'), list) and len(doc['so']) >= 3:
+            doc['mau'] = 'so-lieu'; doc.pop('anh', None); changed.add(path)      # tệp nguồn không có hình dùng được: giữ nguyên số liệu, bỏ phần hình
+            fixes.append(f'{path.name}: hinh-so không có hình hợp lệ → so-lieu (giữ nguyên số liệu)')
+        if isinstance(doc.get('nguon'), str) and INTERNAL_FILE.search(doc['nguon']):      # h-wr: chân slide ghi "content.md toàn bộ" (tên tệp nội bộ của driver)
+            if source_label: doc['nguon'] = ('Nguồn: ' + source_label)[:130]
+            else: doc.pop('nguon')
+            changed.add(path); fixes.append(f'{path.name}: nguon nhắc tệp nội bộ → ' + (f'"{doc["nguon"]}"' if 'nguon' in doc else 'bỏ'))
         if source_label and doc.get('mau') in ('so-lieu', 'hinh-so', 'van-de') and not _vi(doc.get('nguon')).strip():
             doc['nguon'] = ('Nguồn: ' + source_label)[:130]; changed.add(path); fixes.append(f'{path.name}: thiếu nguon → "{doc["nguon"]}"')
         for note in sanitize_identity(doc, content_text, source_label, brand_ok):
@@ -732,6 +798,9 @@ def autofix_parts(work, outline, icons, source_label='', date='', brand_ok=False
             doc['the'] = cover_label(doc, date); changed.add(path); fixes.append(f'{path.name}: bìa thiếu nhãn nhỏ → "{doc["the"]}"')
         for note in merge_extra_text(doc) + normalize_shapes(doc):
             fixes.append(f'{path.name}: {note}'); changed.add(path)
+        title = doc.get('tieuDe')
+        if isinstance(title, str) and one_emphasis(title) != title:
+            doc['tieuDe'] = one_emphasis(title); changed.add(path); fixes.append(f'{path.name}: tiêu đề chỉ giữ một cụm nhấn mạnh')
     if len(docs) == len(paths):                     # đánh số chỉ làm được khi đủ cả bộ
         slides = [docs[p] for p in paths]
         chapters = [s for s in slides if s.get('mau') == 'chuong']
@@ -756,6 +825,7 @@ def autofix_parts(work, outline, icons, source_label='', date='', brand_ok=False
                 if 'dauMuc' in s:
                     label = s['dauMuc'].get('vi', '') if isinstance(s['dauMuc'], dict) else str(s['dauMuc'] or '')
                     want = (f'{current} · {_strip_number(label)}' if current is not None else _strip_number(label))
+                    want = fit_label(want)
                     if label.strip() != want:
                         s['dauMuc'] = _map_label(s['dauMuc'], lambda _v, w=want: w); changed.add(path); fixes.append(f'{path.name}: dauMuc → "{want}"')
             else:
@@ -823,6 +893,12 @@ def _ascii_key(k):
     k = str(k).replace('Đ', 'D').replace('đ', 'd')
     return ''.join(c for c in unicodedata.normalize('NFD', k) if unicodedata.category(c) != 'Mn')
 
+def recovery_text():
+    """Sau khi hội thoại bị nén, model chỉ còn đọc được STATUS.md và job-step.json: để khuôn mẫu ở đó (g-noc1: mất khuôn, đọc SKILL.md, iwork.py rồi cả Tao-slide.html, đầy ngữ cảnh và dừng)."""
+    return ('Khuôn mỗi slide (mỗi tệp parts/NN.json là MỘT object, khoá tên mẫu là "mau", không bọc trong "data"): '
+            + '; '.join(f'{k}: {v}' for k, v in SIGNATURES.items())
+            + '. KHÔNG đọc thư mục k7/, scripts/, iwork.py, SKILL.md hay Tao-slide.html: khuôn đã có ở trên; chỉ ghi các parts còn thiếu rồi chạy lệnh tiếp tục.')
+
 def _fix_keys(node):
     """Model đôi khi gõ tên trường có dấu ("tieuĐề", "nộiDung"): đưa về đúng tên K7 nếu bỏ dấu thì khớp."""
     if isinstance(node, list): return [_fix_keys(x) for x in node]
@@ -831,6 +907,15 @@ def _fix_keys(node):
     for k, v in node.items():
         a = _ascii_key(k)
         out[a if (k not in K7_KEYS and a in K7_KEYS and a not in node) else k] = _fix_keys(v)
+    if out.get('mau') and isinstance(out.get('data'), dict) and 'data' not in K7_KEYS:
+        for k, v in out.pop('data').items(): out.setdefault(k, v)      # f-noc: model bọc nội dung 18 slide trong "data": đưa lên ngang hàng với "mau"
+    if not out.get('mau') and isinstance(out.get('ma'), str) and out['ma'].strip().lower() in SIGNATURES:
+        out['mau'] = out.pop('ma').strip().lower()        # "ma": "bia" -> "mau": "bia" (n-v4 mất 20 bước dò lỗi này)
+    if isinstance(out.get('mau'), str) and out['mau'] in SIGNATURES and isinstance(out.get('ma'), str) and out['ma'].strip().lower() in SIGNATURES:
+        out.pop('ma')                                  # i-cmp2: ghi cả "mau" lẫn "ma" ở slide, lỗi M11 làm model mất nhiều bước
+    if out.get('mau') or out.get('tieuDe') or out.get('the'):
+        for junk in ('part', 'slide', 'index', 'stt', 'so-sanh', 'so_sanh'):
+            if junk in out and junk not in K7_KEYS: out.pop(junk)
     if isinstance(out.get('mau'), str) and out['mau'] not in SIGNATURES and _ascii_key(out['mau']).lower() in SIGNATURES:
         out['mau'] = _ascii_key(out['mau']).lower()          # "bìa" -> "bia", "lộ-trình" -> "lo-trinh"
     return out
@@ -853,6 +938,20 @@ def drop_duplicate_closing(work):
         outline = outline[:len(slides) - tail] + [outline[-1]]
     _save_deck(work, plan, outline if isinstance(outline, list) else plan.get('outline'), keep)
     return f'bỏ {tail - 1} slide cảm ơn trùng ở cuối, giữ một slide kết'
+
+def normalize_part_names(work):
+    """Model hay đặt tên tệp slide kèm chữ ("01-bia.json", "02-so-lieu.json"): đổi về NN.json. Trùng số thì bản mới ghi sau thay bản cũ."""
+    parts = work / 'parts'
+    if not parts.is_dir(): return None
+    moved = []
+    for path in sorted(parts.glob('*.json')):
+        m = re.match(r'^(\d{1,3})(?:[-_ .].*)?$', path.stem)
+        if not m: continue
+        target = parts / f'{int(m.group(1)):02d}.json'
+        if target == path: continue
+        if target.exists() and target.stat().st_mtime > path.stat().st_mtime: path.unlink(); moved.append(f'{path.name} (bản cũ) bỏ'); continue
+        path.replace(target); moved.append(f'{path.name} → {target.name}')
+    return 'đổi tên tệp slide: ' + ', '.join(moved[:8]) if moved else None
 
 def split_array_parts(work):
     """Mỗi parts/NN.json phải là MỘT object slide. Model hay ghi cả lô thành một mảng (lượt 6: 7 tệp chứa 25 slide)
@@ -909,6 +1008,7 @@ def extend_outline(work):
 # Đo bằng Chrome trên khung 1920×1080 (k7/*/Tao-slide.html, kiểu bảng dày từ dòng 6): ô một dòng (≤45 ký tự) vừa tới 13 dòng, ô dài 80 ký tự vừa tới 8 dòng.
 TABLE_MAX_ROWS = 12     # mẫu `bang` nhận 2–12 hàng (khớp ds.hang trong quy-tac-mau.json)
 CMP_MAX_AUTHORED = 9     # báo cáo so sánh hai kỳ: số slide model tự viết (driver thêm các bảng thay đổi, mới/hết, số liệu lệch)
+BATCH_SLIDES = 10      # một lô ghi tối đa 10 slide (đo thật: lô 6 slide dùng trung vị 2.500 token, lớn nhất 6.700, chưa lần nào bị cắt vì dài); ít lô = ít bước model phải đi
 TABLE_SPLIT_ROWS = 8    # bảng dài hơn mức trên thì chia đều, mỗi slide tối đa số hàng này (vừa cả khi ô dài)
 
 def split_long_tables(work):
@@ -969,7 +1069,7 @@ def part_inventory_errors(work, outline):
 SIGNATURES = {'bia': 'the, tieuDe, phu, dong, doiTac(tuỳ chọn)', 'muc-luc': 'muc[]{t,d}', 'chuong': 'so, tieuDe, phu',
               'so-lieu': 'so[]{so,nhan,icon}, ketLuan, nguon', 'van-de': 'vanDe{t,y[],so,soNhan}, giaiPhap{t,y[]}, nguon',
               'the': 'the[]{t,d,icon}', 'bang': 'cot[] (tên cột), hang[][] = mảng các hàng, mỗi hàng là MỘT MẢNG ô, vd [["A","1","x"],["B","2","y"]] (không dùng object)', 'lop': 'lop[]{ma,t,noi}, quanTri, ghiChu{t,y[]}',
-              'anh': 'anh{src,alt}, vung[]{x,y,w,h}, chuGiai[]{t,d}', 'hinh-so': 'anh{src,alt}, so[]{so,nhan,icon}, nguon',
+              'anh': 'anh{src,alt}, vung[]{x,y,w,h}, chuGiai[]{t,d} (chỉ khi nguồn có hình)', 'hinh-so': 'anh{src,alt}, so[]{so,nhan,icon}, nguon (chỉ khi nguồn có hình; không có hình thì dùng so-lieu)',
               'lo-trinh': 'buoc[]{t,d,tg,icon}', 'cam-on': 'tieuDe, phu, lienHe[]{nhan,gt}'}
 
 def cheatsheet(theme):
@@ -978,11 +1078,12 @@ def cheatsheet(theme):
         rules = json.loads((ROOT / 'k7' / theme / 'khung' / 'quy-tac-mau.json').read_text(encoding='utf-8'))
     except (OSError, ValueError):
         return ''
-    lines = ['BẢNG MẪU K7 (đủ để viết slide; chỉ dùng đúng các trường dưới đây, trường lạ bị khung bỏ). Chung: mau, tieuDe ≤64 (một câu kết luận; bọc 1 cụm bằng *dấu sao*), nhan ≤28, dauMuc ≤32, ketLuan ≤100, nguon ≤130 (bắt buộc ở so-lieu/hinh-so/van-de).']
+    lines = ['BẢNG MẪU K7 (đủ để viết slide; chỉ dùng đúng các trường dưới đây, trường lạ bị khung bỏ). Chung: mau, tieuDe ≤64 (một câu kết luận; bọc 1 cụm bằng *dấu sao*), nhan ≤28, dauMuc ≤32, ketLuan ≤160, nguon ≤130 (bắt buộc ở so-lieu/hinh-so/van-de).']
     for name, spec in rules['mau'].items():
         counts = ', '.join(f'{k} {lo}-{hi} mục' for k, (lo, hi) in spec.get('ds', {}).items())
         limits = ', '.join(f'{k}≤{v}' for k, v in spec.get('gh', {}).items() if k != 'tieuDe')
         lines.append(f'- {name}: {SIGNATURES.get(name, "")}' + (f' · {counts}' if counts else '') + (f' · {limits}' if limits else ''))
+    lines.append('Mức TỐI THIỂU (dưới mức này driver bắt viết lại, nên viết đủ ngay từ đầu bằng câu đầy đủ có chủ thể + con số): the.d ≥ 70 ký tự, lo-trinh.buoc.d ≥ 55, van-de ý ≥ 65; bảng: mỗi ô giữ nguyên tên và số của nguồn.')
     icons = rules.get('icon')
     lines.append('Icon hợp lệ (mỗi thẻ/ô/bước một icon đúng nghĩa): ' + (', '.join(icons) if icons else 'xem huong-dan-k7.md mục 6'))
     return '\n'.join(lines)
@@ -1078,6 +1179,66 @@ def compare_tables(work):
     except Exception:
         return None
 
+TABLE_HEIGHT_BUDGET = 700   # px thiết kế tối đa của một bảng (khung chứa bảng cao 742, trừ dòng tiêu đề và đệm). Số đo thật bằng Chrome: xem chunk_rows
+
+def _table_height(rows, weights):
+    """Chiều cao bảng (px thiết kế) ước theo số đo thật. Khung giữ chữ gốc (cột đầu cố định ~320px, ~20px mỗi ký tự, hàng cao 41 + 40,5 x số dòng);
+    chỉ khi bảng gốc không vừa khung (TABLE_HEIGHT_BUDGET) khung mới co chữ (cột đầu 239px, ~17px mỗi ký tự, hàng cao 22 + 28 x số dòng; 1 dòng 50px, 2 dòng 78px, 3 dòng 106px)."""
+    def height(dense):
+        first, char, base, per, head = (239, 17, 22, 28, 49) if dense else (320, 20, 41, 40.5, 69)
+        avail = 1710 - first
+        widths = [first] + [avail * w / sum(weights) for w in weights]
+        cpl = [max(6, int(w / char)) for w in widths]
+        total = head
+        for r in rows:
+            lines = max(1, max(-(-len(str(c)) // k) for c, k in zip(r, cpl)))
+            total += base + per * lines
+        return total
+    normal = height(False)
+    return normal if normal <= TABLE_HEIGHT_BUDGET else height(True)
+
+def chunk_rows(rows, max_rows=TABLE_MAX_ROWS, budget=TABLE_HEIGHT_BUDGET):
+    """Chia hàng bảng thành các slide theo CHIỀU CAO thật (ô dài xuống nhiều dòng, nhất là cột đầu chỉ rộng ~320px), thay cho việc cắt chữ bằng "…" để vừa khung."""
+    if not rows: return []
+    n = len(rows[0])
+    weights = [min(80, max(8, max(len(str(r[i])) for r in rows))) for i in range(1, n)] or [8]
+    chunks, cur = [], []
+    for r in rows:
+        if cur and (len(cur) >= max_rows or _table_height(cur + [r], weights) > budget):
+            chunks.append(cur); cur = []
+        cur.append(r)
+    if cur: chunks.append(cur)
+    changed = True
+    while changed and len(chunks) > 1:                   # một hàng đứng một mình: lấy thêm một hàng từ lô kề hoặc gộp vào lô kề, nhưng CHỈ khi vẫn vừa khung; không vừa thì giữ bảng một hàng (mẫu bang cho phép 1 hàng)
+        changed = False
+        for i, c in enumerate(chunks):
+            if len(c) != 1: continue
+            j = i + 1 if i + 1 < len(chunks) else i - 1
+            nb = chunks[j]
+            merged = (nb + c) if j < i else (c + nb)
+            if len(merged) <= max_rows and _table_height(merged, weights) <= budget:
+                chunks[j] = merged; del chunks[i]; changed = True; break
+            if len(nb) > 2:
+                moved = nb[-1] if j < i else nb[0]; rest = nb[:-1] if j < i else nb[1:]; grown = ([moved] + c) if j < i else (c + [moved])
+                if _table_height(grown, weights) <= budget:
+                    chunks[j] = rest; chunks[i] = grown; changed = True; break
+    return [c for c in chunks if c]
+
+def shape_table(cols, rows):
+    """Làm gọn bảng trước khi chia slide (K7 khoá cột đầu ~320px, chữ to đậm, chỉ ~16 ký tự mỗi dòng): bỏ ';' ',' '.' thừa cuối ô và,
+    nếu cột đầu dài mà có cột ngắn (ngày, chỉ tiêu), đưa cột ngắn lên đầu để chữ dài nằm ở cột rộng (f-cmp: ô 100 ký tự ở cột đầu cao 6 dòng, bảng 5 slide mỗi slide 1-2 hàng)."""
+    tidy = lambda c: re.sub(r'(?<=[^\W\d_])[\s;,.]+$', '', c.strip()) if isinstance(c, str) else c
+    rows = [[tidy(c) for c in r] for r in rows]
+    cols = list(cols)
+    if len(rows) < 1 or len(cols) != len(rows[0]) or len(cols) < 3: return cols, rows
+    width = [max(len(str(r[i])) for r in rows) for i in range(len(cols))]
+    cand = [i for i in range(1, len(cols)) if not str(cols[i]).startswith('Kỳ') and width[i] <= 32 and width[i] * 1.5 <= width[0]]
+    if width[0] > 30 and cand:
+        j = min(cand, key=lambda i: width[i])
+        order = [j] + [i for i in range(len(cols)) if i != j]
+        cols = [cols[i] for i in order]; rows = [[r[i] for i in order] for r in rows]
+    return cols, rows
+
 def add_compare_slides(work):
     """Chèn các slide bảng "Mục | Chỉ tiêu | Kỳ trước | Kỳ này" do driver dựng từ so-sanh-bang.json (sau slide 2). Model không phải chép lại bảng."""
     path = work / 'so-sanh-bang.json'
@@ -1091,14 +1252,13 @@ def add_compare_slides(work):
     slides = []
     tables = sorted(tables, key=lambda t: 0 if t.get('page') in (97, 98) else 1)   # mới/hết và số liệu lệch lên trước các bảng chi tiết
     for t in tables:
-        rows = t['rows']; count = -(-len(rows) // TABLE_SPLIT_ROWS); size, extra = divmod(len(rows), count); start = 0
-        for k in range(count):
-            take = size + (1 if k < extra else 0); chunk = rows[start:start + take]; start += take
+        shaped_cols, rows = shape_table(t.get('cot') or cols_default, t['rows']); chunks = chunk_rows(rows); count = len(chunks)
+        for k, chunk in enumerate(chunks):
             title = re.sub(r'\s+', ' ', t['title']).strip()[:40]
             own = t.get('tieuDe')
             slides.append({'mau': 'bang', 'dauMuc': t.get('dauMuc') or 'Thay đổi so với kỳ trước',
                            'tieuDe': (own or f'{title}: *{len(rows)} chỗ đổi*') if count == 1 else f'{title} ({k + 1}/{count})',
-                           'cot': t.get('cot') or cols_default, 'hang': chunk,
+                           'cot': shaped_cols, 'hang': chunk,
                            'nguon': t.get('nguon') or 'Nguồn: so từng dòng bảng của hai báo cáo; chỉ nêu các dòng thay đổi',
                            'loiThoai': f'Bảng {title.lower()}: {len(rows)} dòng thay đổi giữa hai kỳ.'})
     existing = [load(p) for p in paths]
@@ -1146,6 +1306,7 @@ def resume(work):
         '# iWork — đang soạn báo cáo\n'
         'Entry point duy nhất: iwork.py ở gốc skill, không phải scripts/report.py.\n'
         'Ghi plan.json và từng parts/NN.json theo lệnh resume. Không sửa report.json.\n'
+        + recovery_text() + '\n'
         f'Tiếp tục: {command("resume", work)}\n', encoding='utf-8')
     if state.get('phase')=='quality' and (work/'report.json').exists():
         if state.get('authored_sha256')!=authored_hash(work):
@@ -1181,6 +1342,8 @@ def resume(work):
                       '(mẫu bang: Mục | Chỉ tiêu | Kỳ trước | Kỳ này, tối đa 12 hàng mỗi slide, lấy từ so-sanh.md) và không bị giới hạn 9 slide.')
         if brief:
             print(f'ĐỌC (một lần): {local(brief)} (nguồn dài nên đã tóm tắt) và {local(work / "facts.md")}. Chỉ khi cần số liệu/ý chi tiết của một slide mới read {local(work / "content.md")} đúng khoảng dòng ghi trong tóm tắt (offset/limit); KHÔNG đọc cả tệp. Không cần đọc huong-dan-k7.md: bảng mẫu K7 in ngay dưới đây.')
+        elif cmp:
+            print('Không cần đọc huong-dan-k7.md: bảng mẫu K7 in ngay dưới đây.')    # chế độ so sánh đã dặn chỉ đọc so-sanh.md; không in thêm lệnh đọc content.md
         else:
             print(f'ĐỌC (một lần): {local(work / "content.md")}, {local(work / "facts.md")}. Không cần đọc huong-dan-k7.md: bảng mẫu K7 in ngay dưới đây.')
         print('KHÔNG đọc mã nguồn skill (iwork.py, scripts/*.py, SKILL.md, references/): không cần và làm đầy ngữ cảnh.')
@@ -1195,12 +1358,14 @@ def resume(work):
     outline = load(plan).get('outline', [])
     if not outline or not all(isinstance(x, str) and x.strip() for x in outline):
         raise SystemExit('LỖI: plan.json cần outline là danh sách tiêu đề slide không rỗng.')
-    if (work / 'so-sanh-bang.json').is_file() and not state.get('cmp_tables') and len(outline) > CMP_MAX_AUTHORED:
-        raise SystemExit(f'LỖI: báo cáo so sánh hai kỳ: driver TỰ THÊM các slide bảng thay đổi (tổng thể, theo đơn vị, theo hệ thống, theo giai đoạn, chỉ đạo quá hạn) nên bạn chỉ viết tối đa {CMP_MAX_AUTHORED} slide '
-                         f'(đang có {len(outline)}): bìa; tóm tắt điều hành; điểm tiến bộ; điểm cần chú ý; khối lượng thi công thay đổi (nếu có); rủi ro và phương án xử lý; việc tiếp theo. Bỏ các slide bảng CSDL/phần mềm/hệ thống/chỉ đạo '
-                         'và các slide rủi ro hoặc việc tiếp theo lặp lại, ghi lại plan.json rồi chạy lại: ' + command('resume', work))
+    if (work / 'so-sanh-bang.json').is_file() and not state.get('cmp_tables') and len(outline) > CMP_MAX_AUTHORED and not state.get('cmp_cap_noted'):
+        # Trước đây chặn cứng ở 9 slide: model kẹt cả chục bước xoá và đánh số lại tệp (n-w1). Nay chỉ gợi ý một lần, không chặn.
+        state['cmp_cap_noted'] = True; write_json(work / 'iwork-state.json', state)
+        print(f'LƯU Ý (không bắt buộc): driver TỰ THÊM các slide bảng thay đổi (tổng thể, theo đơn vị, theo hệ thống, theo giai đoạn, chỉ đạo quá hạn) nên không cần viết lại các bảng đó; kế hoạch của bạn có {len(outline)} slide, giữ nguyên hay bỏ bớt đều được. Không xoá hay đánh số lại tệp.')
     if (work / 'parts' / '00.json').exists():
         raise SystemExit('LỖI: parts bắt đầu từ 01.json (bìa), không phải 00.json. Đánh lại số các phần theo outline; không bỏ mất bìa.')
+    note = normalize_part_names(work)
+    if note: print('TỰ SỬA: ' + note)
     inventory_errors = part_inventory_errors(work, outline)
     if inventory_errors:
         raise SystemExit('LỖI CẤU TRÚC PARTS:\n- ' + '\n- '.join(inventory_errors))
@@ -1214,13 +1379,14 @@ def resume(work):
         if not isinstance(data, dict) or not data.get('mau') or not data.get('tieuDe'):
             raise SystemExit(f'LỖI: {path} phải là object slide có "mau" (tên 1 trong 12 mẫu) và "tieuDe".')
     if missing:
-        batch = missing[:6]
+        batch = missing[:BATCH_SLIDES]
         print(f'GHI NGAY LÔ {len(batch)} SLIDE SAU:')
         for path, title in batch:
             print(f'- {local(path)}\n  Tiêu đề dự kiến: {title}')
         print('Mỗi file là một object theo 1 trong 12 mẫu của references/huong-dan-k7.md mục 5, có "mau" và "tieuDe"; không bọc trong slides[].')
         print('Ghi các file của lô bằng công cụ write (nhiều lệnh write trong CÙNG MỘT bước), KHÔNG dùng shell/python/heredoc để ghi tệp, KHÔNG ghi vào thư mục tạm rồi sao chép sang (Copy-Item/cp: lệnh có biến $ bị iWork hỏi quyền): ghi thẳng vào report-output/parts/; muốn kiểm thì chạy advance. Chữ: ' + ('song ngữ {"vi","en"}.' if state.get('song_ngu') else 'chỉ tiếng Việt, chuỗi thường, không viết loiThoai (driver tự tổng hợp).') + ' Tên icon chỉ lấy trong danh sách mục 6 (sai tên driver tự đổi icon gần nghĩa nhất).')
-        print('Đọc lại notes.md; chỉ mở lại đoạn nguồn cần cho lô này.')
+        print('KHUÔN MỘT SLIDE: {"mau": "<tên mẫu>", "tieuDe": "…", …các trường của mẫu…} (khoá tên mẫu là "mau"; mỗi tệp là MỘT object, không bọc trong slides, không thêm trường lạ). Mẫu và trường: ' + '; '.join(f'{k}: {v}' for k, v in SIGNATURES.items()))
+        print('Viết ngay từ notes.md. Thiếu số liệu của một slide thì read content.md đúng khoảng dòng ghi trong tom-tat.md (không đọc cả tệp), rồi ghi cả lô trong một bước.')
         print('Ghi xong CẢ LÔ rồi chạy NGAY TRONG CÙNG LƯỢT: ' + command('resume', work))
         print('KHÔNG DỪNG ĐỂ TRẢ LỜI NGƯỜI DÙNG khi phase chưa complete.')
         return
@@ -1235,6 +1401,25 @@ STALE_SPAN = re.compile(r'còn\s+(?:hơn\s+|khoảng\s+|gần\s+)?\d+\s+(?:thán
 TWO_PACKAGES = re.compile(r'\b(?:cả\s+)?(?:hai|2)\s+gói\b', re.I)
 LINT_MAX_ROUNDS = 2      # quá số lần này thì bỏ qua kiểm, để model không lặp tới hết lượt
 
+_VN_MARK = re.compile(r'[ăâđêôơưàáạảãằắặẳẵầấậẩẫèéẹẻẽềếệểễìíịỉĩòóọỏõồốộổỗờớợởỡùúụủũừứựửữỳýỵỷỹ]', re.I)
+
+def missing_diacritics(work):
+    """Tiêu đề viết tiếng Việt KHÔNG DẤU ("Ba van de chinh") trong khi nguồn có dấu: thường do model ghi slide qua shell sai bảng mã. [(số slide, trường, chữ)]."""
+    try: source = (work / 'content.md').read_text(encoding='utf-8')
+    except OSError: return []
+    letters = sum(c.isalpha() for c in source) or 1
+    if len(_VN_MARK.findall(source)) / letters < 0.03: return []
+    out = []
+    for path in sorted((work / 'parts').glob('*.json')):
+        try: s = load(path)
+        except SystemExit: continue
+        if not isinstance(s, dict): continue
+        for field in ('tieuDe', 'ketLuan'):
+            text = _vi(s.get(field)).strip()
+            if len(text) >= 20 and text.isascii() and len(re.findall(r'[A-Za-z]{2,}', text)) >= 4 and not _VN_MARK.search(text):
+                out.append((int(path.stem) if path.stem.isdigit() else 0, field, text))
+    return out
+
 def authored_checks(work, outline, state):
     """Kiểm nội dung model viết trước khi build: (1) ca so sánh hai kỳ phải có slide "Điểm tiến bộ" và "Điểm cần chú ý";
     (2) không chép câu tính thời gian theo mốc cũ ("còn hơn 02 tháng từ 17/7"); (3) không gọi hai khối là "hai gói"."""
@@ -1245,6 +1430,8 @@ def authored_checks(work, outline, state):
         if p.is_file():
             try: slides.append((i, load(p)))
             except Exception: pass
+    for n, field, text in missing_diacritics(work):
+        out.append(f'Slide {n:02d}: {field} "{text[:60]}" viết tiếng Việt KHÔNG DẤU. Viết lại có dấu đầy đủ bằng công cụ write (không ghi slide qua shell).')
     compare = (work / 'so-sanh-bang.json').is_file()
     if compare:
         def has(word):
@@ -1277,7 +1464,7 @@ def fresh_work(work):
 
 def start(a):
     work = workpath(a.work)
-    files = [str(workpath(f)) for f in a.files]
+    files = [str(source_file(f)) for f in a.files]
     if (work / 'iwork-state.json').exists() and load(work / 'iwork-state.json')['files'] != files:
         old, work = work, fresh_work(work)
         print(f'LƯU Ý: thư mục {old.name} đang giữ kết quả của tài liệu khác; tài liệu này dùng thư mục mới {work.name}. Không xoá thư mục cũ; chạy đúng lệnh driver in ra.')
@@ -1306,7 +1493,7 @@ def start(a):
             return
         resume(work); return
     if not work.is_relative_to(Path.cwd().resolve()):raise SystemExit(f'WORK phải nằm trong workspace hiện tại {Path.cwd()}; dùng thư mục con tương đối mới, không đoán thư mục cạnh input.')
-    files = [str(workpath(f)) for f in a.files]
+    files = [str(source_file(f)) for f in a.files]
     for f in files:
         if not Path(f).is_file(): raise SystemExit('Không thấy input: ' + f)
     logo = workpath(a.logo) if a.logo else None
@@ -1339,6 +1526,11 @@ def start(a):
     print('NGÔN NGỮ: ' + ('song ngữ Việt–Anh, mọi ô chữ viết {"vi":…,"en":…}, nên có loiThoai.' if state['song_ngu'] else 'CHỈ TIẾNG VIỆT: mọi ô chữ là chuỗi thường, KHÔNG viết bản en. KHÔNG viết loiThoai: driver tự tổng hợp lời thoại từ chữ trên slide.'))
     resume(work)
 
+def load_script(name):
+    import importlib.util as _u
+    spec = _u.spec_from_file_location(name, ROOT / 'scripts' / f'{name}.py'); mod = _u.module_from_spec(spec); spec.loader.exec_module(mod)
+    return mod
+
 def add_coverage_slides(work, unmet):
     """Bảng theo dõi nhiều dòng mà slide chưa nêu hết mã dòng: driver tự dựng slide phụ lục từ chính các dòng nguồn
     (mã dòng, đơn vị, kết quả, hạn), thay vì bắt model tự quyết dồn bao nhiêu dòng vào slide nào (cách đó làm model lặp suy nghĩ)."""
@@ -1349,16 +1541,22 @@ def add_coverage_slides(work, unmet):
     if not outline or not all(p.is_file() for p in paths): return None
     def cut(text, n):
         text = re.sub(r'\s+', ' ', str(text or '')).strip()
-        return text if len(text) <= n else text[:n - 1].rsplit(' ', 1)[0].rstrip(' ,;:/') + '…'
-    count = -(-len(rows) // TABLE_SPLIT_ROWS)
-    size, extra = divmod(len(rows), count)       # chia đều, mỗi slide tối đa TABLE_SPLIT_ROWS hàng
-    slides, start = [], 0
-    for k in range(count):
-        take = size + (1 if k < extra else 0); chunk = rows[start:start + take]; start += take
+        if len(text) <= n: return text
+        head = text[:n - 1]
+        clause = max(head.rfind(', '), head.rfind('; '))          # ưu tiên cắt ở hết một vế câu, không cắt giữa vế
+        head = head[:clause] if clause >= n // 2 else head.rsplit(' ', 1)[0]
+        return head.rstrip(' ,;:/') + '…'
+    has_status = any(str(r.get('status') or '').strip() for r in rows)
+    tidy = load_script('cell_text').tidy_cell          # ô của nguồn hay là cả đoạn có gạch đầu dòng: gọn thành ý chính, giữ trọn câu, không cắt giữa câu và không "…"
+    table = [[cut(r['row'], 16), tidy(r.get('unit'), 80)] + ([tidy(r.get('status') or '—', 60)] if has_status else [])
+             + [tidy(r.get('result') or '—', 100) or '—', cut(r.get('due') or '—', 80)] for r in rows]
+    chunks = chunk_rows(table); count = len(chunks)
+    slides = []
+    for k, chunk in enumerate(chunks):
         slides.append({'mau': 'bang', 'nhan': 'Phụ lục', 'dauMuc': 'Phụ lục', 'tieuDe': f'Phụ lục: hạng mục theo dõi ({k + 1}/{count})',
-                       'phu': 'Các hạng mục còn lại, giữ nguyên mã dòng, đơn vị, kết quả và hạn theo nguồn.',
-                       'cot': ['Mã', 'Đơn vị', 'Kết quả', 'Hạn'],
-                       'hang': [[cut(r['row'], 16), cut(r.get('unit'), 80), cut(r.get('result') or '—', 80), cut(r.get('due') or '—', 80)] for r in chunk]})
+                       'phu': 'Các hạng mục còn lại: mã dòng, đơn vị, trạng thái, kết quả (tóm lược ý chính) và hạn theo nguồn.',
+                       'cot': ['Mã', 'Đơn vị'] + (['Trạng thái'] if has_status else []) + ['Kết quả', 'Hạn'],
+                       'hang': chunk})
     existing = [load(p) for p in paths]
     at = len(existing) - 1 if existing and isinstance(existing[-1], dict) and existing[-1].get('mau') == 'cam-on' else len(existing)
     merged = existing[:at] + slides + existing[at:]
@@ -1366,6 +1564,24 @@ def add_coverage_slides(work, unmet):
     for i, slide in enumerate(merged, 1): write_json(work / 'parts' / f'{i:02d}.json', slide)
     plan['outline'] = titles; write_json(work / 'plan.json', plan)
     return f'thêm {count} slide phụ lục cho {len(rows)} dòng theo dõi chưa được nêu (dựng từ nguồn, không cần model viết)'
+
+def add_closing_slide(work):
+    """Bộ slide luôn kết thúc bằng slide "Cảm ơn". Model hay quên (j-wr kết thúc ngay ở bảng phụ lục). Chỉ dùng chữ có sẵn trong bìa, không bịa thông tin liên hệ."""
+    plan_path = work / 'plan.json'
+    if not plan_path.is_file(): return None
+    plan = load(plan_path); outline = list(plan.get('outline', []))
+    paths = [work / 'parts' / f'{i:02d}.json' for i in range(1, len(outline) + 1)]
+    if not outline or not all(p.is_file() for p in paths): return None
+    docs = [load(p) for p in paths]
+    if not isinstance(docs[-1], dict) or docs[-1].get('mau') == 'cam-on' or not isinstance(docs[0], dict): return None
+    unit = re.sub(r'^\s*Đơn vị[^:]*:\s*', '', _vi(docs[0].get('dong')).strip()) if docs[0].get('mau') == 'bia' else ''
+    unit = unit if 0 < len(unit) <= 44 else (_vi(docs[0].get('phu')).strip()[:44].rsplit(' ', 1)[0] if _vi(docs[0].get('phu')).strip() else 'VNPT')
+    closing = {'mau': 'cam-on', 'tieuDe': 'Xin cảm ơn', 'phu': 'Cảm ơn quý vị đã theo dõi.',
+               'lienHe': [{'nhan': 'Đơn vị', 'gt': unit}],
+               'loiThoai': 'Xin cảm ơn quý vị đã theo dõi. Chúng tôi sẵn sàng trao đổi thêm về các nội dung trên.'}
+    write_json(work / 'parts' / f'{len(docs) + 1:02d}.json', closing)
+    plan['outline'] = outline + ['Xin cảm ơn']; write_json(plan_path, plan)
+    return 'thêm slide "Xin cảm ơn" ở cuối bộ'
 
 def reopen_if_needed(work, state):
     """Sau HOÀN TẤT người dùng báo lỗi (trang trắng, tràn chữ) hoặc parts đã được sửa: kiểm lại đầu ra thật và dựng lại khi cần,
@@ -1482,7 +1698,7 @@ def settle_quality(work, a):
         state['thin_asked'] = True; write_json(work / 'iwork-state.json', state)
         lines = [f'  · slide {n} ({mau}): ' + ' | '.join(f'"{t[:40]}" ({len(t)} ký tự)' for t in cells[:3]) for n, mau, cells in thin[:6]]
         print('BUILD ĐẠT nhưng ' + str(len(thin)) + ' slide còn thưa so với chỗ chứa (khung còn trống nhiều):\n' + '\n'.join(lines)
-              + '\nMở lại content.md, bổ sung vào đúng các ô trên chủ thể, con số, mốc, đơn vị CÓ trong nguồn (thẻ d 70–130 ký tự, bước d 55–100, ý 65–120). '
+              + '\nBổ sung vào đúng các ô trên chủ thể, con số, mốc, đơn vị CÓ trong nguồn (chỉ read đúng đoạn cần của content.md, không đọc cả tệp; thẻ d 70–130 ký tự, bước d 55–100, ý 65–120). '
                 'Nguồn không có thêm thì giữ nguyên, tuyệt đối không bịa. Sửa parts/NN.json rồi chạy: ' + command('advance', work))
         return
     quality_task(work, command('finish', work), unmet)
@@ -1650,6 +1866,8 @@ def advance(a):
     if not (work/'plan.json').exists():
         resume(work)
         return
+    note = normalize_part_names(work)
+    if note: print('TỰ SỬA: ' + note)
     note = split_array_parts(work)
     if note: print('TỰ SỬA: ' + note)
     note = drop_duplicate_closing(work)
@@ -1703,11 +1921,14 @@ def advance(a):
         raise SystemExit(2)
     missing = [i for i in range(1, len(outline)+1) if not (work/'parts'/f'{i:02d}.json').exists()]
     if missing:
-        step.update(status='authoring', missing=missing[:6], action='Ghi toàn bộ lô còn thiếu (tối đa 6 slide) rồi advance; không hỏi người dùng.')
+        step.update(status='authoring', missing=missing[:BATCH_SLIDES], action=f'Ghi toàn bộ lô còn thiếu (tối đa {BATCH_SLIDES} slide) rồi advance; không hỏi người dùng.', khuon=recovery_text())
         write_json(work/'job-step.json', step)
         resume(work)
         return
     if state.get('phase') != 'quality':
+        note = add_closing_slide(work)
+        if note:
+            print('TỰ SỬA: ' + note); outline = load(work / 'plan.json').get('outline', outline)
         issues = authored_checks(work, outline, state)
         if issues:
             state['lint_rounds'] = state.get('lint_rounds', 0) + 1; write_json(work / 'iwork-state.json', state)
@@ -1717,6 +1938,19 @@ def advance(a):
             print(json.dumps(step, ensure_ascii=False, indent=2))
             print('Sửa xong chạy lại đúng: ' + command('advance', work))
             raise SystemExit(2)
+    state = load(work/'iwork-state.json')
+    if state.get('phase') != 'quality' and not state.get('cmp_tables') and (work / 'so-sanh-bang.json').is_file():
+        # Thêm các bảng thay đổi NGAY trước lần build đầu tiên, không đợi build đạt: nếu model viết sai số và build không đạt trong 4 lần,
+        # driver giao bản nháp, mà bản nháp phải vẫn đủ bảng (trước đây thiếu hết bảng: n-os1, n-os2 chỉ 7-8 slide).
+        note = add_compare_slides(work)
+        state['cmp_tables'] = True; write_json(work / 'iwork-state.json', state)
+        if note:
+            plan = load(work / 'plan.json')
+            rules = json.loads((ROOT / 'k7' / state.get('giao_dien', DEFAULT_THEME) / 'khung' / 'quy-tac-mau.json').read_text(encoding='utf-8'))
+            label = ', '.join(Path(f).name for f in state.get('files', []))
+            autofix_parts(work, plan['outline'], set(rules.get('icon', [])), label, state.get('date', ''), state.get('giao_dien') == 'vnpt-ai')
+            step['authored_sha256'] = authored_hash(work)
+            print('TỰ SỬA: ' + note + '.')
     try:
         if state.get('phase') == 'quality' and state.get('authored_sha256') == authored_hash(work):
             resume(work)
@@ -1771,7 +2005,7 @@ def bootstrap_libs():
     missing = core_missing()
     if not missing:
         return
-    vc = ' Windows mới thường do thiếu Microsoft Visual C++ Redistributable x64: https://aka.ms/vs/17/release/vc_redist.x64.exe.'
+    vc = ' Windows mới thường do thiếu Microsoft Visual C++ Redistributable x64: https://aka.ms/vs/17/release/vc_redist.x64.exe (mở link để tải tệp, chạy tệp, bấm Install; xong khởi động lại iWork rồi chạy lại skill).'
     stop = ' Báo người dùng đúng câu này. KHÔNG tự làm slide bằng tay, không tự cài, không gõ đường dẫn Python nào. ==='
     names = ', '.join(missing.values())
     if os.environ.get('IWORK_BOOTSTRAPPED') == '1':

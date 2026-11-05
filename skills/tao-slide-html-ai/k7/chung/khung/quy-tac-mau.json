@@ -184,11 +184,11 @@
    "gh": {
     "cot.*": 20,
     "hang.*.0": 16,
-    "hang.*.*": 80
+    "hang.*.*": 160
    },
    "ds": {
     "hang": [
-     2,
+     1,
      12
     ]
    },
@@ -410,7 +410,7 @@
   "dauMuc": 32,
   "tieuDe": 64,
   "phu": 150,
-  "ketLuan": 100,
+  "ketLuan": 160,
   "nguon": 130,
   "loiThoai": 1600,
   "doiTac": 24

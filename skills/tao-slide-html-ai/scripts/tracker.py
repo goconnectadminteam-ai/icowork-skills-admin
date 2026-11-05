@@ -84,7 +84,7 @@ def pdf_words(path):
     try:
         import fitz
     except ImportError:
-        raise SystemExit("=== DỪNG: máy thiếu thư viện đọc PDF (PyMuPDF không nạp được; trên Windows mới thường do thiếu Microsoft Visual C++ Redistributable). Báo người dùng: cài python -m pip install pymupdf và VC++ Redistributable x64 (https://aka.ms/vs/17/release/vc_redist.x64.exe) rồi chạy lại. KHÔNG tự dựng slide hay tệp trạng thái bằng tay. ===")
+        raise SystemExit("=== DỪNG: máy thiếu thư viện đọc PDF (PyMuPDF không nạp được; trên Windows mới thường do thiếu Microsoft Visual C++ Redistributable). Báo người dùng: cài python -m pip install pymupdf và VC++ Redistributable x64 (https://aka.ms/vs/17/release/vc_redist.x64.exe; mở link để tải tệp, chạy tệp, bấm Install, khởi động lại iWork) rồi chạy lại. KHÔNG tự dựng slide hay tệp trạng thái bằng tay. ===")
     doc = fitz.open(path)
     pages = list(range(doc.page_count)); page_w = [pg.rect.width for pg in doc]
     W = [dict(p=pi, x0=x0, y0=y0, x1=x1, y1=y1, t=t) for pi, pg in enumerate(doc) for x0, y0, x1, y1, t, *_ in pg.get_text("words")]

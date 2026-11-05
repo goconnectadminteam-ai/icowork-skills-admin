@@ -78,6 +78,16 @@ class CoSoSanhHayKhongDoNguoiDungNho(unittest.TestCase):
     def test_co_co_so_sanh_thi_bat_che_do_so_sanh(self):
         out, d = self.run_start(['--so-sanh'])
         self.assertIn('HAI KỲ CỦA CÙNG MỘT BÁO CÁO', out); self.assertTrue((d / 'out' / 'so-sanh.md').exists())
+        self.assertNotIn('ĐỌC (một lần): out/content.md', out)       # không in thêm lệnh đọc content.md mâu thuẫn với "chỉ đọc so-sanh.md"
+
+    def test_word_va_powerpoint_cung_so_sanh_duoc(self):
+        """Thật: mốc `## Slide n` (PowerPoint) và `## Toàn văn` (Word) không được nhận nên so sánh hai bản .pptx/.docx im lặng bỏ qua."""
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        import so_sanh
+        pptx = '# NGUỒN 1: a.pptx\n\n- Loại: pptx\n\n## Slide 1\n\nTiêu đề báo cáo dự án\nTiến độ đạt 70%\n\n## Slide 2\n\nRủi ro cần xử lý ngay\n'
+        docx = '# NGUỒN 1: a.docx\n\n- Loại: docx\n\n## Toàn văn\n\nBáo cáo tiến độ dự án tháng mười\n## I. Tổng quan\nĐã tích hợp 9.360 thiết bị\n'
+        self.assertEqual([p for p, _ in so_sanh._lines(pptx)], [1, 1, 2])
+        self.assertEqual([p for p, _ in so_sanh._lines(docx)], [1, 1, 1])
 
 
 if __name__ == '__main__':

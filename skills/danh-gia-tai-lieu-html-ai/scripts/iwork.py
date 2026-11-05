@@ -85,7 +85,7 @@ def bootstrap():
     except ImportError:
         pass
     if os.environ.get('IWORK_BOOTSTRAPPED') == '1':
-        raise SystemExit('=== DỪNG: máy thiếu thư viện beautifulsoup4 hoặc PyMuPDF (Windows mới thường do thiếu Microsoft Visual C++ Redistributable x64: https://aka.ms/vs/17/release/vc_redist.x64.exe). Báo người dùng đúng câu này. KHÔNG tự review bằng tay, không tự cài, không gõ đường dẫn Python nào. ===')
+        raise SystemExit('=== DỪNG: máy thiếu thư viện beautifulsoup4 hoặc PyMuPDF (Windows mới thường do thiếu Microsoft Visual C++ Redistributable x64: https://aka.ms/vs/17/release/vc_redist.x64.exe). Cách cài: mở link để tải tệp vc_redist.x64.exe, chạy tệp, bấm Install; xong khởi động lại iWork rồi chạy lại skill. Báo người dùng đúng các câu này. KHÔNG tự review bằng tay, không tự cài, không gõ đường dẫn Python nào. ===')
     env = Path.home() / '.cache' / 'proposal-review' / 'python'
     py = env / ('Scripts/python.exe' if os.name == 'nt' else 'bin/python')
     quiet = dict(capture_output=True, text=True, encoding='utf-8', errors='replace')
@@ -98,7 +98,7 @@ def bootstrap():
         done = subprocess.run([str(py), '-m', 'pip', 'install', '-q', '--disable-pip-version-check', '-r', str(S / 'scripts/requirements.txt')], **quiet)
         if done.returncode or not has_deps():
             tail = ' | '.join((done.stderr or done.stdout or '').strip().splitlines()[-2:]).replace(str(Path.home()), '~')
-            raise SystemExit('=== DỪNG: không cài/nạp được thư viện beautifulsoup4, PyMuPDF (' + tail[:200] + '). Nếu lỗi có "DLL load failed": cài Microsoft Visual C++ Redistributable x64 (https://aka.ms/vs/17/release/vc_redist.x64.exe). Báo người dùng đúng câu này; KHÔNG tự review bằng tay, không tự cài. ===')
+            raise SystemExit('=== DỪNG: không cài/nạp được thư viện beautifulsoup4, PyMuPDF (' + tail[:200] + '). Nếu lỗi có "DLL load failed": cài Microsoft Visual C++ Redistributable x64 (https://aka.ms/vs/17/release/vc_redist.x64.exe). Cách cài: mở link để tải tệp vc_redist.x64.exe, chạy tệp, bấm Install; xong khởi động lại iWork rồi chạy lại skill. Báo người dùng đúng các câu này; KHÔNG tự review bằng tay, không tự cài. ===')
     # chạy lại bằng Python của môi trường, kế thừa đầu ra; không dùng os.execv vì trên Windows nó trả quyền điều khiển cho shell trước khi tiến trình con xong
     result = subprocess.run([str(py), str(Path(__file__).resolve()), *sys.argv[1:]], env={**os.environ, 'IWORK_BOOTSTRAPPED': '1'})
     raise SystemExit(result.returncode)

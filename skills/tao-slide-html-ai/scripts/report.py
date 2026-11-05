@@ -105,6 +105,8 @@ def cmd_extract(a):
         combined.append(text.replace(f"# {src.name}", f"# NGUỒN {k}: {src.name}", 1))
         listing.append((k, src.name, meta["type"], meta["pages"], len(text), sub, meta))
     content = "\n\n".join(combined)
+    content = re.sub(r"(?<=\S) {3,}", "  ", content)          # khoảng trắng canh cột của PDF: gộp còn 2 dấu cách, ít ký tự hơn nên model đọc ít lần hơn
+    content = re.sub(r"[ \t]+\n", "\n", content)
     (work / "content.md").write_text(content, encoding="utf-8")
     lines = content.count("\n") + 1
     out(f"Đã trích {len(listing)} file -> {work / 'content.md'} ({len(content):,} ký tự, {lines:,} dòng)")
@@ -292,6 +294,23 @@ def percent_matches(value, shown):
         shown.split(".", 1)[1] if "." in shown and not re.fullmatch(r"\d{1,3}(?:\.\d{3})+", shown) else "")
     quantum = Decimal(1).scaleb(-len(decimal))
     return value.quantize(quantum, rounding=ROUND_HALF_UP) == numeric_value(shown)
+
+
+def source_variants(token, source, limit=3):
+    """Số không khớp nguyên văn: tìm trong nguồn số cùng chữ số nhưng khác dấu phân cách (25.100 / 25,100 / 25100) hoặc cùng đầu số,
+    kèm một đoạn ngữ cảnh. Model khỏi phải grep (grep nhiều lần rồi dừng giữa chừng là lỗi hay gặp)."""
+    digits = re.sub(r"\D", "", token)
+    if len(digits) < 3: return []
+    found, seen = [], set()
+    for m in re.finditer(r"\d[\d.,]*\d|\d", source):
+        cand = re.sub(r"\D", "", m.group(0))
+        if m.group(0) == token or m.group(0) in seen: continue
+        if cand == digits or (len(cand) >= 3 and (cand.startswith(digits) or digits.startswith(cand))):
+            seen.add(m.group(0))
+            ctx = re.sub(r"\s+", " ", source[max(0, m.start() - 28):m.end() + 28]).strip()
+            found.append(f'"{m.group(0)}" …{ctx}…')
+            if len(found) >= limit: break
+    return found
 
 
 def check_numbers(rep, content):
@@ -615,7 +634,7 @@ def check_semantic_scope(rep, work):
 
 
 def cmd_build(a):
-    from k7_build import kiem_k7, render_k7
+    from k7_build import kiem_k7, render_k7, hide_language_switch
     path, work = resolve_json(a.target)
     if not path.exists():
         raise SystemExit(f"LỖI: không thấy {path}. NEXT: report.py new {work}")
@@ -647,18 +666,22 @@ def cmd_build(a):
     name = (rep.get("meta") or {}).get("output_name") or path.stem
     name = re.sub(r"[^\w.-]+", "_", name, flags=re.UNICODE)
     html_path = work / f"{name}.html"
-    html_path.write_text(render_k7(rep), encoding="utf-8")
+    page = render_k7(rep)
+    html_path.write_text(page if song_ngu else hide_language_switch(page), encoding="utf-8")
     out(f"[2] HTML: {html_path}")
 
     problems = []
     content_file = work / "content.md"
     if content_file.exists():
-        missing = check_numbers(rep, content_file.read_text(encoding="utf-8") + "\n" + plain_pdf_text(work))
+        source_text = content_file.read_text(encoding="utf-8") + "\n" + plain_pdf_text(work)
+        missing = check_numbers(rep, source_text)
         if missing:
             soft = False  # lỗi không được hạ thành cảnh báo sau nhiều lần thử
             out(f"[3] Số liệu: {'CẢNH BÁO' if soft else 'LỖI'} – {len(missing)} số không thấy trong nguồn:")
             for tok, sl in list(missing.items())[:25]:
                 out(f"  - \"{tok}\" (slide {', '.join(map(str, sorted(sl)))})")
+                for variant in source_variants(tok, source_text):
+                    out(f"      gần giống trong nguồn: {variant}")
             out("    Với từng số: tìm trong content.md bằng công cụ read/grep (không chạy report.py). Có trong nguồn dưới dạng khác → chép đúng như nguồn; "
                 "số tự tính → thêm vào meta.computed: {\"value\": \"<số>\", \"formula\": \"<phép tính>\"}; "
                 "không có căn cứ → XÓA khỏi báo cáo.")
@@ -719,10 +742,10 @@ def cmd_build(a):
         if unused:
             out(f"[3c] Số trong nguồn CHƯA dùng ({len(unused)}) – không phải lỗi; kiểm tra có bỏ sót ý quan trọng "
                 "(kinh phí, thời hạn, tiến độ, mục tiêu) không, nếu có thì thêm vào slide phù hợp:")
-            for tok, ctx in unused[:10]:
+            for tok, ctx in unused[:5]:
                 out(f"  - {tok}: …{ctx}…")
-            if len(unused) > 10:
-                out(f"  … và {len(unused) - 10} số khác (xem content.md)")
+            if len(unused) > 5:
+                out(f"  … và {len(unused) - 5} số khác (xem content.md)")
     else:
         out(f"[3] Số liệu: BỎ QUA (không có {content_file}; chạy `report.py extract … --work {work}` để bật kiểm tra)")
 

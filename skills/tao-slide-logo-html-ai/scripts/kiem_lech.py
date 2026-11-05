@@ -9,7 +9,7 @@ Ngoài ra `tang_manh` xếp các dòng tăng từ bảng thay đổi để model
 """
 import re
 
-CELL = 80
+CELL = 160          # K7 bang: ô ≤ 160 (khớp quy-tac-mau.json); driver không cắt chữ dưới mức này
 _UNIT = r'(ảnh|trường|bản ghi|dự án|KCN|xã|phường|km|ha|trang|bộ|hồ sơ|đối tượng|hạng mục|thông tin|tài liệu|lớp|điểm)'
 _RATIO = re.compile(r'(?<![\d/.,])(\d{1,3}(?:\.\d{3})*|\d+)(?:,\d+)?\s*/\s*(\d{1,3}(?:\.\d{3})*|\d+)(?:,\d+)?\s*' + _UNIT + r'\b', re.I)
 _PCT_OVER = re.compile(r'(đạt|hoàn thành|tỷ lệ[^:\n]{0,30}:)\s*(?:gần\s+)?(\d{3}(?:,\d+)?)\s*%', re.I)
@@ -102,7 +102,7 @@ def cot_truoc(tabs_a, tabs_b, simple):
                 said, real = (r[j] or '').strip(), (ra[base] or '').strip()
                 if said and real and re.search(r'\d', said + real) and re.sub(r'\s', '', said) != re.sub(r'\s', '', real):
                     shown = re.sub(r'\s*(?:của\s+)?(?:tuần|kỳ|tháng|quý)\s+trước|\s+trước\b', '', col, flags=re.I).strip()
-                    found.append([_cut(f'{_abbr(name)} · {shown}', 24), f'Bảng trang {tb["page"]}, cột "tuần trước" ghi {said}; báo cáo kỳ trước ghi {real}',
+                    found.append([_cut(f'{_abbr(name)} · {shown}', 60), f'Bảng trang {tb["page"]}, cột "tuần trước" ghi {said}; báo cáo kỳ trước ghi {real}',
                                   'Đọc riêng kỳ này sẽ tưởng không đổi'])
     return found
 
@@ -136,7 +136,7 @@ def vuot_100(pages_b, pages_a=()):
         pages_used.add(page)
         core = re.sub(r'\s+', '', val.split(' ')[0])
         had = core in re.sub(r'\s+', '', old_text) if old_text else False
-        rows.append((had, [_cut(val, 24), _cut(f'Trang {page}' + (f', {ctx}' if ctx else ''), 60), 'Vượt 100% khối lượng' + (' (có từ kỳ trước)' if had else ' (mới ở kỳ này)')]))
+        rows.append((had, [_cut(val, 60), _cut(f'Trang {page}' + (f', {ctx}' if ctx else ''), 100), 'Vượt 100% khối lượng' + (' (có từ kỳ trước)' if had else ' (mới ở kỳ này)')]))
     rows.sort(key=lambda x: x[0])                    # mới ở kỳ này lên trước
     return [r for _, r in rows]
 
@@ -188,7 +188,7 @@ def so_cu(pages_a, pages_b):
             if o['val'] == old and (o['unit'] == key[1] or (not o['unit'] and '/' in old)) and not o['from'] and (o['label'], o['unit']) != key and (old, o['page']) not in seen:
                 seen.add((old, o['page']))
                 pages_new = sorted({b['page'] for b in B if b['val'] == new and b['page'] != o['page']}) or sorted({b['page'] for b in B if b['val'] == new})
-                rows.append([_cut(f'{old} {key[1]}'.strip(), 24), _cut(f'Trang {o["page"]} ({o["topic"]}) vẫn ghi {old}; trang {", ".join(map(str, pages_new[:3]))} ghi {new}', 80),
+                rows.append([_cut(f'{old} {key[1]}'.strip(), 60), _cut(f'Trang {o["page"]} ({o["topic"]}) vẫn ghi {old}; trang {", ".join(map(str, pages_new[:3]))} ghi {new}', 80),
                              'Số kỳ trước còn sót trong kỳ này'])
     return rows
 
@@ -205,7 +205,7 @@ def moi_het(blocks, limit=8):
         if len(_WORD.findall(first)) < 5: continue
         digits = len(re.sub(r'\D', '', first))
         if digits * 3 > len(first): continue
-        rows.append(['Mới ở kỳ này' if new else 'Không còn ở kỳ này', _cut(first.lstrip('-•· ').rstrip(';'), 80), f'Trang {b.get("trang", "")}'])
+        rows.append(['Mới ở kỳ này' if new else 'Không còn ở kỳ này', _cut(first.lstrip('-•· ').rstrip(';'), 100), f'Trang {b.get("trang", "")}'])
         if len(rows) >= limit: break
     return rows
 

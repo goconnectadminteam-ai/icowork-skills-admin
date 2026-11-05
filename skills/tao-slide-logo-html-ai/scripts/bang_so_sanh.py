@@ -9,7 +9,7 @@ import re
 from pathlib import Path
 
 MAX_TABLE_ROWS = 14          # bảng dài hơn (phụ lục tiến độ, lịch) không so ở đây: ít đổi, nhiều dòng trùng ý
-CELL = 80
+CELL = 160          # K7 bang: ô ≤ 160 (khớp quy-tac-mau.json); driver không cắt chữ dưới mức này
 _PCT = re.compile(r'\d+(?:[.,]\d+)?\s*%')
 _SO = re.compile(r'^\s*\d\.\s+((?:Sở|Ban|Trung tâm|Phòng|Công ty|UBND)[^\n]{3,60})$')
 
@@ -144,7 +144,7 @@ def diff_simple(tabs_a, tabs_b):
             for j in tb['cols']:
                 x, y = _clean(ra['cells'].get(j, '')), _clean(rb['cells'].get(j, ''))
                 if x != y and re.search(r'\d', x + y) and _cut(x) != _cut(y):
-                    rows.append([_cut(rb['name'], 40), _cut(tb['header'][j], 40), _cut(x or '—'), _cut(y or '—')])
+                    rows.append([_cut(rb['name']), _cut(tb['header'][j]), _cut(x or '—'), _cut(y or '—')])
         if rows: out.append({'title': tb['head'] or f'Thay đổi theo {tb["header"][tb["nc"]].lower() or "mục"}', 'page': tb['page'], 'rows': rows})
     return sorted(out, key=lambda t: t['page'])
 
@@ -179,13 +179,13 @@ def diff_systems(tabs_a, tabs_b):
             a = sys_a.get(k)
             if not a: continue
             short = _abbr(s['so'] or '')
-            label = _cut(s['name'], 36)
+            label = _cut(s['name'])
             if s['total'] and a['total'] and s['total'] != a['total']:
                 totals.append([short, label, a['total'], s['total']])
             pa = dict(a['phases'])
             for ph, v in s['phases']:
                 if ph in pa and pa[ph] != v:
-                    phases.append([label, _cut(ph, 36), pa[ph], v])
+                    phases.append([label, _cut(ph), pa[ph], v])
     out = []
     if totals: out.append({'title': 'Hệ thống đổi tiến độ tổng', 'page': 3, 'rows': totals, 'cot': ['Đơn vị', 'Hệ thống', 'Kỳ trước', 'Kỳ này']})
     if phases: out.append({'title': 'Giai đoạn thay đổi theo hệ thống', 'page': 4, 'rows': phases})
@@ -216,7 +216,7 @@ def overdue(tabs, report_date):
             d = _date(r[due]) if due < len(r) else None
             st = r[stat] if stat < len(r) else ''
             if d and d <= report_date and st and not _DONE.search(re.sub(r'chưa\s+(?:được\s+)?hoàn thành', '', st, flags=re.I)):
-                rows.append([_cut(r[nc], 38), f'{d[2]}/{d[1]}/{d[0]}', _cut(st, 48)])
+                rows.append([_cut(r[nc]), f'{d[2]}/{d[1]}/{d[0]}', _cut(st)])
     return rows
 
 

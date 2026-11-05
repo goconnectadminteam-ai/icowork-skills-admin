@@ -67,6 +67,12 @@ def _an_toan(o):
     return json.dumps(o, ensure_ascii=False, indent=2).replace("</", "<\\/").replace("<!--", "<\\!--")
 
 
+def hide_language_switch(html):
+    """Báo cáo chỉ tiếng Việt (mặc định): ẩn nút VI/EN trên thanh công cụ. Ẩn bằng CSS, không xoá nút, vì mã JS của khung vẫn tìm các nút này."""
+    rule = '<style id="an-nut-ngon-ngu">.tren__ngon-ngu{display:none!important}</style>'
+    if 'id="an-nut-ngon-ngu"' in html: return html
+    return html.replace('</head>', rule + '</head>', 1) if '</head>' in html else rule + html
+
 def render_k7(deck):
     """Y hệt cong-cu/dung-slide.py: thay khối <script id="deck"> trong khung đã khoá, không tự vẽ HTML."""
     khung = (theme_dir(theme_of(deck)) / "Tao-slide.html").read_text(encoding="utf-8")

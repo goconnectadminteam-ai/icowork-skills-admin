@@ -80,7 +80,7 @@ def render(run,src,wd):
                     with fitz.open(src) as office:(v/'source.pdf').write_bytes(office.convert_to_pdf())
                     print('LƯU Ý: máy không có LibreOffice nên ảnh trang dựng bằng PyMuPDF (bố cục có thể lệch Word/PowerPoint đôi chút).')
                 except Exception as error:
-                    raise ValueError('=== DỪNG: CHƯA tạo được file HTML vì máy chưa có LibreOffice và PyMuPDF không mở được tệp này ('+str(error)[:100]+'). Báo người dùng cài LibreOffice tại https://www.libreoffice.org/download/ rồi chạy lại skill (hoặc đính kèm bản PDF của tài liệu). Nói rõ điều này ngay câu đầu; không tự viết bản đánh giá bằng tay, không nói đã xong. ===')
+                    raise ValueError('=== DỪNG: CHƯA tạo được file HTML vì máy chưa có LibreOffice và PyMuPDF không mở được tệp này ('+str(error)[:100]+'). Báo người dùng cài LibreOffice tại https://www.libreoffice.org/download/ (tải bản cho hệ điều hành của bạn, cài với tuỳ chọn mặc định) rồi chạy lại skill (hoặc đính kèm bản PDF của tài liệu). Nói rõ điều này ngay câu đầu; không tự viết bản đánh giá bằng tay, không nói đã xong. ===')
         pdf=v/'source.pdf'
     pages=[]
     import fitz

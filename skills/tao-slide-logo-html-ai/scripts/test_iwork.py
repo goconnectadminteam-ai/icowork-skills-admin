@@ -2,7 +2,9 @@
 
 Chạy: python3 scripts/test_iwork.py  (cần thư viện trong requirements.txt; các test render cần Chrome/Chromium).
 """
+import argparse
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -105,6 +107,7 @@ class Driver(unittest.TestCase):
         html = (self.work / 'out.html').read_text(encoding='utf-8')
         self.assertNotIn('"theme"', html.split('id="deck">', 1)[1][:2000])
         self.assertIn('data:image/png;base64,', html)
+        self.assertIn('.tren__ngon-ngu{display:none!important}', html)      # mặc định chỉ tiếng Việt: ẩn nút VI/EN
 
     @unittest.skipUnless(HAS_BROWSER, 'cần Chrome/Chromium để build')
     def test_builds_with_this_skills_theme(self):
@@ -282,6 +285,156 @@ class AutoFix(unittest.TestCase):
         self.assertTrue(all('nhan' not in x for x in got) and len(fixes) == 2)
         self.assertEqual(m.unknown_key_errors({'mau': 'the', 'tieuDe': 'x', 'the': [{'t': 'a', 'zzz': 'b'}], 'banLa': 1}).__len__(), 2)
 
+    def test_hinh_so_without_real_image_becomes_so_lieu(self):
+        """Thật (lg1): tệp nguồn không có hình, model chọn hinh-so rồi dừng sau khi sửa. Driver tự đổi, model không cần thêm lượt."""
+        m = self.drv()
+        so = [{'so': '1,272', 'nhan': 'RTFx', 'icon': 'giam'}, {'so': '3,7', 'nhan': 'lần', 'icon': 'giam'}, {'so': '55', 'nhan': 'ms', 'icon': 'giam'}]
+        bad = {'mau': 'hinh-so', 'dauMuc': 'A', 'soMuc': '1', 'tieuDe': 'x', 'anh': 'khong-co.png', 'so': so, 'nguon': 'Nguồn: a'}
+        two = dict(bad, so=so[:2])
+        work = self.make([{'mau': 'bia', 'tieuDe': 'x'}, bad, two])
+        fixes = m.autofix_parts(work, ['a', 'b', 'c'], {'giam'})
+        got = json.loads((work / 'parts' / '02.json').read_text(encoding='utf-8'))
+        self.assertEqual((got['mau'], 'anh' in got, got['so']), ('so-lieu', False, so))
+        self.assertTrue(any('hinh-so' in f for f in fixes))
+        self.assertEqual(json.loads((work / 'parts' / '03.json').read_text(encoding='utf-8'))['mau'], 'hinh-so')   # 2 số: so-lieu cần 3, để model quyết
+
+    def test_lop_no_typo_and_odd_star_are_fixed_mechanically(self):
+        """Thật: lỗi M11 (lop "no") và M10 (dấu * lẻ) hay gặp, mỗi lỗi tốn một lượt model ghi file rồi advance."""
+        m = self.drv()
+        lop = {'mau': 'lop', 'dauMuc': 'A', 'soMuc': '1', 'tieuDe': 'Kiến trúc *ba lớp', 'lop': [{'ma': 'L1', 't': 'Giao diện', 'no': 'Web và app'}]}
+        work = self.make([{'mau': 'bia', 'tieuDe': 'x'}, lop])
+        fixes = m.autofix_parts(work, ['a', 'b'], set())
+        got = json.loads((work / 'parts' / '02.json').read_text(encoding='utf-8'))
+        self.assertEqual(got['lop'][0], {'ma': 'L1', 't': 'Giao diện', 'noi': 'Web và app'})
+        self.assertEqual(got['tieuDe'], 'Kiến trúc ba lớp')
+        self.assertTrue(any('"no" → "noi"' in f for f in fixes) and any('dấu * lẻ' in f for f in fixes), fixes)
+        ok = {'mau': 'the', 'dauMuc': 'A', 'soMuc': '1', 'tieuDe': 'Hai *cụm* in đậm', 'the': []}
+        work2 = self.make([{'mau': 'bia', 'tieuDe': 'x'}, ok])
+        m.autofix_parts(work2, ['a', 'b'], set())
+        self.assertEqual(json.loads((work2 / 'parts' / '02.json').read_text(encoding='utf-8'))['tieuDe'], 'Hai *cụm* in đậm')
+
+    def test_extracted_text_path_is_mapped_back_to_original_file(self):
+        """Thật (GoConnect): model đưa `_trich-xuat/x.pdf.txt` vào start thay cho x.pdf, nên driver chỉ thấy chữ thô, mất bảng so sánh."""
+        m = self.drv()
+        tmp = Path(tempfile.mkdtemp()); (tmp / '_trich-xuat').mkdir()
+        (tmp / 'bao-cao.pdf').write_bytes(b'%PDF'); (tmp / '_trich-xuat' / 'bao-cao.pdf.txt').write_text('chữ', encoding='utf-8')
+        (tmp / '_trich-xuat' / 'mo-coi.pdf.txt').write_text('chữ', encoding='utf-8')
+        old = Path.cwd(); os.chdir(tmp)
+        try:
+            self.assertEqual(m.source_file('_trich-xuat/bao-cao.pdf.txt'), (tmp / 'bao-cao.pdf').resolve())
+            self.assertEqual(m.source_file('bao-cao.pdf'), (tmp / 'bao-cao.pdf').resolve())
+            self.assertEqual(m.source_file('_trich-xuat/mo-coi.pdf.txt'), (tmp / '_trich-xuat' / 'mo-coi.pdf.txt').resolve())   # không có tệp gốc: giữ nguyên
+        finally:
+            os.chdir(old)
+
+    def test_mechanical_lint_loops_are_fixed_by_driver(self):
+        """Thật (n-v8): dauMuc "3 · …" do driver ghép dài 49/32, tiêu đề có hai cụm *…*, tệp slide đặt tên "01-bia.json" làm model tốn cả chục bước sửa."""
+        m = self.drv()
+        self.assertTrue(len(m.fit_label('3 · Giai đoạn phát triển và kiểm thử phần mềm theo hệ thống')) <= 32)
+        self.assertFalse(m.fit_label('3 · Giai đoạn phát triển và kiểm thử phần mềm theo hệ thống').endswith('…'))
+        self.assertEqual(m.one_emphasis('Tiến độ *vượt 3%* và *giải ngân 0%*'), 'Tiến độ *vượt 3%* và giải ngân 0%')
+        self.assertEqual(m.one_emphasis('Chỉ một *cụm*'), 'Chỉ một *cụm*')
+        work = Path(tempfile.mkdtemp()); (work / 'parts').mkdir()
+        for name in ('01.json', '02-so-lieu.json', '03_the.json'): (work / 'parts' / name).write_text('{}', encoding='utf-8')
+        note = m.normalize_part_names(work)
+        self.assertEqual(sorted(p.name for p in (work / 'parts').glob('*.json')), ['01.json', '02.json', '03.json']); self.assertIn('02-so-lieu.json → 02.json', note)
+
+    def test_unaccented_vietnamese_titles_are_flagged(self):
+        """Thật (n-v9): slide ghi qua shell ra "Ba van de chinh dan tro tien do tich hop" (mất dấu) trong bộ slide có dấu."""
+        m = self.drv()
+        work = Path(tempfile.mkdtemp()); (work / 'parts').mkdir()
+        (work / 'content.md').write_text('Báo cáo tiến độ dự án: các hạng mục đã hoàn thành theo kế hoạch được duyệt. ' * 20, encoding='utf-8')
+        (work / 'parts' / '01.json').write_text(json.dumps({'mau': 'bia', 'tieuDe': 'Báo cáo tiến độ'}, ensure_ascii=False), encoding='utf-8')
+        (work / 'parts' / '02.json').write_text(json.dumps({'mau': 'van-de', 'tieuDe': 'Ba van de chinh can tro tien do tich hop'}, ensure_ascii=False), encoding='utf-8')
+        got = m.missing_diacritics(work)
+        self.assertEqual([(n, f) for n, f, _ in got], [(2, 'tieuDe')])
+        (work / 'content.md').write_text('Quarterly progress report of the integration project with many details. ' * 20, encoding='utf-8')
+        self.assertEqual(m.missing_diacritics(work), [])        # nguồn không phải tiếng Việt thì không kiểm
+
+    def test_misspelled_template_key_is_autofixed_and_error_is_explicit(self):
+        """Thật (n-v4): model ghi "ma": "bia" thay vì "mau", driver chỉ báo Mẫu "None" nên model mất 20 bước đọc mã nguồn skill để dò lỗi."""
+        m = self.drv()
+        work = self.make([{'ma': 'bia', 'part': 1, 'so-sanh': True, 'tieuDe': 'x', 'the': 'BÁO CÁO'}, {'mau': 'the', 'dauMuc': 'A', 'soMuc': '1', 'tieuDe': 'y', 'the': []}])
+        fixes = m.autofix_parts(work, ['a', 'b'], set())
+        got = json.loads((work / 'parts' / '01.json').read_text(encoding='utf-8'))
+        self.assertEqual(got.get('mau'), 'bia'); self.assertNotIn('ma', got); self.assertNotIn('part', got); self.assertNotIn('so-sanh', got)
+        self.assertTrue(any('khoá' in f for f in fixes))
+        hint = m.length_hint({'type': 'bia', 'tieuDe': 'x'}, {'ma': 'M1', 'y': 'Mẫu "None" không có trong bộ'})
+        self.assertIn('THIẾU khoá "mau"', hint['y'])
+
+    def test_tidy_cell_does_not_produce_colon_semicolon(self):
+        """Thật (f-wr slide 12): "VNPT Media:; Source code…"."""
+        ct = self.drv().load_script('cell_text')
+        got = ct.tidy_cell("VNPT Media:\n- Source code: lưu tập trung tại Media\n- Dữ liệu: backup chéo", 100)
+        self.assertNotIn(':;', got); self.assertTrue(got.startswith('VNPT Media: Source code'), got)
+
+    def test_recovery_text_carries_template_schema_for_after_compaction(self):
+        """Thật (g-noc1): sau 7 lần nén model mất khuôn mẫu, đọc SKILL.md/iwork.py/Tao-slide.html rồi dừng. Khuôn phải nằm trong STATUS.md và job-step.json."""
+        m = self.drv()
+        text = m.recovery_text()
+        self.assertTrue(all(f'{k}:' in text for k in m.SIGNATURES) and 'KHÔNG đọc' in text and '"mau"' in text)
+
+    def test_nguon_naming_an_internal_file_is_replaced_by_source_label(self):
+        """Thật (h-wr): chân slide ghi "content.md toàn bộ"."""
+        m = self.drv()
+        work = self.make([{'mau': 'bia', 'tieuDe': 'x'}, {'mau': 'van-de', 'dauMuc': 'A', 'tieuDe': 'y', 'nguon': 'content.md toàn bộ'}])
+        m.autofix_parts(work, ['a', 'b'], set(), source_label='Báo cáo War room.pdf')
+        got = json.loads((work / 'parts' / '02.json').read_text(encoding='utf-8'))
+        self.assertEqual(got['nguon'], 'Nguồn: Báo cáo War room.pdf')
+
+    def test_van_de_with_conclusion_bar_drops_big_number_when_tight_and_dedupes_kicker(self):
+        """Thật (h-noc slide 8): thẻ vấn đề 4 ý x 2 dòng + khối "4 rủi ro" bị thanh kết luận che; (h-wr) dauMuc lặp y tiêu đề."""
+        m = self.drv()
+        long_side = {'t': 'Tiến độ tổng thể bị ảnh hưởng bởi nhiều vướng mắc liên ngành', 'so': '4', 'soNhan': 'rủi ro chính',
+                     'y': ['Rủi ro đánh giá ATTT cấp độ 3 kéo dài, làm chậm kiểm thử độc lập và nghiệm thu', 'Sự phối hợp giữa các bên liên quan dự kiến tiếp tục kéo dài như giai đoạn NCKT',
+                           'Phát sinh thay đổi thiết kế hoặc phạm vi mới do các bên hiểu rõ hơn mục tiêu bài toán', 'Thu thập CSDL Quy hoạch chung Tỉnh từ 15/9 đến 30/10 chưa hoàn thành đầy đủ']}
+        short_side = {'t': 'Ngắn', 'so': '2', 'soNhan': 'rủi ro', 'y': ['Ý một', 'Ý hai']}
+        work = self.make([{'mau': 'bia', 'tieuDe': 'x'},
+                          {'mau': 'van-de', 'dauMuc': 'Rủi ro', 'tieuDe': 'y', 'vanDe': dict(long_side), 'giaiPhap': {'t': 'g', 'y': ['a', 'b']}, 'ketLuan': 'Kết luận ngắn.', 'nguon': 'n'},
+                          {'mau': 'van-de', 'dauMuc': 'Vấn đề và kiến nghị', 'tieuDe': 'Vấn đề và *kiến nghị*', 'vanDe': short_side, 'giaiPhap': {'t': 'g', 'y': ['a', 'b']}, 'ketLuan': 'Kết luận ngắn.', 'nguon': 'n'}])
+        m.autofix_parts(work, ['a', 'b', 'c'], set())
+        a = json.loads((work / 'parts' / '02.json').read_text(encoding='utf-8')); b = json.loads((work / 'parts' / '03.json').read_text(encoding='utf-8'))
+        self.assertNotIn('so', a['vanDe']); self.assertNotIn('soNhan', a['vanDe'])         # chữ dài + thanh kết luận: bỏ khối số lớn
+        self.assertEqual(b['vanDe']['so'], '2')                                             # chữ ngắn: giữ khối số
+        self.assertNotEqual(b['dauMuc'].lower(), 'vấn đề và kiến nghị')                      # nhãn nhỏ không lặp tiêu đề
+
+    def test_duplicate_ma_next_to_mau_is_dropped_but_lop_ma_is_kept(self):
+        """Thật (i-cmp2): bìa ghi cả "mau" lẫn "ma"; còn "ma" trong lớp kiến trúc (lop) là trường hợp lệ."""
+        m = self.drv()
+        got = m._fix_keys({'mau': 'bia', 'ma': 'bia', 'tieuDe': 'x'})
+        self.assertEqual(got, {'mau': 'bia', 'tieuDe': 'x'})
+        lop = {'mau': 'lop', 'tieuDe': 'x', 'lop': [{'ma': 'A', 'noi': 'b'}]}
+        self.assertEqual(m._fix_keys(lop)['lop'][0]['ma'], 'A')
+
+    def test_deck_always_ends_with_thank_you_slide(self):
+        """Thật (j-wr): bộ kết thúc ở bảng phụ lục, không có slide cảm ơn."""
+        m = self.drv()
+        work = self.make([{'mau': 'bia', 'tieuDe': 'x', 'dong': 'Đơn vị: Các Trung tâm GP'}, {'mau': 'bang', 'tieuDe': 'y', 'cot': ['a', 'b'], 'hang': [['1', '2']]}])
+        write(work / 'plan.json', {'meta': {'ten': {'vi': 'x'}}, 'outline': ['a', 'b']})
+        self.assertIn('Xin cảm ơn', m.add_closing_slide(work))
+        last = json.loads((work / 'parts' / '03.json').read_text(encoding='utf-8'))
+        self.assertEqual(last['mau'], 'cam-on'); self.assertEqual(last['lienHe'][0]['gt'], 'Các Trung tâm GP')
+        self.assertEqual(json.loads((work / 'plan.json').read_text(encoding='utf-8'))['outline'][-1], 'Xin cảm ơn')
+        self.assertIsNone(m.add_closing_slide(work))          # đã có slide cảm ơn ở cuối: không thêm nữa
+
+    def test_no_logo_skill_drops_partner_slot_on_cover(self):
+        """Thật (j-wr): bìa có "× VNPT IT · các TTGP" ở góc trên dù skill không logo."""
+        m = self.drv()
+        doc = {'mau': 'bia', 'tieuDe': 'x', 'doiTac': 'VNPT IT · các TTGP'}
+        fixes = m.sanitize_identity(doc, 'VNPT IT các TTGP', '', False)
+        self.assertNotIn('doiTac', doc); self.assertEqual(doc['dong'], 'VNPT IT · các TTGP'); self.assertTrue(fixes)
+        keep = {'mau': 'bia', 'tieuDe': 'x', 'doiTac': 'VNPT IT'}
+        m.sanitize_identity(keep, 'VNPT IT', '', True)
+        self.assertEqual(keep['doiTac'], 'VNPT IT')           # skill có logo: giữ
+
+    def test_content_wrapped_in_data_is_lifted_next_to_mau(self):
+        """Thật (f-noc): model bọc nội dung cả 18 slide trong "data", driver báo thiếu từng trường và model dựng lại 18 file rồi dừng."""
+        m = self.drv()
+        work = self.make([{'mau': 'bia', 'tieuDe': 'x'}, {'mau': 'bang', 'soMuc': '1', 'data': {'dauMuc': 'A', 'tieuDe': 'y', 'cot': ['a', 'b'], 'hang': [['1', '2']]}}])
+        m.autofix_parts(work, ['a', 'b'], set())
+        got = json.loads((work / 'parts' / '02.json').read_text(encoding='utf-8'))
+        self.assertNotIn('data', got); self.assertEqual(got['tieuDe'], 'y'); self.assertEqual(got['hang'], [['1', '2']]); self.assertEqual(got['soMuc'], '1')
+
     def test_table_rows_given_as_objects_become_cell_arrays(self):
         """Thật: model viết hang:[{"hang":[..]}] → JS khung dừng ở slide 8, 15 slide sau trắng trong PDF."""
         m = self.drv()
@@ -299,15 +452,39 @@ class AutoFix(unittest.TestCase):
         write(work / 'plan.json', {'meta': {'ten': {'vi': 'x'}}, 'outline': ['a', 'b', 'c']})
         rows = [{'kind': 'row', 'row': f'1.{k}', 'unit': 'VNPT IT', 'due': '26/10/2026', 'result': 'Đã có danh mục VM ' + 'x' * 120} for k in range(11)]
         note = m.add_coverage_slides(work, rows)
-        self.assertIn('2 slide phụ lục', note)
+        self.assertIn('slide phụ lục', note)
         plan = json.loads((work / 'plan.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(plan['outline']), 5)
-        parts = [json.loads((work / 'parts' / f'{i:02d}.json').read_text(encoding='utf-8')) for i in range(1, 6)]
+        n_app = len(plan['outline']) - 3
+        self.assertGreaterEqual(n_app, 2)
+        parts = [json.loads((work / 'parts' / f'{i:02d}.json').read_text(encoding='utf-8')) for i in range(1, len(plan['outline']) + 1)]
         self.assertEqual(parts[-1]['mau'], 'cam-on')
-        sizes = [len(p['hang']) for p in parts if p['mau'] == 'bang']
-        self.assertEqual(sorted(sizes), [5, 6]); self.assertTrue(all(2 <= n <= 8 for n in sizes))
-        self.assertTrue(all(len(c) <= 80 for p in parts if p['mau'] == 'bang' for r in p['hang'] for c in r))
+        tables = [p for p in parts if p['mau'] == 'bang']
+        self.assertEqual(len(tables), n_app)
+        self.assertEqual(sum(len(p['hang']) for p in tables), 11)           # đủ 11 dòng, không rơi dòng nào
+        self.assertTrue(all(1 <= len(p['hang']) <= 8 for p in tables))
+        self.assertTrue(all(len(c) <= 160 and '…' not in c for p in tables for r in p['hang'] for c in r))
         self.assertIsNone(m.add_coverage_slides(work, rows[:1]))
+
+    def test_appendix_keeps_status_and_does_not_cut_a_96_char_result(self):
+        """Thật (War room): ô kết quả trống nhìn như thiếu dữ liệu vì driver bỏ trạng thái "Chưa bắt đầu"; kết quả 96 ký tự bị cắt ở 80 thành "…đang…"."""
+        m = self.drv()
+        work = self.make([{'mau': 'bia', 'tieuDe': 'x'}, {'mau': 'so-lieu', 'tieuDe': 'y', 'so': []}, {'mau': 'cam-on', 'tieuDe': 'z'}])
+        write(work / 'plan.json', {'meta': {'ten': {'vi': 'x'}}, 'outline': ['a', 'b', 'c']})
+        full = 'Tập hợp đủ các đầu mối của VNPT CERT của các VTT (9 đơn vị), các đầu mối đang thực hiện rà soát'
+        rows = [{'kind': 'row', 'row': '1.f', 'unit': 'VNPT IT', 'due': '26/10/2026', 'result': full, 'status': 'Đang thực hiện'},
+                {'kind': 'row', 'row': '8.e', 'unit': 'VNPT VNP', 'due': '27/10/2026', 'result': '', 'status': 'Chưa bắt đầu'}]
+        m.add_coverage_slides(work, rows)
+        table = json.loads((work / 'parts' / '03.json').read_text(encoding='utf-8'))
+        self.assertEqual(table['cot'], ['Mã', 'Đơn vị', 'Trạng thái', 'Kết quả', 'Hạn'])
+        self.assertEqual(table['hang'][0][3], full)
+        self.assertEqual(table['hang'][1][2:], ['Chưa bắt đầu', '—', '27/10/2026'])
+        # kết quả dài hơn 100 ký tự: giữ trọn ý đầu (tối đa 160), không cắt giữa câu, không dấu …
+        rows[0]['result'] = 'Đã rà soát xong toàn bộ các máy chủ ảo của đơn vị, đang chờ tổng hợp danh sách tài khoản quản trị và tình trạng đổi mật khẩu của từng đơn vị'
+        work2 = self.make([{'mau': 'bia', 'tieuDe': 'x'}, {'mau': 'so-lieu', 'tieuDe': 'y', 'so': []}, {'mau': 'cam-on', 'tieuDe': 'z'}])
+        write(work2 / 'plan.json', {'meta': {'ten': {'vi': 'x'}}, 'outline': ['a', 'b', 'c']})
+        m.add_coverage_slides(work2, rows)
+        cell = json.loads((work2 / 'parts' / '03.json').read_text(encoding='utf-8'))['hang'][0][3]
+        self.assertTrue('…' not in cell and len(cell) <= 160 and cell.startswith('Đã rà soát xong toàn bộ các máy chủ ảo của đơn vị'), cell)      # giữ trọn câu, không cắt giữa câu
 
     def test_workpath_after_completion_points_to_state_folder(self):
         m = self.drv()
