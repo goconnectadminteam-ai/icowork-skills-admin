@@ -38,7 +38,7 @@
       "author": "VNPT AI",
       "version": "1.0.0",
       "folder": "phanloaivanban-recommend-ai",
-      "isDefault": false
+      "isDefault": true
     },
     {
       "name": "tao-slide-html-ai",
@@ -78,7 +78,7 @@
       "author": "VNPT AI",
       "version": "1.0.0",
       "folder": "tra-cuu-mo-hinh-dieu-hanh-plo-camera",
-      "isDefault": false
+      "isDefault": true
     },
     {
       "name": "tra-cuu-xu-ly-van-de-plo-cam",
@@ -88,7 +88,7 @@
       "author": "VNPT AI",
       "version": "1.0.0",
       "folder": "tra-cuu-xu-ly-van-de-plo-cam",
-      "isDefault": false
+      "isDefault": true
     }
   ]
 }
