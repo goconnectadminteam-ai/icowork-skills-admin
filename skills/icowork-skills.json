@@ -89,6 +89,16 @@
       "version": "1.0.0",
       "folder": "tra-cuu-xu-ly-van-de-plo-cam",
       "isDefault": true
+    },
+    {
+      "name": "truc-quan-hoa-log",
+      "description": "Vẽ log Langfuse thành dòng thời gian trực quan, tự đánh dấu lỗi và giải thích nguyên nhân. Xuất ảnh PNG và file HTML",
+      "input": "File log Langfuse (.json)",
+      "output": "Ảnh PNG, HTML dòng thời gian và diễn giải nguyên nhân lỗi",
+      "author": "VNPT AI",
+      "version": "1.0.0",
+      "folder": "truc-quan-hoa-log",
+      "isDefault": true
     }
   ]
 }
